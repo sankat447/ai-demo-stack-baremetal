@@ -98,7 +98,7 @@ image metadata. World-readable files (`package-lock.json`, `dist/`) copy fine.
 stored separately and encrypted; exported workflows import but show "credential
 not found" until you recreate the credentials on the fresh n8n. Export workflows
 **and** plan a credential re-entry pass. n8n here is Postgres-backed
-(`aitp-postgres-primary.aitp-data`); the CLI export works regardless of backend.
+(`iis-ai-postgres-primary.iis-ai-data`); the CLI export works regardless of backend.
 
 **#24 — Boot mode must be UEFI.** RHCOS on these E560F nodes installs only under
 UEFI; set the one-time virtual-CD boot in UEFI mode and **eject the media after

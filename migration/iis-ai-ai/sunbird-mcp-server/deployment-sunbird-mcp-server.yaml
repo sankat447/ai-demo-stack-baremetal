@@ -36,7 +36,7 @@ spec:
             name: sunbird-credentials
         - configMapRef:
             name: sunbird-mcp-config
-        image: image-registry.openshift-image-registry.svc:5000/aitp-ai/sunbird-mcp-server:latest
+        image: image-registry.openshift-image-registry.svc:5000/iis-ai-ai/sunbird-mcp-server:latest
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3

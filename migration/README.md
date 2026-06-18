@@ -17,7 +17,7 @@
 
 ---
 
-## aitp-ai (custom apps to redeploy fresh)
+## iis-ai-ai (custom apps to redeploy fresh)
 
 ### `dctrack-chat-ui`  → route `dctrack-chat.apps...`
 Static chat UI served by `nginxinc/nginx-unprivileged:1.27-alpine`. All content
@@ -49,15 +49,15 @@ cluster, so it's **reconstructed** under `source/`:
   **Rebuild:** rename the two `*.reconstructed` files to `Dockerfile` /
   `package.json`, then:
   ```
-  oc -n aitp-ai new-build --strategy=docker --binary --name=sunbird-mcp-server
-  oc -n aitp-ai start-build sunbird-mcp-server --from-dir=source/ --follow
-  oc -n aitp-ai apply -f deployment-sunbird-mcp-server.yaml
+  oc -n iis-ai-ai new-build --strategy=docker --binary --name=sunbird-mcp-server
+  oc -n iis-ai-ai start-build sunbird-mcp-server --from-dir=source/ --follow
+  oc -n iis-ai-ai apply -f deployment-sunbird-mcp-server.yaml
   ```
   The captured `dist/` runs as-is; you do not need to recompile TypeScript.
 
 ---
 
-## aitp-ui (custom apps to redeploy fresh)
+## iis-ai-ui (custom apps to redeploy fresh)
 
 ### `dctrack-chat-ui`  *(no route — internal/embedded)*
 `nginxinc/nginx-unprivileged:alpine`. configmaps: `dctrack-chat-ui`,
@@ -71,7 +71,7 @@ cluster, so it's **reconstructed** under `source/`:
 
 ## n8n workflows (for re-import into fresh n8n)
 
-Source: n8n **2.25.7**, Postgres backend (`aitp-postgres-primary.aitp-data`).
+Source: n8n **2.25.7**, Postgres backend (`iis-ai-postgres-primary.iis-ai-data`).
 **15 workflows** exported via `n8n export:workflow --all`.
 
 - `n8n/n8n-workflows.json` — single bundle (import all at once)

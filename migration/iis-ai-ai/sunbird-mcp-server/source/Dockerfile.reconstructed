@@ -31,8 +31,8 @@ EXPOSE 8080
 CMD ["node", "dist/main.js"]
 
 # To rebuild fresh on the new cluster (from this source/ directory):
-#   oc -n aitp-ai new-build --strategy=docker --binary --name=sunbird-mcp-server
-#   oc -n aitp-ai start-build sunbird-mcp-server --from-dir=. --follow
+#   oc -n iis-ai-ai new-build --strategy=docker --binary --name=sunbird-mcp-server
+#   oc -n iis-ai-ai start-build sunbird-mcp-server --from-dir=. --follow
 # (rename this file to `Dockerfile` first). Then apply deployment-*.yaml.
 #
 # NOTE: package.json here is `package.json.reconstructed` (the real one was
