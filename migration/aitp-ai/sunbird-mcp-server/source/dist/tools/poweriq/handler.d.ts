@@ -1,0 +1,2 @@
+export declare function handlePowerIQTool(toolName: string, args: Record<string, any>): Promise<any>;
+//# sourceMappingURL=handler.d.ts.map

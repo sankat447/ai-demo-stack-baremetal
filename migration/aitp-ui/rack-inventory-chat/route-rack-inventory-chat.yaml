@@ -1,0 +1,18 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    haproxy.router.openshift.io/timeout: 300s
+  labels:
+    app: rack-inventory-chat
+  name: rack-inventory-chat
+spec:
+  host: rack-inventory-chat.apps.ocp419.crucible.iisl.com
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: rack-inventory-chat
+    weight: 100
+  wildcardPolicy: None

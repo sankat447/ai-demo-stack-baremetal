@@ -1,0 +1,758 @@
+apiVersion: v1
+data:
+  index.html: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\"\
+    >\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\
+    >\n    <title>Sunbird AI Assistant | DCIM Intelligence Platform</title>\n    <link\
+    \ rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n    <link rel=\"\
+    preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n    <link href=\"\
+    https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap\"\
+    \ rel=\"stylesheet\">\n    <style>\n        :root {\n            /* Sunbird Brand\
+    \ Colors */\n            --sunbird-orange: #F7941D;\n            --sunbird-orange-light:\
+    \ #FFAD4A;\n            --sunbird-orange-dark: #E07D00;\n            --sunbird-amber:\
+    \ #FFC107;\n\n            /* IISL Corporate Colors */\n            --iisl-blue:\
+    \ #1E3A5F;\n            --iisl-blue-light: #2C5282;\n            --iisl-blue-dark:\
+    \ #0F2439;\n\n            /* Neutral Palette */\n            --bg-primary: #0A0E14;\n\
+    \            --bg-secondary: #111821;\n            --bg-tertiary: #1A2332;\n \
+    \           --bg-card: #151D2B;\n            --bg-hover: #1F2A3C;\n\n        \
+    \    --text-primary: #F0F4F8;\n            --text-secondary: #A0AEC0;\n      \
+    \      --text-muted: #718096;\n\n            /* Accents */\n            --success:\
+    \ #48BB78;\n            --error: #FC8181;\n            --blue: #63B3ED;\n    \
+    \        --purple: #B794F4;\n            --border: rgba(255, 255, 255, 0.08);\n\
+    \            --border-highlight: rgba(247, 148, 29, 0.3);\n\n            /* Shadows\
+    \ */\n            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);\n            --shadow-md:\
+    \ 0 4px 20px rgba(0, 0, 0, 0.4);\n            --shadow-glow: 0 0 30px rgba(247,\
+    \ 148, 29, 0.12);\n        }\n\n        * { margin: 0; padding: 0; box-sizing:\
+    \ border-box; }\n\n        body {\n            font-family: 'Plus Jakarta Sans',\
+    \ -apple-system, BlinkMacSystemFont, sans-serif;\n            background: var(--bg-primary);\n\
+    \            color: var(--text-primary);\n            height: 100vh;\n       \
+    \     display: flex;\n            flex-direction: column;\n            overflow:\
+    \ hidden;\n            line-height: 1.6;\n        }\n\n        /* \u2500\u2500\
+    \u2500 Animated Background \u2500\u2500\u2500 */\n        .bg-pattern {\n    \
+    \        position: fixed; top: 0; left: 0; right: 0; bottom: 0;\n            pointer-events:\
+    \ none; z-index: 0; overflow: hidden;\n        }\n        .bg-pattern::before\
+    \ {\n            content: ''; position: absolute; top: -50%; left: -50%; width:\
+    \ 200%; height: 200%;\n            background:\n                radial-gradient(ellipse\
+    \ at 20% 20%, rgba(247,148,29,0.06) 0%, transparent 50%),\n                radial-gradient(ellipse\
+    \ at 80% 80%, rgba(30,58,95,0.10) 0%, transparent 50%);\n            animation:\
+    \ bgShift 30s ease-in-out infinite;\n        }\n        @keyframes bgShift {\n\
+    \            0%, 100% { transform: translate(0,0) rotate(0deg); }\n          \
+    \  33% { transform: translate(-3%,3%) rotate(1deg); }\n            66% { transform:\
+    \ translate(3%,-3%) rotate(-1deg); }\n        }\n\n        /* \u2500\u2500\u2500\
+    \ Header \u2500\u2500\u2500 */\n        .header {\n            position: relative;\
+    \ z-index: 100;\n            display: flex;\n            align-items: center;\n\
+    \            justify-content: space-between;\n            padding: 0 24px;\n \
+    \           height: 56px;\n            background: linear-gradient(180deg, var(--bg-secondary)\
+    \ 0%, rgba(17,24,33,0.95) 100%);\n            border-bottom: 1px solid var(--border);\n\
+    \            flex-shrink: 0;\n        }\n\n        .header-left {\n          \
+    \  display: flex; align-items: center; gap: 14px;\n        }\n\n        .logo-icon\
+    \ {\n            width: 38px; height: 38px;\n            background: linear-gradient(135deg,\
+    \ var(--sunbird-orange) 0%, var(--sunbird-orange-dark) 100%);\n            border-radius:\
+    \ 10px;\n            display: flex; align-items: center; justify-content: center;\n\
+    \            box-shadow: var(--shadow-glow);\n        }\n        .logo-icon svg\
+    \ { width: 22px; height: 22px; fill: white; }\n\n        .logo-text { display:\
+    \ flex; flex-direction: column; }\n        .logo-title {\n            font-size:\
+    \ 1.05rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em;\n\
+    \        }\n        .logo-subtitle {\n            font-size: 0.65rem; color: var(--sunbird-orange);\
+    \ font-weight: 500;\n            text-transform: uppercase; letter-spacing: 0.1em;\n\
+    \        }\n\n        .header-right {\n            display: flex; align-items:\
+    \ center; gap: 16px;\n        }\n\n        .company-badge {\n            display:\
+    \ flex; align-items: center; gap: 10px;\n            padding: 6px 14px;\n    \
+    \        background: var(--bg-tertiary);\n            border-radius: 8px;\n  \
+    \          border: 1px solid var(--border);\n        }\n        .company-badge\
+    \ svg { width: 20px; height: 20px; flex-shrink: 0; }\n        .company-info {\
+    \ display: flex; flex-direction: column; }\n        .company-name {\n        \
+    \    font-size: 0.6rem; color: var(--text-muted);\n            text-transform:\
+    \ uppercase; letter-spacing: 0.05em;\n        }\n        .company-full { font-size:\
+    \ 0.75rem; color: var(--text-secondary); font-weight: 500; }\n\n        .status-pill\
+    \ {\n            display: flex; align-items: center; gap: 6px;\n            padding:\
+    \ 5px 12px;\n            background: var(--bg-tertiary);\n            border-radius:\
+    \ 20px;\n            font-size: 0.68rem;\n            color: var(--text-muted);\n\
+    \            border: 1px solid var(--border);\n        }\n        .status-dot\
+    \ {\n            width: 6px; height: 6px; border-radius: 50%; background: var(--success);\n\
+    \        }\n        .status-dot.offline { background: var(--error); }\n\n    \
+    \    /* \u2500\u2500\u2500 Main Layout \u2014 Split Pane \u2500\u2500\u2500 */\n\
+    \        .main-layout {\n            position: relative; z-index: 10;\n      \
+    \      flex: 1; display: flex; overflow: hidden;\n        }\n\n        /* \u2500\
+    \u2500\u2500 Left Pane: Chat \u2500\u2500\u2500 */\n        .chat-pane {\n   \
+    \         width: 440px; min-width: 340px;\n            display: flex; flex-direction:\
+    \ column;\n            background: var(--bg-secondary);\n            border-right:\
+    \ 1px solid var(--border);\n            flex-shrink: 0;\n        }\n\n       \
+    \ .pane-header {\n            padding: 12px 18px;\n            border-bottom:\
+    \ 1px solid var(--border);\n            display: flex; align-items: center; justify-content:\
+    \ space-between;\n        }\n        .pane-header-title {\n            font-size:\
+    \ 0.75rem; font-weight: 600; color: var(--text-muted);\n            text-transform:\
+    \ uppercase; letter-spacing: 0.06em;\n        }\n        .pane-header-btn {\n\
+    \            background: none; border: 1px solid var(--border); border-radius:\
+    \ 6px;\n            color: var(--text-muted); font-size: 0.68rem; padding: 4px\
+    \ 10px;\n            cursor: pointer; font-family: inherit;\n        }\n     \
+    \   .pane-header-btn:hover { border-color: var(--border-highlight); color: var(--text-secondary);\
+    \ }\n\n        /* Messages */\n        .messages {\n            flex: 1; overflow-y:\
+    \ auto; padding: 16px;\n            display: flex; flex-direction: column; gap:\
+    \ 14px;\n        }\n        .messages::-webkit-scrollbar { width: 4px; }\n   \
+    \     .messages::-webkit-scrollbar-track { background: transparent; }\n      \
+    \  .messages::-webkit-scrollbar-thumb { background: var(--bg-tertiary); border-radius:\
+    \ 2px; }\n\n        .message { display: flex; gap: 10px; animation: msgIn 0.25s\
+    \ ease-out; }\n        @keyframes msgIn {\n            from { opacity: 0; transform:\
+    \ translateY(8px); }\n            to { opacity: 1; transform: translateY(0); }\n\
+    \        }\n        .message.user { flex-direction: row-reverse; }\n\n       \
+    \ .avatar {\n            width: 32px; height: 32px; border-radius: 10px;\n   \
+    \         display: flex; align-items: center; justify-content: center;\n     \
+    \       font-size: 0.65rem; font-weight: 600; flex-shrink: 0;\n        }\n   \
+    \     .message.user .avatar { background: var(--iisl-blue); color: white; }\n\
+    \        .message.assistant .avatar {\n            background: linear-gradient(135deg,\
+    \ var(--sunbird-orange), var(--sunbird-orange-dark)); color: white;\n        }\n\
+    \n        .msg-body { max-width: 85%; display: flex; flex-direction: column; gap:\
+    \ 4px; }\n\n        .msg-text {\n            padding: 10px 14px; border-radius:\
+    \ 14px;\n            font-size: 0.85rem; line-height: 1.6;\n        }\n      \
+    \  .message.user .msg-text {\n            background: linear-gradient(135deg,\
+    \ var(--iisl-blue), var(--iisl-blue-dark));\n            color: white; border-bottom-right-radius:\
+    \ 4px;\n        }\n        .message.assistant .msg-text {\n            background:\
+    \ var(--bg-tertiary); color: var(--text-primary);\n            border-bottom-left-radius:\
+    \ 4px; border: 1px solid var(--border);\n        }\n        .msg-text strong {\
+    \ color: var(--sunbird-orange-light); }\n        .msg-text code {\n          \
+    \  font-family: 'JetBrains Mono', monospace;\n            background: rgba(0,0,0,0.3);\
+    \ padding: 1px 5px; border-radius: 4px; font-size: 0.8em;\n        }\n       \
+    \ .msg-text pre {\n            background: rgba(0,0,0,0.4); padding: 10px; border-radius:\
+    \ 8px;\n            overflow-x: auto; margin: 6px 0;\n        }\n        .msg-text\
+    \ pre code { background: none; padding: 0; }\n        .msg-text a { color: var(--blue);\
+    \ text-decoration: none; }\n        .msg-text a:hover { text-decoration: underline;\
+    \ }\n        .msg-text ul, .msg-text ol { margin: 6px 0 0 18px; }\n        .msg-text\
+    \ li { margin-bottom: 3px; }\n\n        /* View Data button on messages */\n \
+    \       .view-data-btn {\n            align-self: flex-start;\n            display:\
+    \ none; align-items: center; gap: 5px;\n            background: none; border:\
+    \ 1px solid var(--border); border-radius: 6px;\n            padding: 3px 10px;\
+    \ font-size: 0.68rem;\n            color: var(--sunbird-orange-light); cursor:\
+    \ pointer; font-family: inherit; margin-top: 2px;\n        }\n        .view-data-btn:hover\
+    \ { background: rgba(247,148,29,0.08); border-color: var(--border-highlight);\
+    \ }\n        .view-data-btn.has-data { display: inline-flex; }\n        .view-data-btn\
+    \ svg { width: 11px; height: 11px; stroke: currentColor; fill: none; }\n\n   \
+    \     /* Typing */\n        .typing { display: flex; gap: 10px; }\n        .typing-dots\
+    \ {\n            display: flex; gap: 4px; padding: 10px 14px;\n            background:\
+    \ var(--bg-tertiary); border-radius: 14px; border: 1px solid var(--border); align-items:\
+    \ center;\n        }\n        .typing-dots span {\n            width: 6px; height:\
+    \ 6px; background: var(--sunbird-orange);\n            border-radius: 50%; animation:\
+    \ tbounce 1.4s infinite ease-in-out;\n        }\n        .typing-dots span:nth-child(2)\
+    \ { animation-delay: 0.2s; }\n        .typing-dots span:nth-child(3) { animation-delay:\
+    \ 0.4s; }\n        @keyframes tbounce {\n            0%, 80%, 100% { transform:\
+    \ translateY(0); opacity: 0.4; }\n            40% { transform: translateY(-5px);\
+    \ opacity: 1; }\n        }\n\n        /* Input Area */\n        .input-area {\n\
+    \            padding: 14px 16px; border-top: 1px solid var(--border); background:\
+    \ var(--bg-card);\n        }\n        .input-row { display: flex; gap: 8px; align-items:\
+    \ flex-end; }\n        .input-row textarea {\n            flex: 1; min-height:\
+    \ 44px; max-height: 120px;\n            padding: 10px 14px; background: var(--bg-secondary);\n\
+    \            border: 1px solid var(--border); border-radius: 12px;\n         \
+    \   color: var(--text-primary); font-family: inherit;\n            font-size:\
+    \ 0.85rem; resize: none; line-height: 1.5;\n        }\n        .input-row textarea:focus\
+    \ {\n            outline: none; border-color: var(--sunbird-orange);\n       \
+    \     box-shadow: 0 0 0 3px rgba(247,148,29,0.1);\n        }\n        .input-row\
+    \ textarea::placeholder { color: var(--text-muted); }\n\n        .new-chat-btn\
+    \ {\n            width: 44px; height: 44px;\n            background: var(--bg-tertiary);\n\
+    \            border: 1px solid var(--border);\n            border-radius: 12px;\
+    \ cursor: pointer;\n            display: flex; align-items: center; justify-content:\
+    \ center;\n            transition: all 0.15s;\n            color: var(--text-muted);\n\
+    \            flex-shrink: 0;\n        }\n        .new-chat-btn:hover { background:\
+    \ var(--bg-hover); color: var(--sunbird-orange); border-color: var(--border-highlight);\
+    \ }\n        .send-btn {\n            width: 44px; height: 44px;\n           \
+    \ background: linear-gradient(135deg, var(--sunbird-orange), var(--sunbird-orange-dark));\n\
+    \            border: none; border-radius: 12px; cursor: pointer;\n           \
+    \ display: flex; align-items: center; justify-content: center;\n            transition:\
+    \ transform 0.15s, box-shadow 0.15s;\n            box-shadow: var(--shadow-sm);\n\
+    \        }\n        .send-btn:hover { transform: translateY(-1px); box-shadow:\
+    \ var(--shadow-md), var(--shadow-glow); }\n        .send-btn:active { transform:\
+    \ translateY(0); }\n        .send-btn:disabled { opacity: 0.5; cursor: not-allowed;\
+    \ transform: none; }\n        .send-btn svg { width: 20px; height: 20px; fill:\
+    \ white; }\n\n        /* Suggestions */\n        .suggestions { display: flex;\
+    \ gap: 6px; margin-top: 10px; flex-wrap: wrap; }\n        .suggestion {\n    \
+    \        padding: 6px 12px; background: var(--bg-tertiary);\n            border:\
+    \ 1px solid var(--border); border-radius: 20px;\n            color: var(--text-secondary);\
+    \ font-size: 0.72rem; cursor: pointer; font-family: inherit;\n            transition:\
+    \ all 0.2s;\n        }\n        .suggestion:hover { background: var(--bg-hover);\
+    \ border-color: var(--border-highlight); color: var(--sunbird-orange-light); }\n\
+    \n        /* \u2500\u2500\u2500 Resize Handle \u2500\u2500\u2500 */\n        .resize-handle\
+    \ {\n            width: 4px; cursor: col-resize; background: transparent;\n  \
+    \          transition: background 0.2s; flex-shrink: 0; z-index: 50;\n       \
+    \ }\n        .resize-handle:hover, .resize-handle.active { background: var(--sunbird-orange);\
+    \ }\n\n        /* \u2500\u2500\u2500 Right Pane: Data Viewer \u2500\u2500\u2500\
+    \ */\n        .data-pane {\n            flex: 1; display: flex; flex-direction:\
+    \ column;\n            background: var(--bg-primary); min-width: 300px;\n    \
+    \    }\n\n        .data-header {\n            padding: 12px 20px; border-bottom:\
+    \ 1px solid var(--border);\n            display: flex; align-items: center; justify-content:\
+    \ space-between;\n            background: var(--bg-secondary);\n        }\n  \
+    \      .data-header-left { display: flex; align-items: center; gap: 10px; }\n\
+    \        .data-tool-badge {\n            display: none; padding: 3px 8px;\n  \
+    \          background: rgba(247,148,29,0.10); border: 1px solid rgba(247,148,29,0.25);\n\
+    \            border-radius: 6px; font-size: 0.65rem; color: var(--sunbird-orange-light);\n\
+    \            font-family: 'JetBrains Mono', monospace;\n        }\n        .data-tool-badge.visible\
+    \ { display: inline-block; }\n\n        .data-tabs { display: flex; gap: 2px;\
+    \ }\n        .data-tab {\n            padding: 5px 12px; background: none; border:\
+    \ 1px solid transparent;\n            border-radius: 6px; color: var(--text-muted);\
+    \ font-size: 0.72rem;\n            cursor: pointer; font-family: inherit; font-weight:\
+    \ 500;\n        }\n        .data-tab.active { background: var(--bg-tertiary);\
+    \ border-color: var(--border); color: var(--text-primary); }\n        .data-tab:hover:not(.active)\
+    \ { color: var(--text-secondary); }\n\n        /* Data Stats */\n        .data-stats\
+    \ {\n            display: none; gap: 18px; padding: 10px 20px;\n            background:\
+    \ var(--bg-secondary); border-bottom: 1px solid var(--border);\n            font-size:\
+    \ 0.7rem;\n        }\n        .data-stat { display: flex; align-items: center;\
+    \ gap: 6px; color: var(--text-muted); }\n        .data-stat-value {\n        \
+    \    color: var(--text-primary); font-weight: 600;\n            font-family: 'JetBrains\
+    \ Mono', monospace;\n        }\n\n        /* Data Content */\n        .data-content\
+    \ { flex: 1; overflow: auto; }\n        .data-content::-webkit-scrollbar { width:\
+    \ 6px; height: 6px; }\n        .data-content::-webkit-scrollbar-track { background:\
+    \ transparent; }\n        .data-content::-webkit-scrollbar-thumb { background:\
+    \ var(--bg-tertiary); border-radius: 3px; }\n\n        /* Empty State */\n   \
+    \     .data-empty {\n            display: flex; flex-direction: column; align-items:\
+    \ center; justify-content: center;\n            height: 100%; gap: 14px; color:\
+    \ var(--text-muted);\n        }\n        .data-empty-icon {\n            width:\
+    \ 64px; height: 64px; background: var(--bg-secondary);\n            border-radius:\
+    \ 16px; display: flex; align-items: center; justify-content: center;\n       \
+    \     border: 1px solid var(--border);\n        }\n        .data-empty-icon svg\
+    \ { width: 28px; height: 28px; stroke: var(--text-muted); fill: none; }\n    \
+    \    .data-empty h3 { font-size: 0.95rem; color: var(--text-secondary); font-weight:\
+    \ 600; }\n        .data-empty p { font-size: 0.8rem; text-align: center; max-width:\
+    \ 300px; line-height: 1.5; }\n        .data-empty.loading .data-empty-icon { border-color:\
+    \ var(--sunbird-orange); }\n        .data-empty.loading .data-empty-icon svg {\
+    \ animation: dv-spin 1.2s linear infinite; stroke: var(--sunbird-orange); }\n\
+    \        .data-empty.loading h3 { color: var(--sunbird-orange); }\n        @keyframes\
+    \ dv-spin {\n            0% { transform: rotate(0deg); }\n            100% { transform:\
+    \ rotate(360deg); }\n        }\n\n        /* Table */\n        .data-table-wrapper\
+    \ { padding: 0; overflow: auto; }\n        .data-table { width: 100%; border-collapse:\
+    \ collapse; font-size: 0.8rem; }\n        .data-table thead { position: sticky;\
+    \ top: 0; z-index: 6; }\n        .data-table th {\n            text-align: left;\
+    \ padding: 8px 14px; background: var(--iisl-blue-dark);\n            color: var(--text-secondary);\
+    \ font-weight: 600; font-size: 0.7rem;\n            text-transform: uppercase;\
+    \ letter-spacing: 0.04em;\n            border-bottom: 2px solid var(--sunbird-orange-dark);\n\
+    \        }\n        .data-table th.row-num-header {\n            width: 42px;\
+    \ min-width: 42px; text-align: center; color: var(--text-muted);\n        }\n\
+    \        /* Column filter row */\n        .data-table .filter-row th {\n     \
+    \       padding: 4px 6px; background: var(--bg-tertiary);\n            border-bottom:\
+    \ 1px solid var(--border);\n        }\n        .data-table .filter-row input {\n\
+    \            width: 100%; padding: 4px 8px; font-size: 0.72rem;\n            background:\
+    \ var(--bg-primary); color: var(--text-primary);\n            border: 1px solid\
+    \ var(--border); border-radius: 4px;\n            font-family: 'Plus Jakarta Sans',\
+    \ sans-serif;\n            outline: none; transition: border-color 0.2s;\n   \
+    \     }\n        .data-table .filter-row input::placeholder { color: var(--text-muted);\
+    \ opacity: 0.6; }\n        .data-table .filter-row input:focus { border-color:\
+    \ var(--sunbird-orange); }\n        .data-table td {\n            padding: 8px\
+    \ 14px; color: var(--text-primary);\n            border-bottom: 1px solid rgba(255,255,255,0.04);\n\
+    \            max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space:\
+    \ nowrap;\n        }\n        /* Row number column */\n        .data-table td.row-num\
+    \ {\n            width: 42px; min-width: 42px; text-align: center;\n         \
+    \   color: var(--text-muted); font-size: 0.7rem;\n            font-family: 'JetBrains\
+    \ Mono', monospace;\n            user-select: none; opacity: 0.5;\n        }\n\
+    \        /* Alternating row stripes */\n        .data-table tbody tr:nth-child(odd)\
+    \ td { background: var(--bg-secondary); }\n        .data-table tbody tr:nth-child(even)\
+    \ td { background: var(--bg-tertiary); }\n        .data-table tbody tr:hover td\
+    \ { background: var(--bg-hover); }\n        .data-table tbody tr.filtered-out\
+    \ { display: none; }\n        .data-table td.number { font-family: 'JetBrains\
+    \ Mono', monospace; color: var(--blue); }\n\n        /* JSON */\n        .data-json-wrapper\
+    \ { padding: 16px; display: none; }\n        .data-json-wrapper pre {\n      \
+    \      background: var(--bg-secondary); border: 1px solid var(--border);\n   \
+    \         border-radius: 10px; padding: 16px;\n            font-family: 'JetBrains\
+    \ Mono', monospace; font-size: 0.75rem;\n            color: var(--text-primary);\
+    \ overflow: auto; line-height: 1.6;\n            white-space: pre-wrap; word-break:\
+    \ break-word;\n        }\n        .json-key { color: var(--purple); }\n      \
+    \  .json-string { color: var(--success); }\n        .json-number { color: var(--blue);\
+    \ }\n        .json-bool { color: var(--sunbird-orange); }\n        .json-null\
+    \ { color: var(--text-muted); }\n\n        /* Footer */\n        .footer {\n \
+    \           position: relative; z-index: 10;\n            text-align: center;\
+    \ padding: 6px 20px;\n            border-top: 1px solid var(--border); background:\
+    \ var(--bg-secondary);\n            font-size: 0.68rem; color: var(--text-muted);\n\
+    \            display: flex; justify-content: center; align-items: center; gap:\
+    \ 16px;\n            flex-shrink: 0;\n        }\n        .footer a { color: var(--text-secondary);\
+    \ text-decoration: none; }\n        .footer a:hover { color: var(--sunbird-orange);\
+    \ }\n\n        /* Responsive */\n        @media (max-width: 768px) {\n       \
+    \     .main-layout { flex-direction: column; }\n            .chat-pane { width:\
+    \ 100% !important; min-width: 0; border-right: none; border-bottom: 1px solid\
+    \ var(--border); max-height: 55vh; }\n            .resize-handle { display: none;\
+    \ }\n            .data-pane { min-height: 200px; }\n            .company-badge\
+    \ { display: none; }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"\
+    bg-pattern\"></div>\n\n    <!-- Header -->\n    <header class=\"header\">\n  \
+    \      <div class=\"header-left\">\n            <div class=\"logo-icon\">\n  \
+    \              <svg viewBox=\"0 0 24 24\"><path d=\"M12 2C6.48 2 2 6.48 2 12s4.48\
+    \ 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19\
+    \ 8l-9 9z\"/></svg>\n            </div>\n            <div class=\"logo-text\"\
+    >\n                <span class=\"logo-title\">Sunbird AI Assistant</span>\n  \
+    \              <span class=\"logo-subtitle\">DCIM Intelligence Platform</span>\n\
+    \            </div>\n        </div>\n        <div class=\"header-right\">\n  \
+    \          <div class=\"status-pill\">\n                <span class=\"status-dot\"\
+    \ id=\"statusDot\"></span>\n                <span id=\"statusText\">Connected</span>\n\
+    \            </div>\n            <div class=\"company-badge\">\n             \
+    \   <svg viewBox=\"0 0 24 24\" fill=\"none\">\n                    <rect x=\"\
+    3\" y=\"3\" width=\"18\" height=\"18\" rx=\"3\" stroke=\"#F7941D\" stroke-width=\"\
+    2\"/>\n                    <path d=\"M8 12h8M12 8v8\" stroke=\"#F7941D\" stroke-width=\"\
+    2\" stroke-linecap=\"round\"/>\n                </svg>\n                <div class=\"\
+    company-info\">\n                    <span class=\"company-name\">Powered by</span>\n\
+    \                    <span class=\"company-full\">International Integrated Solutions</span>\n\
+    \                </div>\n            </div>\n        </div>\n    </header>\n\n\
+    \    <!-- Main Split Layout -->\n    <div class=\"main-layout\">\n\n        <!--\
+    \ Left: Chat Pane -->\n        <div class=\"chat-pane\" id=\"chatPane\">\n   \
+    \         <div class=\"pane-header\">\n                <span class=\"pane-header-title\"\
+    >Chat</span>\n                <button class=\"pane-header-btn\" onclick=\"clearChat()\"\
+    >Clear</button>\n            </div>\n\n            <div class=\"messages\" id=\"\
+    messages\">\n                <div class=\"message assistant\">\n             \
+    \       <div class=\"avatar\">AI</div>\n                    <div class=\"msg-body\"\
+    >\n                        <div class=\"msg-text\">\n                        \
+    \    Hi! I'm your <strong>Sunbird DCIM assistant</strong>. I can query dcTrack\
+    \ and Power IQ \u2014 cabinets, items, locations, power readings, sensors, connections,\
+    \ and more.<br><br>\n                            Ask a question or use a suggestion\
+    \ below. Results will appear in the <strong>Data Viewer</strong> on the right.\n\
+    \                        </div>\n                    </div>\n                </div>\n\
+    \            </div>\n\n            <div class=\"input-area\">\n              \
+    \  <div class=\"input-row\">\n                    <button class=\"new-chat-btn\"\
+    \ id=\"newChatBtn\" title=\"New Chat \u2014 clear conversation history\">\n  \
+    \                      <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"\
+    currentColor\"><path d=\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\"/></svg>\n     \
+    \               </button>\n                    <textarea id=\"chatInput\" rows=\"\
+    1\" placeholder=\"Ask about your data center... (Shift+Enter for new line)\"></textarea>\n\
+    \                    <button class=\"send-btn\" id=\"sendBtn\" title=\"Send message\"\
+    >\n                        <svg viewBox=\"0 0 24 24\"><path d=\"M2.01 21L23 12\
+    \ 2.01 3 2 10l15 2-15 2z\"/></svg>\n                    </button>\n          \
+    \      </div>\n                <div class=\"suggestions\" id=\"suggestions\">\n\
+    \                    <button class=\"suggestion\" data-q=\"List all locations\"\
+    >\U0001F4CD Locations</button>\n                    <button class=\"suggestion\"\
+    \ data-q=\"List all cabinets\">\U0001F4E6 Cabinets</button>\n                \
+    \    <button class=\"suggestion\" data-q=\"Show all PDUs\">\u26A1 PDUs</button>\n\
+    \                    <button class=\"suggestion\" data-q=\"Show system health\
+    \ status\">\U0001F49A Health</button>\n                    <button class=\"suggestion\"\
+    \ data-q=\"What space is available in cabinet 178B-02?\">\U0001F50D Cabinet Space</button>\n\
+    \                    <button class=\"suggestion\" data-q=\"List all models\">\U0001F4CB\
+    \ Models</button>\n                </div>\n            </div>\n        </div>\n\
+    \n        <!-- Resize Handle -->\n        <div class=\"resize-handle\" id=\"resizeHandle\"\
+    ></div>\n\n        <!-- Right: Data Viewer Pane -->\n        <div class=\"data-pane\"\
+    \ id=\"dataPane\">\n            <div class=\"data-header\">\n                <div\
+    \ class=\"data-header-left\">\n                    <span class=\"pane-header-title\"\
+    >Data Viewer</span>\n                    <span class=\"data-tool-badge\" id=\"\
+    toolBadge\"></span>\n                </div>\n                <div class=\"data-tabs\"\
+    >\n                    <button class=\"data-tab active\" data-view=\"table\" onclick=\"\
+    switchView('table')\">Table</button>\n                    <button class=\"data-tab\"\
+    \ data-view=\"json\" onclick=\"switchView('json')\">JSON</button>\n          \
+    \      </div>\n            </div>\n\n            <div class=\"data-stats\" id=\"\
+    dataStats\">\n                <div class=\"data-stat\">Rows: <span class=\"data-stat-value\"\
+    \ id=\"statRows\">0</span></div>\n                <div class=\"data-stat\">Columns:\
+    \ <span class=\"data-stat-value\" id=\"statCols\">0</span></div>\n           \
+    \     <div class=\"data-stat\">Tool: <span class=\"data-stat-value\" id=\"statTool\"\
+    >\u2014</span></div>\n            </div>\n\n            <div class=\"data-content\"\
+    \ id=\"dataContent\">\n                <div class=\"data-empty\" id=\"dataEmpty\"\
+    >\n                    <div class=\"data-empty-icon\">\n                     \
+    \   <svg viewBox=\"0 0 24 24\" stroke-width=\"1.5\">\n                       \
+    \     <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M3.75 6A2.25\
+    \ 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25\
+    \ 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25\
+    \ 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25\
+    \ 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25\
+    \ 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25\
+    \ 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z\"/>\n    \
+    \                    </svg>\n                    </div>\n                    <h3>No\
+    \ data yet</h3>\n                    <p>Ask a question in the chat and the API\
+    \ response will appear here as a table with sortable columns.</p>\n          \
+    \      </div>\n\n                <div class=\"data-table-wrapper\" id=\"tableView\"\
+    \ style=\"display:none;\"></div>\n                <div class=\"data-json-wrapper\"\
+    \ id=\"jsonView\"></div>\n            </div>\n        </div>\n    </div>\n\n \
+    \   <!-- Footer -->\n    <footer class=\"footer\">\n        <span>&copy; 2026\
+    \ International Integrated Solutions Ltd.</span>\n        <a href=\"https://www.iisl.com\"\
+    >www.iisl.com</a>\n        <span>Sunbird DCIM Partner</span>\n    </footer>\n\n\
+    <script>\n// \u2500\u2500\u2500 Config \u2500\u2500\u2500\nconst API_URL = '/api/chat/completions';\n\
+    const MCP_BASE = '/mcp';  // proxied via nginx to MCP server\nconst MCP_URL =\
+    \ 'https://sunbird-mcp.apps.ocp419.crucible.iisl.com';\n\n// \u2500\u2500\u2500\
+    \ DOM \u2500\u2500\u2500\nconst messagesEl = document.getElementById('messages');\n\
+    const chatInput = document.getElementById('chatInput');\nconst sendBtn = document.getElementById('sendBtn');\n\
+    const newChatBtn = document.getElementById('newChatBtn');\nconst suggestionsEl\
+    \ = document.getElementById('suggestions');\nconst toolBadge = document.getElementById('toolBadge');\n\
+    const dataStats = document.getElementById('dataStats');\nconst dataEmpty = document.getElementById('dataEmpty');\n\
+    const tableView = document.getElementById('tableView');\nconst jsonView = document.getElementById('jsonView');\n\
+    \nlet currentView = 'table';\nlet currentRawData = null;\nlet messageHistory =\
+    \ [];\n\n// \u2500\u2500\u2500 Chat Input \u2500\u2500\u2500\nchatInput.addEventListener('input',\
+    \ function() {\n    this.style.height = 'auto';\n    this.style.height = Math.min(this.scrollHeight,\
+    \ 120) + 'px';\n});\n\nchatInput.addEventListener('keydown', function(e) {\n \
+    \   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage();\
+    \ }\n});\n\nsendBtn.addEventListener('click', sendMessage);\n\n// New Chat button\
+    \ \u2014 clears history without full page refresh\nnewChatBtn.addEventListener('click',\
+    \ function() {\n    messageHistory = [];\n    // Clear chat messages except the\
+    \ welcome message\n    const msgs = messagesEl.querySelectorAll('.message');\n\
+    \    msgs.forEach((m, i) => { if (i > 0) m.remove(); });\n    clearDataViewer();\n\
+    \    chatInput.value = '';\n    chatInput.focus();\n    // Brief visual feedback\n\
+    \    this.style.color = 'var(--success)';\n    setTimeout(() => { this.style.color\
+    \ = ''; }, 600);\n});\n\ndocument.querySelectorAll('.suggestion').forEach(btn\
+    \ => {\n    btn.addEventListener('click', function() {\n        chatInput.value\
+    \ = this.dataset.q;\n        sendMessage();\n    });\n});\n\n// \u2500\u2500\u2500\
+    \ Resize Handle \u2500\u2500\u2500\nconst resizeHandle = document.getElementById('resizeHandle');\n\
+    const chatPane = document.getElementById('chatPane');\nlet isResizing = false;\n\
+    \nresizeHandle.addEventListener('mousedown', (e) => {\n    isResizing = true;\n\
+    \    resizeHandle.classList.add('active');\n    document.body.style.cursor = 'col-resize';\n\
+    \    document.body.style.userSelect = 'none';\n    e.preventDefault();\n});\n\n\
+    document.addEventListener('mousemove', (e) => {\n    if (!isResizing) return;\n\
+    \    const w = Math.max(300, Math.min(e.clientX, window.innerWidth - 300));\n\
+    \    chatPane.style.width = w + 'px';\n});\n\ndocument.addEventListener('mouseup',\
+    \ () => {\n    if (isResizing) {\n        isResizing = false;\n        resizeHandle.classList.remove('active');\n\
+    \        document.body.style.cursor = '';\n        document.body.style.userSelect\
+    \ = '';\n    }\n});\n\n// \u2500\u2500\u2500 Messages \u2500\u2500\u2500\nfunction\
+    \ addMessage(content, isUser, rawData, toolName) {\n    const div = document.createElement('div');\n\
+    \    div.className = 'message ' + (isUser ? 'user' : 'assistant');\n\n    let\
+    \ html = '<div class=\"avatar\">' + (isUser ? 'You' : 'AI') + '</div>';\n    html\
+    \ += '<div class=\"msg-body\">';\n    html += '<div class=\"msg-text\">' + (isUser\
+    \ ? escapeHtml(content) : formatMarkdown(content)) + '</div>';\n\n    if (!isUser\
+    \ && rawData) {\n        html += '<button class=\"view-data-btn has-data\" onclick=\"\
+    showDataFromMsg(this)\">' +\n            '<svg viewBox=\"0 0 24 24\" stroke-width=\"\
+    2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M3.75 6h16.5M3.75\
+    \ 12h16.5m-16.5 6h16.5\"/></svg>' +\n            ' View in table' + (toolName\
+    \ ? ' \xB7 ' + toolName.replace(/^(dctrack_|poweriq_|dcim_)/, '') : '') + '</button>';\n\
+    \    }\n\n    html += '</div>';\n    div.innerHTML = html;\n\n    if (rawData)\
+    \ {\n        div.dataset.raw = JSON.stringify(rawData);\n        div.dataset.tool\
+    \ = toolName || '';\n    }\n\n    messagesEl.appendChild(div);\n    messagesEl.scrollTop\
+    \ = messagesEl.scrollHeight;\n}\n\nfunction showDataFromMsg(btn) {\n    const\
+    \ msgDiv = btn.closest('.message');\n    if (!msgDiv) return;\n    try {\n   \
+    \     const raw = JSON.parse(msgDiv.dataset.raw);\n        displayData(raw, msgDiv.dataset.tool\
+    \ || '');\n    } catch(e) {}\n}\n\nfunction escapeHtml(t) {\n    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\n\
+    }\n\nfunction formatMarkdown(text) {\n    let s = escapeHtml(text);\n    s = s.replace(/```(\\\
+    w*)\\n([\\s\\S]*?)```/g, '<pre><code>$2</code></pre>');\n    s = s.replace(/`([^`]+)`/g,\
+    \ '<code>$1</code>');\n    s = s.replace(/\\*\\*([^*]+)\\*\\*/g, '<strong>$1</strong>');\n\
+    \    s = s.replace(/\\[([^\\]]+)\\]\\(([^)]+)\\)/g, '<a href=\"$2\" target=\"\
+    _blank\">$1</a>');\n    s = s.replace(/^[\\s]*[-\u2022]\\s+(.+)/gm, '<li>$1</li>');\n\
+    \    s = s.replace(/(<li>[\\s\\S]*?<\\/li>)/g, function(m) { return '<ul>' + m\
+    \ + '</ul>'; });\n    s = s.replace(/<\\/ul>\\s*<ul>/g, '');\n    s = s.replace(/\\\
+    n/g, '<br>');\n    return s;\n}\n\n// \u2500\u2500\u2500 Typing \u2500\u2500\u2500\
+    \nfunction addTyping() {\n    const div = document.createElement('div');\n   \
+    \ div.className = 'typing'; div.id = 'typing';\n    div.innerHTML = '<div class=\"\
+    avatar\" style=\"background:linear-gradient(135deg,var(--sunbird-orange),var(--sunbird-orange-dark));color:white;font-size:0.65rem;font-weight:600;\"\
+    >AI</div>' +\n        '<div class=\"typing-dots\"><span></span><span></span><span></span></div>';\n\
+    \    messagesEl.appendChild(div);\n    messagesEl.scrollTop = messagesEl.scrollHeight;\n\
+    }\n\nfunction removeTyping() {\n    const el = document.getElementById('typing');\n\
+    \    if (el) el.remove();\n}\n\n// \u2500\u2500\u2500 Send Message \u2500\u2500\
+    \u2500\nasync function sendMessage() {\n    const msg = chatInput.value.trim();\n\
+    \    if (!msg) return;\n\n    suggestionsEl.style.display = 'none';\n    addMessage(msg,\
+    \ true);\n    chatInput.value = '';\n    chatInput.style.height = 'auto';\n  \
+    \  sendBtn.disabled = true;\n    addTyping();\n    showDataViewerLoading();\n\n\
+    \    messageHistory.push({ role: 'user', content: msg });\n\n    try {\n     \
+    \   // Step 1: Send to n8n for LLM processing\n        const res = await fetch(API_URL,\
+    \ {\n            method: 'POST',\n            headers: { 'Content-Type': 'application/json'\
+    \ },\n            body: JSON.stringify({ messages: messageHistory.slice(-20) })\n\
+    \        });\n\n        removeTyping();\n        if (!res.ok) throw new Error('Server\
+    \ error: ' + res.status);\n\n        const data = await res.json();\n        const\
+    \ fullContent = extractContent(data);\n        const toolUsed = data?.metadata?.tool_used\
+    \ || null;\n\n        if (toolUsed) {\n            // Step 2: Tool was used \u2014\
+    \ get raw data for Data Viewer\n            const toolCount = data?.metadata?.tool_count\
+    \ || 1;\n            const shortSummary = makeShortSummary(toolUsed, fullContent,\
+    \ toolCount);\n            const toolArgs = data?.metadata?.tool_args || null;\n\
+    \            let rawData = data?.metadata?.raw_data || null;\n\n            //\
+    \ Unwrap raw_data if it has success/result wrapper\n            if (rawData &&\
+    \ rawData.success === true && rawData.result !== undefined) {\n              \
+    \  rawData = rawData.result;\n            }\n            // If tool returned an\
+    \ error, treat as no data\n            if (rawData && rawData.success === false)\
+    \ {\n                rawData = null;\n            }\n\n            // Detect paginated\
+    \ response: { data: [...], totalRows, showing, pageSize }\n            let paginationMeta\
+    \ = null;\n            if (rawData && !Array.isArray(rawData) && rawData.data\
+    \ && Array.isArray(rawData.data)) {\n                paginationMeta = {\n    \
+    \                totalRows: rawData.totalRows || rawData.data.length,\n      \
+    \              showing: rawData.showing || rawData.data.length,\n            \
+    \        pageSize: rawData.pageSize || rawData.data.length,\n                };\n\
+    \                rawData = rawData.data; // unwrap to the actual array\n     \
+    \       }\n\n            // For bulk operations, flatten the results array for\
+    \ the table\n            if (rawData && Array.isArray(rawData)) {\n          \
+    \      rawData = rawData.flatMap(item => {\n                    // Unwrap nested\
+    \ arrays (multi-cabinet queries return [[items],[items],[items]])\n          \
+    \          if (Array.isArray(item)) return item;\n                    // Unwrap\
+    \ nested {success, result} or {item} wrappers\n                    if (item &&\
+    \ item.success === true && item.result !== undefined) return Array.isArray(item.result)\
+    \ ? item.result : [item.result];\n                    if (item && item.data &&\
+    \ typeof item.data === 'object') {\n                        const d = item.data;\n\
+    \                        if (d.success === true && d.result !== undefined) return\
+    \ Array.isArray(d.result) ? d.result : [d.result];\n                        if\
+    \ (d.item) return [d.item];\n                        return [d];\n           \
+    \         }\n                    if (item && item.item) return [item.item];\n\
+    \                    return [item];\n                });\n            }\n\n  \
+    \          if (!rawData) {\n                // Try re-fetch from MCP with correct\
+    \ args if available (read-only tools only)\n                const isWriteOp =\
+    \ /create|update|delete|move/i.test(toolUsed);\n                if (toolArgs &&\
+    \ !Array.isArray(toolArgs) && !isWriteOp) {\n                    addTyping();\n\
+    \                    try {\n                        rawData = await fetchToolData(toolUsed.replace(/\\\
+    s*\\(x\\d+\\)$/, ''), toolArgs);\n                        removeTyping();\n  \
+    \                  } catch (e) { removeTyping(); rawData = null; }\n         \
+    \       }\n                // Re-run pagination detection on re-fetched data\n\
+    \                if (rawData && !Array.isArray(rawData) && rawData.data && Array.isArray(rawData.data))\
+    \ {\n                    paginationMeta = {\n                        totalRows:\
+    \ rawData.totalRows || rawData.data.length,\n                        showing:\
+    \ rawData.showing || rawData.data.length,\n                        pageSize: rawData.pageSize\
+    \ || rawData.data.length,\n                    };\n                    rawData\
+    \ = rawData.data;\n                }\n            }\n\n            // Last resort:\
+    \ parse markdown table from LLM response\n            if (!rawData) {\n      \
+    \          const parsed = parseMarkdownTable(fullContent);\n                if\
+    \ (parsed && parsed.length > 0) rawData = parsed;\n            }\n\n         \
+    \   if (rawData) {\n                const rows = extractRows(rawData);\n     \
+    \           const count = rows ? rows.length : 0;\n                // Build smart\
+    \ pagination summary\n                let countStr = '';\n                if (count\
+    \ === 0) {\n                    // No results \u2014 show meaningful message,\
+    \ don't point to Data Viewer\n                    countStr = ' \u2014 **No results\
+    \ found.**';\n                } else if (paginationMeta && paginationMeta.totalRows\
+    \ > 0) {\n                    countStr = ' \u2014 showing **' + count + ' of '\
+    \ + paginationMeta.totalRows.toLocaleString() + ' total**. See Data Viewer \u2192\
+    ';\n                } else {\n                    countStr = ' \u2014 **' + count\
+    \ + ' result' + (count !== 1 ? 's' : '') + '**. See Data Viewer \u2192';\n   \
+    \             }\n                const chatMsg = shortSummary + countStr;\n  \
+    \              messageHistory.push({ role: 'assistant', content: chatMsg });\n\
+    \                addMessage(chatMsg, false, count > 0 ? rawData : null, toolUsed);\n\
+    \                if (count > 0) displayData(rawData, toolUsed);\n            \
+    \    else clearDataViewer();\n            } else {\n                // No raw\
+    \ data \u2014 show full LLM summary in chat, clear stale Data Viewer\n       \
+    \         clearDataViewer();\n                messageHistory.push({ role: 'assistant',\
+    \ content: fullContent });\n                addMessage(fullContent, false);\n\
+    \            }\n        } else {\n            // No tool \u2014 plain conversational\
+    \ answer, clear stale Data Viewer\n            clearDataViewer();\n          \
+    \  messageHistory.push({ role: 'assistant', content: fullContent });\n       \
+    \     addMessage(fullContent, false);\n        }\n        // Always reset history\
+    \ after each response so the next prompt goes fresh to n8n.\n        // Chat messages\
+    \ stay visible in the UI (they're DOM elements, not tied to this array).\n   \
+    \     messageHistory = [];\n\n    } catch (err) {\n        removeTyping();\n \
+    \       addMessage('Error: ' + err.message, false);\n    }\n\n    sendBtn.disabled\
+    \ = false;\n    chatInput.focus();\n}\n\n// \u2500\u2500\u2500 Parse markdown\
+    \ table from LLM response text \u2500\u2500\u2500\nfunction parseMarkdownTable(text)\
+    \ {\n    // Find markdown tables like:\n    // | Header1 | Header2 |\n    // |\
+    \ --- | --- |\n    // | val1 | val2 |\n    const lines = text.split('\\n');\n\
+    \    const tables = [];\n    let i = 0;\n\n    while (i < lines.length) {\n  \
+    \      const line = lines[i].trim();\n        // Detect a table header row (starts\
+    \ and ends with |, has multiple |)\n        if (line.startsWith('|') && line.endsWith('|')\
+    \ && line.split('|').length >= 3) {\n            // Check next line is separator\
+    \ (| --- | --- |)\n            const nextLine = (lines[i + 1] || '').trim();\n\
+    \            if (nextLine.match(/^\\|[\\s\\-:|]+\\|$/)) {\n                //\
+    \ Parse headers\n                const headers = line.split('|').slice(1, -1).map(h\
+    \ => h.trim()).filter(h => h);\n                const rows = [];\n           \
+    \     let j = i + 2;\n                while (j < lines.length) {\n           \
+    \         const row = lines[j].trim();\n                    if (!row.startsWith('|')\
+    \ || !row.endsWith('|')) break;\n                    const cells = row.split('|').slice(1,\
+    \ -1).map(c => c.trim());\n                    const obj = {};\n             \
+    \       headers.forEach((h, idx) => {\n                        let val = cells[idx]\
+    \ || '\u2014';\n                        // Try to parse numbers\n            \
+    \            if (val !== '\u2014' && val !== '-' && !isNaN(val) && val !== '')\
+    \ val = Number(val);\n                        obj[h] = val;\n                \
+    \    });\n                    rows.push(obj);\n                    j++;\n    \
+    \            }\n                if (rows.length > 0) return rows;  // Return first\
+    \ table found\n                i = j;\n                continue;\n           \
+    \ }\n        }\n        i++;\n    }\n    return null;\n}\n\n// \u2500\u2500\u2500\
+    \ Fetch raw data from MCP server directly \u2500\u2500\u2500\nasync function fetchToolData(toolName,\
+    \ args) {\n    const res = await fetch(MCP_BASE + '/mcp', {\n        method: 'POST',\n\
+    \        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify({\n\
+    \            jsonrpc: '2.0',\n            id: 1,\n            method: 'tools/call',\n\
+    \            params: { name: toolName, arguments: args || {} }\n        })\n \
+    \   });\n    if (!res.ok) throw new Error('MCP error: ' + res.status);\n    const\
+    \ rpc = await res.json();\n    if (rpc.error) throw new Error(rpc.error.message\
+    \ || 'MCP RPC error');\n    const text = rpc.result?.content?.[0]?.text;\n   \
+    \ if (!text) return null;\n    try { return JSON.parse(text); } catch { return\
+    \ text; }\n}\n\n// \u2500\u2500\u2500 Generate short chat summary from tool name\
+    \ \u2500\u2500\u2500\nfunction makeShortSummary(toolName, fullContent, toolCount)\
+    \ {\n    // Handle bulk operations (x7) suffix\n    const baseTool = toolName.replace(/\\\
+    s*\\(x\\d+\\)$/, '');\n    const bulkCount = toolCount || 1;\n\n    const toolMap\
+    \ = {\n        'dctrack_list_locations': '\U0001F4CD Fetched **locations**',\n\
+    \        'dctrack_list_cabinets': '\U0001F4E6 Fetched **cabinets**',\n       \
+    \ 'dctrack_list_connections': '\U0001F517 Fetched **connections**',\n        'dctrack_list_models':\
+    \ '\U0001F4CB Fetched **models**',\n        'dctrack_search_items': '\U0001F50D\
+    \ Searched **items**',\n        'dctrack_get_item': '\U0001F4C4 Retrieved **item\
+    \ details**',\n        'dctrack_get_location': '\U0001F4CD Retrieved **location\
+    \ details**',\n        'dctrack_get_cabinet': '\U0001F4E6 Retrieved **cabinet\
+    \ details**',\n        'dctrack_get_cabinet_items': '\U0001F4E6 Fetched **cabinet\
+    \ items**',\n        'dctrack_get_cabinet_capacity': '\U0001F4CA Fetched **cabinet\
+    \ capacity**',\n        'dctrack_get_connection': '\U0001F517 Retrieved **connection\
+    \ details**',\n        'dctrack_get_model': '\U0001F4CB Retrieved **model details**',\n\
+    \        'dctrack_list_items': '\U0001F4C4 Fetched all **items**',\n        'dctrack_create_cabinet':\
+    \ '\U0001F4E6 Created **cabinet' + (bulkCount > 1 ? 's** (x' + bulkCount + ')'\
+    \ : '**'),\n        'dctrack_create_item': '\U0001F4C4 Created **item' + (bulkCount\
+    \ > 1 ? 's** (x' + bulkCount + ')' : '**'),\n        'dctrack_create_connection':\
+    \ '\U0001F517 Created **connection' + (bulkCount > 1 ? 's** (x' + bulkCount +\
+    \ ')' : '**'),\n        'dctrack_update_item': '\u270F\uFE0F Updated **item' +\
+    \ (bulkCount > 1 ? 's** (x' + bulkCount + ')' : '**'),\n        'dctrack_delete_item':\
+    \ '\U0001F5D1\uFE0F Deleted **item' + (bulkCount > 1 ? 's** (x' + bulkCount +\
+    \ ')' : '**'),\n        'dctrack_create_location': '\U0001F4CD Created **location**',\n\
+    \        'dctrack_create_model': '\U0001F4CB Created **model**',\n        'dctrack_create_project':\
+    \ '\U0001F4C1 Created **project**',\n        'poweriq_list_pdus': '\u26A1 Fetched\
+    \ **PDUs**',\n        'poweriq_list_racks': '\U0001F5C4\uFE0F Fetched **racks**',\n\
+    \        'poweriq_list_sensors': '\U0001F321\uFE0F Fetched **sensors**',\n   \
+    \     'poweriq_list_outlets': '\U0001F50C Fetched **outlets**',\n        'poweriq_get_pdu':\
+    \ '\u26A1 Retrieved **PDU details**',\n        'poweriq_list_events': '\U0001F4CB\
+    \ Fetched **events**',\n        'poweriq_list_alarms': '\U0001F6A8 Fetched **alarms**',\n\
+    \        'dcim_get_health_status': '\U0001F49A Checked **system health**',\n \
+    \   };\n\n    if (toolMap[baseTool]) return toolMap[baseTool];\n\n    // Generate\
+    \ from tool name pattern\n    const clean = toolName.replace(/^(dctrack_|poweriq_|dcim_)/,\
+    \ '').replace(/_/g, ' ');\n    return '\u2705 Executed **' + clean + '**';\n}\n\
+    \nfunction extractContent(data) {\n    if (typeof data === 'string') {\n     \
+    \   try { data = JSON.parse(data); } catch(e) { return data; }\n    }\n    if\
+    \ (data.choices && data.choices[0] && data.choices[0].message) return data.choices[0].message.content;\n\
+    \    if (data.response) return data.response;\n    if (data.content) return data.content;\n\
+    \    if (data.message) return data.message;\n    return JSON.stringify(data, null,\
+    \ 2);\n}\n\n// \u2500\u2500\u2500 Data Viewer \u2500\u2500\u2500\nfunction displayData(rawData,\
+    \ toolName) {\n    currentRawData = rawData;\n\n    toolBadge.textContent = toolName\
+    \ || 'API Result';\n    toolBadge.classList.add('visible');\n\n    let rows =\
+    \ extractRows(rawData);\n\n    if (rows && rows.length > 0) {\n        renderTable(rows);\n\
+    \        document.getElementById('statRows').textContent = rows.length;\n    \
+    \    document.getElementById('statCols').textContent = Object.keys(rows[0]).length;\n\
+    \    } else {\n        tableView.innerHTML = '<div style=\"padding:24px;color:var(--text-muted);font-size:0.85rem;\"\
+    >Response is not tabular. Switch to <strong>JSON</strong> view.</div>';\n    \
+    \    tableView.style.display = 'block';\n        document.getElementById('statRows').textContent\
+    \ = '\u2014';\n        document.getElementById('statCols').textContent = '\u2014\
+    ';\n    }\n\n    document.getElementById('statTool').textContent = toolName ||\
+    \ '\u2014';\n    dataStats.style.display = 'flex';\n    dataEmpty.style.display\
+    \ = 'none';\n\n    jsonView.innerHTML = '<pre>' + syntaxHighlight(JSON.stringify(rawData,\
+    \ null, 2)) + '</pre>';\n    switchView(currentView);\n}\n\nfunction extractRows(data)\
+    \ {\n    if (!data) return null;\n    if (Array.isArray(data)) return data.length\
+    \ > 0 && typeof data[0] === 'object' ? data : null;\n    const keys = ['positions','result','items','searchResults','locations','cabinets','connections',\n\
+    \                  'models','pdus','racks','sensors','outlets','readings',\n \
+    \                 'events','alarms','results','data','records','list',\n     \
+    \             'tickets','requests','projects','ports','makes'];\n    for (const\
+    \ k of keys) {\n        if (data[k] && Array.isArray(data[k]) && data[k].length\
+    \ > 0) return data[k];\n    }\n    if (data.searchResults && data.searchResults.items)\
+    \ return data.searchResults.items;\n    if (typeof data === 'object' && !Array.isArray(data))\
+    \ return [data];\n    return null;\n}\n\nfunction renderTable(rows) {\n    if\
+    \ (!rows || rows.length === 0) {\n        tableView.innerHTML = '';\n        tableView.style.display\
+    \ = 'block';\n        return;\n    }\n\n    // Human-readable columns first \u2014\
+    \ names, types, status, context\n    // IDs and system flags go to JSON view\n\
+    \    const priority = [\n        // Names & identifiers humans care about\n  \
+    \      'tiName','name','tiLocationName','tiLocationCode','tiNodeCode',\n     \
+    \   'locationName','data_center_name',\n        // Type / classification\n   \
+    \     'cmbHierarchyLevel','tiClass','cmbSubclass','type','locationType',\n   \
+    \     'model','make','subclass',\n        // Relationships / context\n       \
+    \ 'tiParentLocationCode','cmbLocation','cmbCabinet','parentName',\n        //\
+    \ Cabinet item details\n        'className','mounting','cmbUPosition','tiRackUnits',\n\
+    \        // Status & state\n        'cmbStatus','status','severity','cmbPhase',\n\
+    \        // Key attributes\n        'description','tiSerialNumber','tiAssetTag','value',\n\
+    \        'tiLocationArea','tiRoomWidth','tiRoomLength',\n        'tiAddressCity','tiAddressState','cmbAddressCountry',\n\
+    \        // Power / capacity\n        'rating','voltage','current','power','energy',\n\
+    \        'pdu_name','rack_name','outlet_name',\n        // Useful booleans\n \
+    \       'chkContainsAssets',\n    ];\n\n    // Columns to always hide in table\
+    \ (system internals \u2014 use JSON for these)\n    const hidden = new Set([\n\
+    \        'id','localeId','customFields','cbDefaultSite',\n        'chkFullIntegration','chkEnableVPC','chkVpcAcPower',\n\
+    \        'tiLatitude','tiLongitude','tiRaisedFloorHeight',\n        'tiAddressStreet','tiAddressZip',\n\
+    \        'tiOwnerName','pdu_id','rack_id','outlet_id',\n        'sensor_id','item_id','itemId','modelId','cabinetId',\n\
+    \        'locationId','parentId','sourceItemId','destItemId',\n        'createdBy','updatedBy','createdAt','updatedAt',\n\
+    \        'requestId','connectionId','projectId',\n        // dcTrack internal\
+    \ fields from getCabinetItems\n        '_isItemEditable','_isItemDeletable','_isItemViewable',\n\
+    \        'subClassId','subClassName','subClassCode',\n        'classId','classCode','formFactor',\n\
+    \        'tiWeight','tiEffectivePower','tiPotentialPower',\n        'radioRailsUsed',\n\
+    \    ]);\n\n    const allKeys = new Set();\n    rows.forEach(r => Object.keys(r).forEach(k\
+    \ => allKeys.add(k)));\n\n    const cols = [...allKeys].filter(k => {\n      \
+    \  if (hidden.has(k)) return false;\n        const sample = rows.find(r => r[k]\
+    \ != null);\n        if (sample && typeof sample[k] === 'object') return false;\n\
+    \        return true;\n    }).sort((a, b) => {\n        const ai = priority.indexOf(a),\
+    \ bi = priority.indexOf(b);\n        if (ai >= 0 && bi >= 0) return ai - bi;\n\
+    \        if (ai >= 0) return -1;\n        if (bi >= 0) return 1;\n        return\
+    \ a.localeCompare(b);\n    });\n\n    const displayCols = cols.slice(0, 10);\n\
+    \n    // Clean column headers for humans\n    function cleanHeader(col) {\n  \
+    \      const map = {\n            'tiName': 'Name', 'tiLocationName': 'Name',\
+    \ 'tiLocationCode': 'Location Path',\n            'cmbHierarchyLevel': 'Type',\
+    \ 'tiParentLocationCode': 'Parent',\n            'tiClass': 'Class', 'cmbSubclass':\
+    \ 'Subclass', 'cmbLocation': 'Location',\n            'cmbCabinet': 'Cabinet',\
+    \ 'cmbStatus': 'Status', 'cmbPhase': 'Phase',\n            'tiSerialNumber': 'Serial\
+    \ #', 'tiAssetTag': 'Asset Tag',\n            'tiLocationArea': 'Area (sqft)',\
+    \ 'tiRoomWidth': 'Width', 'tiRoomLength': 'Length',\n            'tiNodeCode':\
+    \ 'Code', 'tiAddressCity': 'City', 'tiAddressState': 'State',\n            'cmbAddressCountry':\
+    \ 'Country', 'chkContainsAssets': 'Has Assets',\n            'data_center_name':\
+    \ 'Data Center', 'locationType': 'Type',\n            'locationName': 'Name',\
+    \ 'parentName': 'Parent',\n            'className': 'Class', 'mounting': 'Mounting',\
+    \ 'cmbUPosition': 'U Position',\n            'tiRackUnits': 'RU Size', 'cmbMake':\
+    \ 'Make', 'cmbModel': 'Model',\n        };\n        if (map[col]) return map[col];\n\
+    \        // Strip common prefixes and camelCase \u2192 Title Case\n        let\
+    \ s = col.replace(/^(ti|cmb|chk|cb)/, '');\n        s = s.replace(/([a-z])([A-Z])/g,\
+    \ '$1 $2');\n        s = s.replace(/_/g, ' ');\n        return s.charAt(0).toUpperCase()\
+    \ + s.slice(1);\n    }\n\n    let html = '<table class=\"data-table\" id=\"dataTable\"\
+    ><thead>';\n    // Header row\n    html += '<tr><th class=\"row-num-header\">#</th>';\n\
+    \    displayCols.forEach(c => { html += '<th title=\"' + escapeHtml(c) + '\">'\
+    \ + escapeHtml(cleanHeader(c)) + '</th>'; });\n    html += '</tr>';\n    // Filter\
+    \ row\n    html += '<tr class=\"filter-row\"><th></th>';\n    displayCols.forEach((c,\
+    \ i) => {\n        html += '<th><input type=\"text\" placeholder=\"Filter...\"\
+    \ data-col=\"' + i + '\" onkeyup=\"filterTable(this)\"></th>';\n    });\n    html\
+    \ += '</tr></thead><tbody>';\n\n    rows.forEach((row, idx) => {\n        html\
+    \ += '<tr data-row-idx=\"' + idx + '\">';\n        html += '<td class=\"row-num\"\
+    >' + (idx + 1) + '</td>';\n        displayCols.forEach(c => {\n            let\
+    \ val = row[c];\n            if (val === null || val === undefined) val = '\u2014\
+    ';\n            const isNum = typeof val === 'number';\n            html += '<td'\
+    \ + (isNum ? ' class=\"number\"' : '') + ' title=\"' + escapeHtml(String(val))\
+    \ + '\">' + escapeHtml(String(val)) + '</td>';\n        });\n        html += '</tr>';\n\
+    \    });\n\n    html += '</tbody></table>';\n    if (cols.length > 10) {\n   \
+    \     html += '<div style=\"padding:8px 14px;font-size:0.7rem;color:var(--text-muted);\"\
+    >Showing ' + displayCols.length + ' key columns. Switch to JSON for all ' + allKeys.size\
+    \ + ' fields.</div>';\n    }\n\n    tableView.innerHTML = html;\n    tableView.style.display\
+    \ = 'block';\n}\n\nfunction filterTable(input) {\n    const table = document.getElementById('dataTable');\n\
+    \    if (!table) return;\n    const tbody = table.querySelector('tbody');\n  \
+    \  if (!tbody) return;\n\n    // Collect all active filters\n    const filters\
+    \ = {};\n    table.querySelectorAll('.filter-row input').forEach(inp => {\n  \
+    \      const val = inp.value.toLowerCase().trim();\n        if (val) filters[parseInt(inp.dataset.col)]\
+    \ = val;\n    });\n\n    // Apply filters to each row\n    let visibleCount =\
+    \ 0;\n    tbody.querySelectorAll('tr').forEach(tr => {\n        const cells =\
+    \ tr.querySelectorAll('td:not(.row-num)');\n        let show = true;\n       \
+    \ for (const [colIdx, filterVal] of Object.entries(filters)) {\n            const\
+    \ cell = cells[parseInt(colIdx)];\n            if (cell && !cell.textContent.toLowerCase().includes(filterVal))\
+    \ {\n                show = false;\n                break;\n            }\n  \
+    \      }\n        tr.classList.toggle('filtered-out', !show);\n        if (show)\
+    \ {\n            visibleCount++;\n            tr.querySelector('.row-num').textContent\
+    \ = visibleCount;\n        }\n    });\n\n    // Update stats\n    const statRows\
+    \ = document.getElementById('statRows');\n    const totalRows = tbody.querySelectorAll('tr').length;\n\
+    \    if (Object.keys(filters).length > 0) {\n        statRows.textContent = visibleCount\
+    \ + ' / ' + totalRows;\n    } else {\n        statRows.textContent = totalRows;\n\
+    \    }\n}\n\nfunction syntaxHighlight(json) {\n    json = escapeHtml(json);\n\
+    \    return json.replace(/(\"(\\\\u[a-zA-Z0-9]{4}|\\\\[^u]|[^\\\\\"])*\"(\\s*:)?|\\\
+    b(true|false|null)\\b|-?\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d+)?)/g, function(m) {\n\
+    \        let c = 'json-number';\n        if (/^\"/.test(m)) { c = /:$/.test(m)\
+    \ ? 'json-key' : 'json-string'; }\n        else if (/true|false/.test(m)) { c\
+    \ = 'json-bool'; }\n        else if (/null/.test(m)) { c = 'json-null'; }\n  \
+    \      return '<span class=\"' + c + '\">' + m + '</span>';\n    });\n}\n\nfunction\
+    \ switchView(view) {\n    currentView = view;\n    document.querySelectorAll('.data-tab').forEach(t\
+    \ => t.classList.toggle('active', t.dataset.view === view));\n    tableView.style.display\
+    \ = view === 'table' ? 'block' : 'none';\n    jsonView.style.display = view ===\
+    \ 'json' ? 'block' : 'none';\n}\n\n// \u2500\u2500\u2500 Clear Data Viewer (reset\
+    \ to empty state) \u2500\u2500\u2500\nfunction clearDataViewer() {\n    currentRawData\
+    \ = null;\n    dataEmpty.style.display = 'flex';\n    tableView.innerHTML = '';\n\
+    \    tableView.style.display = 'none';\n    jsonView.innerHTML = '';\n    jsonView.style.display\
+    \ = 'none';\n    dataStats.style.display = 'none';\n    toolBadge.classList.remove('visible');\n\
+    \    resetDataViewerEmpty();\n}\n\n// \u2500\u2500\u2500 Data Viewer Loading State\
+    \ \u2500\u2500\u2500\nfunction showDataViewerLoading() {\n    currentRawData =\
+    \ null;\n    tableView.innerHTML = '';\n    tableView.style.display = 'none';\n\
+    \    jsonView.innerHTML = '';\n    jsonView.style.display = 'none';\n    dataStats.style.display\
+    \ = 'none';\n    toolBadge.classList.remove('visible');\n    // Show spinner state\n\
+    \    dataEmpty.style.display = 'flex';\n    dataEmpty.classList.add('loading');\n\
+    \    dataEmpty.querySelector('h3').textContent = 'Processing\u2026';\n    dataEmpty.querySelector('p').textContent\
+    \ = 'Waiting for results from the API.';\n    // Swap icon to a loader circle\n\
+    \    dataEmpty.querySelector('.data-empty-icon').innerHTML =\n        '<svg viewBox=\"\
+    0 0 24 24\" stroke-width=\"1.5\"><path stroke-linecap=\"round\" stroke-linejoin=\"\
+    round\" d=\"M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181\
+    \ 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182M20.016\
+    \ 4.356v4.992\"/></svg>';\n}\n\nfunction resetDataViewerEmpty() {\n    dataEmpty.classList.remove('loading');\n\
+    \    dataEmpty.querySelector('h3').textContent = 'No data yet';\n    dataEmpty.querySelector('p').textContent\
+    \ = 'Ask a question in the chat and the API response will appear here as a table\
+    \ with sortable columns.';\n    dataEmpty.querySelector('.data-empty-icon').innerHTML\
+    \ =\n        '<svg viewBox=\"0 0 24 24\" stroke-width=\"1.5\"><path stroke-linecap=\"\
+    round\" stroke-linejoin=\"round\" d=\"M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25\
+    \ 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75\
+    \ 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25\
+    \ 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25\
+    \ 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5\
+    \ 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118\
+    \ 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z\"/></svg>';\n}\n\n// \u2500\u2500\u2500\
+    \ Clear \u2500\u2500\u2500\nfunction clearChat() {\n    messagesEl.innerHTML =\
+    \ '';\n    messageHistory = [];\n    suggestionsEl.style.display = 'flex';\n \
+    \   clearDataViewer();\n}\n\n// \u2500\u2500\u2500 Health \u2500\u2500\u2500\n\
+    async function checkHealth() {\n    try {\n        const r = await fetch(MCP_URL\
+    \ + '/health');\n        if (r.ok) {\n            document.getElementById('statusDot').classList.remove('offline');\n\
+    \            document.getElementById('statusText').textContent = 'Connected';\n\
+    \        } else throw 0;\n    } catch {\n        document.getElementById('statusDot').classList.add('offline');\n\
+    \        document.getElementById('statusText').textContent = 'Offline';\n    }\n\
+    }\n\ncheckHealth();\nsetInterval(checkHealth, 30000);\nchatInput.focus();\n\n\
+    // BroadcastChannel listener for demo prompt runner (cross-tab communication)\n\
+    try {\n    const demoChannel = new BroadcastChannel('dctrack-demo');\n    // Announce\
+    \ chat is ready\n    demoChannel.postMessage({ type: 'chat-ready' });\n    demoChannel.onmessage\
+    \ = (event) => {\n        if (event.data && event.data.type === 'ping') {\n  \
+    \          // Respond to pings so prompt runner knows we're connected\n      \
+    \      demoChannel.postMessage({ type: 'chat-ack' });\n        }\n        if (event.data\
+    \ && event.data.type === 'set-prompt') {\n            const text = event.data.text;\n\
+    \            chatInput.value = '';\n            chatInput.focus();\n         \
+    \   chatInput.style.transition = 'box-shadow 0.3s';\n            chatInput.style.boxShadow\
+    \ = '0 0 12px rgba(247, 148, 29, 0.6)';\n            // Typewriter effect \u2014\
+    \ character by character\n            let i = 0;\n            const speed = Math.max(15,\
+    \ Math.min(40, 1500 / text.length)); // adaptive speed, 1.5s total target\n  \
+    \          function typeNext() {\n                if (i < text.length) {\n   \
+    \                 chatInput.value += text[i];\n                    chatInput.style.height\
+    \ = 'auto';\n                    chatInput.style.height = chatInput.scrollHeight\
+    \ + 'px';\n                    i++;\n                    setTimeout(typeNext,\
+    \ speed);\n                } else {\n                    chatInput.style.boxShadow\
+    \ = '';\n                    demoChannel.postMessage({ type: 'chat-ack' });\n\
+    \                }\n            }\n            typeNext();\n        }\n    };\n\
+    } catch (e) {\n    console.log('BroadcastChannel not supported:', e);\n}\n</script>\n\
+    </body>\n</html>\n"
+kind: ConfigMap
+metadata:
+  name: dctrack-chat-ui-html

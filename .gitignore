@@ -1,0 +1,25 @@
+# ── Secrets / credentials — NEVER commit ─────────────────────────────
+secrets/
+migration/**/secrets/
+*.kubeconfig
+kubeconfig
+auth/
+pull-secret*.json
+*-credentials.env
+credentials.env
+*.pem
+*.key
+
+# ── OpenShift installer artifacts ────────────────────────────────────
+install/_artifacts/
+install/agent.*.iso
+install/*.iso
+.openshift_install*
+agent-config.yaml
+install-config.yaml
+# (only the *.tpl templates are tracked; rendered configs contain secrets)
+
+# ── Misc ─────────────────────────────────────────────────────────────
+.DS_Store
+*.log
+*.tmp

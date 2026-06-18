@@ -1,0 +1,42 @@
+# Reconstructed Dockerfile for sunbird-mcp-server
+# ─────────────────────────────────────────────────────────────────────
+# The original build was an OpenShift "Binary + Docker" build — the build
+# context (incl. the real Dockerfile) was uploaded at `oc start-build` time
+# and is NOT stored anywhere in the cluster. This file is reconstructed from
+# the running image's metadata (oc get istag sunbird-mcp-server:latest):
+#
+#   Base node: 20.20.2 (yarn 1.22.22)   User: nodejs   WorkDir: /app
+#   Entrypoint: docker-entrypoint.sh    Cmd: node dist/main.js
+#   Env: NODE_ENV=production, MCP_PORT=8080   Port: 8080
+#
+# `docker-entrypoint.sh` + the `nodejs` user come from the official
+# `node:20-alpine` image, so we base on that.
+# ─────────────────────────────────────────────────────────────────────
+FROM node:20.20.2-alpine
+
+ENV NODE_ENV=production \
+    MCP_PORT=8080
+
+WORKDIR /app
+
+# Install production deps from the captured lockfile (deterministic)
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
+# Pre-built JS output captured from the running pod (/app/dist)
+COPY dist ./dist
+
+USER nodejs
+EXPOSE 8080
+CMD ["node", "dist/main.js"]
+
+# To rebuild fresh on the new cluster (from this source/ directory):
+#   oc -n aitp-ai new-build --strategy=docker --binary --name=sunbird-mcp-server
+#   oc -n aitp-ai start-build sunbird-mcp-server --from-dir=. --follow
+# (rename this file to `Dockerfile` first). Then apply deployment-*.yaml.
+#
+# NOTE: package.json here is `package.json.reconstructed` (the real one was
+# mode 0600 / unreadable under the OpenShift arbitrary UID). It was rebuilt
+# from package-lock.json + image metadata. Verify scripts/deps before trusting
+# a `tsc` rebuild from TypeScript source; the captured dist/ is the real,
+# running compiled output and is sufficient to run as-is.

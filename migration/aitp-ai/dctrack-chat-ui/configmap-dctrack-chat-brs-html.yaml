@@ -1,0 +1,658 @@
+apiVersion: v1
+data:
+  brs-prompts.html: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"\
+    UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\
+    >\n    <title>BRS Prompts | DCIM Lifecycle Demo</title>\n    <link rel=\"preconnect\"\
+    \ href=\"https://fonts.googleapis.com\">\n    <link rel=\"preconnect\" href=\"\
+    https://fonts.gstatic.com\" crossorigin>\n    <link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap\"\
+    \ rel=\"stylesheet\">\n    <style>\n        :root {\n            --sunbird-orange:\
+    \ #F7941D;\n            --sunbird-orange-light: #FFAD4A;\n            --sunbird-orange-dark:\
+    \ #E07D00;\n            --iisl-blue: #1E3A5F;\n            --iisl-blue-light:\
+    \ #2C5282;\n            --bg-primary: #0A0E14;\n            --bg-secondary: #111821;\n\
+    \            --bg-tertiary: #1A2332;\n            --bg-card: #151D2B;\n      \
+    \      --bg-hover: #1F2A3C;\n            --text-primary: #F0F4F8;\n          \
+    \  --text-secondary: #A0AEC0;\n            --text-muted: #718096;\n          \
+    \  --success: #48BB78;\n            --error: #FC8181;\n            --blue: #63B3ED;\n\
+    \            --purple: #B794F4;\n            --border: rgba(255, 255, 255, 0.08);\n\
+    \            --border-highlight: rgba(247, 148, 29, 0.3);\n            --shadow-sm:\
+    \ 0 2px 8px rgba(0, 0, 0, 0.3);\n            --shadow-md: 0 4px 20px rgba(0, 0,\
+    \ 0, 0.4);\n        }\n        * { margin: 0; padding: 0; box-sizing: border-box;\
+    \ }\n        body {\n            font-family: 'Plus Jakarta Sans', -apple-system,\
+    \ sans-serif;\n            background: var(--bg-primary);\n            color:\
+    \ var(--text-primary);\n            min-height: 100vh;\n        }\n\n        /*\
+    \ -- Header -- */\n        .header {\n            background: linear-gradient(135deg,\
+    \ var(--iisl-blue) 0%, var(--bg-secondary) 100%);\n            border-bottom:\
+    \ 1px solid var(--border-highlight);\n            padding: 16px 32px;\n      \
+    \      display: flex;\n            align-items: center;\n            justify-content:\
+    \ space-between;\n            position: sticky;\n            top: 0;\n       \
+    \     z-index: 100;\n            backdrop-filter: blur(12px);\n        }\n   \
+    \     .header-left {\n            display: flex;\n            align-items: center;\n\
+    \            gap: 16px;\n        }\n        .header-left h1 {\n            font-size:\
+    \ 20px;\n            font-weight: 700;\n            background: linear-gradient(135deg,\
+    \ var(--sunbird-orange), var(--sunbird-orange-light));\n            -webkit-background-clip:\
+    \ text;\n            -webkit-text-fill-color: transparent;\n        }\n      \
+    \  .header-left .subtitle {\n            font-size: 13px;\n            color:\
+    \ var(--text-muted);\n        }\n        .open-chat-btn {\n            display:\
+    \ flex;\n            align-items: center;\n            gap: 8px;\n           \
+    \ padding: 10px 20px;\n            background: linear-gradient(135deg, var(--sunbird-orange),\
+    \ var(--sunbird-orange-dark));\n            color: #fff;\n            border:\
+    \ none;\n            border-radius: 8px;\n            font-size: 14px;\n     \
+    \       font-weight: 600;\n            cursor: pointer;\n            transition:\
+    \ all 0.2s;\n            font-family: inherit;\n        }\n        .open-chat-btn:hover\
+    \ {\n            transform: translateY(-1px);\n            box-shadow: 0 4px 16px\
+    \ rgba(247, 148, 29, 0.4);\n        }\n        .connection-dot {\n           \
+    \ width: 8px; height: 8px;\n            border-radius: 50%;\n            background:\
+    \ var(--error);\n            transition: background 0.3s;\n        }\n       \
+    \ .connection-dot.connected { background: var(--success); }\n\n        /* -- Progress\
+    \ bar -- */\n        .progress-bar {\n            background: var(--bg-secondary);\n\
+    \            border-bottom: 1px solid var(--border);\n            padding: 10px\
+    \ 32px;\n            display: flex;\n            align-items: center;\n      \
+    \      gap: 16px;\n            position: sticky;\n            top: 62px;\n   \
+    \         z-index: 99;\n        }\n        .progress-track {\n            flex:\
+    \ 1;\n            height: 6px;\n            background: var(--bg-tertiary);\n\
+    \            border-radius: 3px;\n            overflow: hidden;\n        }\n \
+    \       .progress-fill {\n            height: 100%;\n            background: linear-gradient(90deg,\
+    \ var(--sunbird-orange), var(--success));\n            border-radius: 3px;\n \
+    \           transition: width 0.4s ease;\n            width: 0%;\n        }\n\
+    \        .progress-text {\n            font-size: 12px;\n            color: var(--text-muted);\n\
+    \            white-space: nowrap;\n        }\n\n        /* -- Content -- */\n\
+    \        .content {\n            max-width: 1200px;\n            margin: 0 auto;\n\
+    \            padding: 24px 32px 80px;\n        }\n\n        /* -- Phase Section\
+    \ -- */\n        .phase {\n            margin-bottom: 32px;\n        }\n     \
+    \   .phase-header {\n            display: flex;\n            align-items: center;\n\
+    \            gap: 12px;\n            padding: 14px 20px;\n            background:\
+    \ linear-gradient(135deg, var(--iisl-blue), var(--bg-tertiary));\n           \
+    \ border-radius: 10px;\n            margin-bottom: 2px;\n            cursor: pointer;\n\
+    \            user-select: none;\n            border: 1px solid var(--border);\n\
+    \            transition: border-color 0.2s;\n        }\n        .phase-header:hover\
+    \ {\n            border-color: var(--border-highlight);\n        }\n        .phase-badge\
+    \ {\n            display: inline-flex;\n            align-items: center;\n   \
+    \         justify-content: center;\n            min-width: 28px;\n           \
+    \ height: 28px;\n            padding: 0 8px;\n            background: var(--sunbird-orange);\n\
+    \            color: #fff;\n            border-radius: 6px;\n            font-size:\
+    \ 11px;\n            font-weight: 700;\n        }\n        .phase-title {\n  \
+    \          font-size: 16px;\n            font-weight: 700;\n            flex:\
+    \ 1;\n        }\n        .phase-count {\n            font-size: 12px;\n      \
+    \      color: var(--text-muted);\n            background: var(--bg-primary);\n\
+    \            padding: 4px 10px;\n            border-radius: 12px;\n        }\n\
+    \        .phase-chevron {\n            color: var(--text-muted);\n           \
+    \ transition: transform 0.2s;\n            font-size: 14px;\n        }\n     \
+    \   .phase.collapsed .phase-chevron { transform: rotate(-90deg); }\n        .phase.collapsed\
+    \ .phase-body { display: none; }\n\n        /* -- Prompt Rows -- */\n        .phase-body\
+    \ {\n            border-left: 2px solid var(--border);\n            margin-left:\
+    \ 34px;\n            padding-left: 0;\n        }\n        .prompt-row {\n    \
+    \        display: flex;\n            align-items: stretch;\n            border-bottom:\
+    \ 1px solid var(--border);\n            transition: background 0.15s;\n      \
+    \  }\n        .prompt-row:hover { background: var(--bg-hover); }\n        .prompt-row.sent\
+    \ { opacity: 0.55; }\n        .prompt-num {\n            width: 52px;\n      \
+    \      min-width: 52px;\n            display: flex;\n            align-items:\
+    \ center;\n            justify-content: center;\n            font-size: 11px;\n\
+    \            font-weight: 600;\n            color: var(--text-muted);\n      \
+    \      border-right: 1px solid var(--border);\n        }\n        .prompt-info\
+    \ {\n            flex: 1;\n            padding: 12px 16px;\n            min-width:\
+    \ 0;\n        }\n        .prompt-label {\n            font-size: 14px;\n     \
+    \       font-weight: 600;\n            margin-bottom: 6px;\n            display:\
+    \ flex;\n            align-items: center;\n            flex-wrap: wrap;\n    \
+    \        gap: 6px;\n        }\n        .prompt-text {\n            font-family:\
+    \ 'JetBrains Mono', monospace;\n            font-size: 12px;\n            color:\
+    \ var(--text-secondary);\n            line-height: 1.6;\n            white-space:\
+    \ pre-wrap;\n            word-break: break-word;\n        }\n        .prompt-expected\
+    \ {\n            margin-top: 6px;\n            font-size: 11px;\n            color:\
+    \ var(--text-muted);\n            font-style: italic;\n        }\n        .prompt-status\
+    \ {\n            width: 40px;\n            min-width: 40px;\n            display:\
+    \ flex;\n            align-items: center;\n            justify-content: center;\n\
+    \        }\n        .send-prompt-btn {\n            width: 48px;\n           \
+    \ min-width: 48px;\n            background: transparent;\n            border:\
+    \ none;\n            border-left: 1px solid var(--border);\n            color:\
+    \ var(--sunbird-orange);\n            font-size: 18px;\n            cursor: pointer;\n\
+    \            transition: all 0.15s;\n            display: flex;\n            align-items:\
+    \ center;\n            justify-content: center;\n        }\n        .send-prompt-btn:hover\
+    \ {\n            background: rgba(247, 148, 29, 0.1);\n            color: var(--sunbird-orange-light);\n\
+    \        }\n        .send-prompt-btn.sent {\n            color: var(--success);\n\
+    \        }\n\n        /* Tags */\n        .class-tag {\n            font-size:\
+    \ 10px;\n            font-weight: 600;\n            padding: 2px 8px;\n      \
+    \      border-radius: 4px;\n            text-transform: uppercase;\n         \
+    \   letter-spacing: 0.5px;\n        }\n        .class-tag.query { background:\
+    \ #1A2744; color: #63B3ED; }\n        .class-tag.verify { background: #1A362A;\
+    \ color: #48BB78; }\n        .class-tag.modify { background: #362A1A; color: #F6AD55;\
+    \ }\n        .class-tag.delete { background: #3B1A1A; color: #FC8181; }\n    \
+    \    .class-tag.cabinet { background: #2D3748; color: #E2E8F0; }\n        .class-tag.device\
+    \ { background: #2D3748; color: #90CDF4; }\n        .class-tag.network { background:\
+    \ #2D3748; color: #76E4F7; }\n        .class-tag.rack-pdu { background: #2D3748;\
+    \ color: #F687B3; }\n        .class-tag.connection { background: #2D3748; color:\
+    \ #76E4F7; }\n        .class-tag.data-port { background: #2D3748; color: #68D391;\
+    \ }\n        .class-tag.power-port { background: #2D3748; color: #F687B3; }\n\
+    \        .class-tag.power-chain { background: #2D3748; color: #FBD38D; }\n   \
+    \     .class-tag.project { background: #1A365D; color: #90CDF4; }\n        .class-tag.change-request\
+    \ { background: #362A1A; color: #FBD38D; }\n        .class-tag.work-order { background:\
+    \ #2D3748; color: #D6BCFA; }\n        .class-tag.ticket { background: #2D3748;\
+    \ color: #FEB2B2; }\n        .class-tag.summary { background: #1A365D; color:\
+    \ #90CDF4; }\n        .class-tag.capacity { background: #2D3748; color: #C6F6D5;\
+    \ }\n        .class-tag.audit { background: #2D3748; color: #FBD38D; }\n     \
+    \   .class-tag.readings { background: #2D3748; color: #FEB2B2; }\n\n        /*\
+    \ Toast */\n        .toast {\n            position: fixed;\n            bottom:\
+    \ 24px;\n            left: 50%;\n            transform: translateX(-50%) translateY(80px);\n\
+    \            background: var(--bg-tertiary);\n            color: var(--text-primary);\n\
+    \            padding: 12px 24px;\n            border-radius: 10px;\n         \
+    \   font-size: 13px;\n            border: 1px solid var(--border-highlight);\n\
+    \            box-shadow: var(--shadow-md);\n            transition: transform\
+    \ 0.3s ease;\n            z-index: 200;\n            max-width: 90vw;\n      \
+    \      white-space: nowrap;\n            overflow: hidden;\n            text-overflow:\
+    \ ellipsis;\n        }\n        .toast.visible { transform: translateX(-50%) translateY(0);\
+    \ }\n\n        /* -- Coverage Matrix -- */\n        .coverage-matrix {\n     \
+    \       margin-top: 32px;\n            background: var(--bg-card);\n         \
+    \   border: 1px solid var(--border);\n            border-radius: 12px;\n     \
+    \       padding: 24px;\n        }\n        .coverage-matrix h2 {\n           \
+    \ font-size: 18px;\n            font-weight: 700;\n            margin-bottom:\
+    \ 16px;\n            color: var(--sunbird-orange);\n            display: flex;\n\
+    \            align-items: center;\n            gap: 10px;\n        }\n       \
+    \ .coverage-matrix h2 .badge {\n            background: var(--sunbird-orange);\n\
+    \            color: #000;\n            font-size: 11px;\n            font-weight:\
+    \ 700;\n            padding: 2px 8px;\n            border-radius: 6px;\n     \
+    \   }\n        .coverage-table {\n            width: 100%;\n            border-collapse:\
+    \ collapse;\n            font-size: 13px;\n        }\n        .coverage-table\
+    \ th {\n            background: var(--bg-tertiary);\n            color: var(--sunbird-orange-light);\n\
+    \            font-weight: 600;\n            text-align: left;\n            padding:\
+    \ 10px 14px;\n            border-bottom: 2px solid var(--border-highlight);\n\
+    \            font-size: 12px;\n            text-transform: uppercase;\n      \
+    \      letter-spacing: 0.5px;\n        }\n        .coverage-table td {\n     \
+    \       padding: 8px 14px;\n            border-bottom: 1px solid var(--border);\n\
+    \            color: var(--text-secondary);\n            vertical-align: middle;\n\
+    \        }\n        .coverage-table tr:last-child td { border-bottom: none; }\n\
+    \        .coverage-table tr:hover td { background: var(--bg-hover); }\n      \
+    \  .coverage-table td:first-child {\n            font-weight: 600;\n         \
+    \   color: var(--text-primary);\n            white-space: nowrap;\n        }\n\
+    \        .coverage-table .check { color: var(--success); font-weight: 700; margin-right:\
+    \ 4px; }\n        .coverage-table .none { color: var(--text-muted); }\n      \
+    \  .coverage-table .steps { font-size: 11px; color: var(--text-muted); }\n   \
+    \     .class-type {\n            font-size: 10px;\n            padding: 1px 6px;\n\
+    \            border-radius: 3px;\n            margin-left: 6px;\n        }\n \
+    \       .class-type.rackable { background: #1A365D; color: #63B3ED; }\n      \
+    \  .class-type.governance { background: #362A1A; color: #FBD38D; }\n        .class-type.connectivity\
+    \ { background: #1A362A; color: #48BB78; }\n\n        @media (max-width: 768px)\
+    \ {\n            .header { padding: 12px 16px; }\n            .content { padding:\
+    \ 16px; }\n            .prompt-num { width: 44px; min-width: 44px; font-size:\
+    \ 10px; }\n            .phase-body { margin-left: 22px; }\n        }\n    </style>\n\
+    </head>\n<body>\n\n<div class=\"header\">\n    <div class=\"header-left\">\n \
+    \       <div>\n            <h1>BRS Prompts &mdash; DCIM Lifecycle Demo</h1>\n\
+    \            <div class=\"subtitle\">Discover &rarr; Configure &rarr; Expand &mdash;\
+    \ 3 Change Requests with Full Audit Trail</div>\n        </div>\n    </div>\n\
+    \    <div style=\"display:flex; align-items:center; gap:12px;\">\n        <div\
+    \ class=\"connection-dot\" id=\"connDot\" title=\"Chat tab not connected\"></div>\n\
+    \        <button class=\"open-chat-btn\" id=\"openChatBtn\">\n            <svg\
+    \ width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\
+    \ stroke-width=\"2\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2\
+    \ 2 0 0 1 2 2z\"/></svg>\n            Open Chat\n        </button>\n    </div>\n\
+    </div>\n\n<div class=\"progress-bar\">\n    <div class=\"progress-track\"><div\
+    \ class=\"progress-fill\" id=\"progressFill\"></div></div>\n    <div class=\"\
+    progress-text\" id=\"progressText\">0 / 0 prompts sent</div>\n</div>\n\n<div class=\"\
+    content\" id=\"content\"></div>\n\n<div class=\"toast\" id=\"toast\"></div>\n\n\
+    <script>\n// --- Data ---\nconst PHASES = [\n  // \u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n  // PHASE\
+    \ 1: Rack Discovery via Visual AI\n  // Story: Start by discovering what's already\
+    \ in the rack\n  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\n  {\n    id: 'phase1', title: 'Rack Discovery\
+    \ via Visual AI', badge: '1',\n    prompts: [\n      { num: '1.1', label: '\\\
+    u{1F4F7} Upload Rack Photo', prompt: '\\u27A1\\uFE0F SWITCH TO RACK DISCOVERY\
+    \ AI \\u27A1\\uFE0F\\n\\nOpen https://rack-inventory-chat.apps.ocp419.crucible.iisl.com/\\\
+    nUpload a photo of the rack cabinet.\\nAI identifies all equipment and shows an\
+    \ editable inventory.\\nClick \"Create Cabinet in dcTrack\" to push everything.\\\
+    n\\nThis creates AI-CAB-01 with all discovered items.', expected: 'AI-CAB-01 created\
+    \ with all discovered equipment.', tags: ['cabinet','device','network'] },\n \
+    \     { num: '1.2', label: 'Verify Discovery', prompt: 'What items are in cabinet\
+    \ AI-CAB-01?', expected: '10 items: 7 Dell C6100, 1 HP KVM, 1 Nexus, 1 Meraki.',\
+    \ tags: ['verify'] },\n      { num: '1.3', label: 'U-Position Map', prompt: 'Show\
+    \ U-position map for AI-CAB-01', expected: 'All items at correct U positions.\
+    \ U19+ free.', tags: ['query','cabinet'] },\n      { num: '1.4', label: 'Rack\
+    \ Summary', prompt: 'Show rack summary for AI-CAB-01', expected: '10 items, all\
+    \ Planned, no connections.', tags: ['summary','query'] },\n    ]\n  },\n\n  //\
+    \ \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\n  // PHASE 2: Create Project & 3 Change Requests\n  // Story:\
+    \ Now that items exist, create governance (tracked in Change > Tickets)\n  //\
+    \ \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\n  {\n    id: 'phase2', title: 'Project & 3 Tickets (CR-1,\
+    \ CR-2, CR-3)', badge: '2',\n    prompts: [\n      { num: '2.1', label: 'Create\
+    \ Project', prompt: 'Create a dcTrack project named \"RM01-AI-CAB-01 Lifecycle\"\
+    \ with number \"PRJ-RM01-001\", description \"Full DCIM lifecycle: Discover, Configure,\
+    \ Expand\", location \"AI-ROOM-01\", status \"In Progress\"', expected: 'Project\
+    \ created.', tags: ['project'] },\n      { num: '2.2', label: 'Verify Project',\
+    \ prompt: 'Show details of project \"RM01-AI-CAB-01 Lifecycle\"', expected: 'Project\
+    \ visible.', tags: ['verify','project'] },\n      { num: '2.3', label: 'Ticket:\
+    \ CR-1 Discovery', prompt: 'Create a ticket: \"CR-1: Rack Discovery complete.\
+    \ AI-CAB-01 populated with 10 items via Visual AI scan of existing rack.\"', expected:\
+    \ 'Ticket created (Change > Tickets in dcTrack).', tags: ['change-request'] },\n\
+    \      { num: '2.4', label: 'Ticket: CR-2 Configure', prompt: 'Create a ticket:\
+    \ \"Ticket: CR-2 Configure Existing Infrastructure. Install PDU, wire power connections\
+    \ from PDU to all devices, wire network from servers to Meraki and uplink to Nexus.\"\
+    ', expected: 'Ticket created.', tags: ['change-request'] },\n      { num: '2.5',\
+    \ label: 'Ticket: CR-3 Expand', prompt: 'Create a ticket: \"CR-3: Onboard 4 New\
+    \ Servers into AI-CAB-01 at U20-U26. Connect network to Nexus 9236C and power\
+    \ to existing PDU.\"', expected: 'Ticket created.', tags: ['change-request'] },\n\
+    \      { num: '2.6', label: 'Verify Tickets', prompt: 'List all tickets in dcTrack',\
+    \ expected: '3 tickets visible in Change > Tickets.', tags: ['verify'] },\n  \
+    \  ]\n  },\n\n  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\n  // PHASE 3-5: CR-2 \u2014 Configure Existing\
+    \ Infrastructure\n  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\n  {\n    id: 'phase3', title: 'CR-2: Install\
+    \ PDU & Set Status', badge: '3',\n    prompts: [\n      { num: '3.1', label: 'Create\
+    \ PDU', prompt: 'Create a Rack PDU named \"AI-CAB-01 178B-01 PDU 1\" in cabinet\
+    \ AI-CAB-01, make CPI, model \"Orsted EA-3019-C\", mounting ZeroU, with radioDepthPosition\
+    \ \"Back\"', expected: 'PDU created side-mounted.', tags: ['rack-pdu'] },\n  \
+    \    { num: '3.2', label: 'Fix PDU Side-Mount', prompt: 'Update \"AI-CAB-01 178B-01\
+    \ PDU 1\" setting cmbUPosition to 1 for side-mount display', expected: 'Red side\
+    \ bar visible.', tags: ['modify','rack-pdu'] },\n      { num: '3.3', label: 'Verify\
+    \ Cabinet', prompt: 'What items are in cabinet AI-CAB-01?', expected: '11 items\
+    \ including PDU.', tags: ['verify'] },\n      { num: '3.4', label: 'Show PDU Outlets',\
+    \ prompt: 'List all power ports on \"AI-CAB-01 178B-01 PDU 1\"', expected: '43\
+    \ ports: Inlet + Outlets 1-42.', tags: ['query','power-port'] },\n      { num:\
+    \ '3.5', label: 'Install Cabinet', prompt: 'Set cabinet AI-CAB-01 to status Installed\
+    \ with row label \"Row-A\" and row position 1', expected: 'Cabinet Installed.',\
+    \ tags: ['modify','cabinet'] },\n      { num: '3.6', label: 'Install Servers',\
+    \ prompt: 'Set these items to Installed:\\n- \"AI-CAB-01 DELL POWEREDGE-C6100\
+    \ U1\"\\n- \"AI-CAB-01 DELL POWEREDGE-C6100 U3\"\\n- \"AI-CAB-01 DELL POWEREDGE-C6100\
+    \ U5\"\\n- \"AI-CAB-01 DELL POWEREDGE-C6100 U7\"\\n- \"AI-CAB-01 DELL POWEREDGE-C6100\
+    \ U12\"\\n- \"AI-CAB-01 DELL POWEREDGE-C6100 U15\"\\n- \"AI-CAB-01 DELL POWEREDGE-C6100\
+    \ U17\"', expected: '7 servers Installed.', tags: ['modify','device'] },\n   \
+    \   { num: '3.7', label: 'Install KVM, Switches, PDU', prompt: 'Set these items\
+    \ to Installed:\\n- \"AI-CAB-01 HP AF630A-KVM U14\"\\n- \"AI-CAB-01 CISCO NEXUS-9236C\
+    \ U10\"\\n- \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\"\\n- \"AI-CAB-01 178B-01 PDU\
+    \ 1\"', expected: 'All Installed.', tags: ['modify'] },\n    ]\n  },\n  {\n  \
+    \  id: 'phase4', title: 'CR-2: Power Connections (requires dcTrack UI)', badge:\
+    \ '4',\n    prompts: [\n      { num: '4.0', label: '\u26A0\uFE0F Power Chain Note',\
+    \ prompt: 'NOTE: dcTrack requires a complete upstream power chain (Utility \\\
+    u2192 Floor PDU \\u2192 Rack PDU Inlet) before Rack PDU outlets can connect to\
+    \ devices. This chain must be configured in dcTrack UI first. Once the PDU inlet\
+    \ is connected upstream, run the prompts below to wire outlets to devices.', expected:\
+    \ 'Skip to Phase 5 (Network) if upstream power is not configured.', tags: ['query']\
+    \ },\n      { num: '4.1', label: 'Power: Server U1', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 1 to \"AI-CAB-01 DELL POWEREDGE-C6100 U1\"\
+    \ port PS1', expected: 'Outlet 1 \\u2192 U1 PS1.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '4.2', label: 'Power: Server U3', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 2 to \"AI-CAB-01 DELL POWEREDGE-C6100 U3\"\
+    \ port PS1', expected: 'Outlet 2 \\u2192 U3 PS1.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '4.3', label: 'Power: Server U5', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 3 to \"AI-CAB-01 DELL POWEREDGE-C6100 U5\"\
+    \ port PS1', expected: 'Outlet 3 \\u2192 U5 PS1.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '4.4', label: 'Power: Server U7', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 4 to \"AI-CAB-01 DELL POWEREDGE-C6100 U7\"\
+    \ port PS1', expected: 'Outlet 4 \\u2192 U7 PS1.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '4.5', label: 'Power: Server U12', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 5 to \"AI-CAB-01 DELL POWEREDGE-C6100 U12\"\
+    \ port PS1', expected: 'Outlet 5 \\u2192 U12 PS1.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '4.6', label: 'Power: Server U15', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 6 to \"AI-CAB-01 DELL POWEREDGE-C6100 U15\"\
+    \ port PS1', expected: 'Outlet 6 \\u2192 U15 PS1.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '4.7', label: 'Power: Server U17', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 7 to \"AI-CAB-01 DELL POWEREDGE-C6100 U17\"\
+    \ port PS1', expected: 'Outlet 7 \\u2192 U17 PS1.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '4.8', label: 'Power: KVM U14', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 8 to \"AI-CAB-01 HP AF630A-KVM U14\" power\
+    \ port', expected: 'Outlet 8 \\u2192 KVM.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '4.9', label: 'Power: Nexus U10', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 9 to \"AI-CAB-01 CISCO NEXUS-9236C U10\"\
+    \ power port', expected: 'Outlet 9 \\u2192 Nexus.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '4.10', label: 'Power: Meraki U9', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 10 to \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\"\
+    \ power port', expected: 'Outlet 10 \\u2192 Meraki.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '4.11', label: 'Verify Power', prompt: 'Show all connections\
+    \ on \"AI-CAB-01 178B-01 PDU 1\"', expected: '10 power connections.', tags: ['connection','verify']\
+    \ },\n      { num: '4.12', label: 'Power Chain', prompt: 'Trace power chain for\
+    \ \"AI-CAB-01 DELL POWEREDGE-C6100 U1\"', expected: 'PDU Outlet 1 \\u2192 U1 PS1.',\
+    \ tags: ['power-chain','query'] },\n    ]\n  },\n  {\n    id: 'phase5', title:\
+    \ 'CR-2: Network Connections', badge: '5',\n    prompts: [\n      { num: '5.1',\
+    \ label: 'Create Server eth0 Ports', prompt: 'Create data port \"eth0\" on each\
+    \ of these items with connector RJ45, protocol \"Ethernet/IP\", dataRate \"1 Gbps\"\
+    , media \"Twisted Pair\":\\n\\n- \"AI-CAB-01 DELL POWEREDGE-C6100 U1\"\\n- \"\
+    AI-CAB-01 DELL POWEREDGE-C6100 U3\"\\n- \"AI-CAB-01 DELL POWEREDGE-C6100 U5\"\\\
+    n- \"AI-CAB-01 DELL POWEREDGE-C6100 U7\"\\n- \"AI-CAB-01 DELL POWEREDGE-C6100\
+    \ U12\"\\n- \"AI-CAB-01 DELL POWEREDGE-C6100 U15\"\\n- \"AI-CAB-01 DELL POWEREDGE-C6100\
+    \ U17\"\\n- \"AI-CAB-01 HP AF630A-KVM U14\"', expected: '8 eth0 ports created\
+    \ on 7 servers + KVM.', tags: ['data-port','modify'] },\n      { num: '5.3', label:\
+    \ 'Create Meraki Ports', prompt: 'Create 8 data ports on \"AI-CAB-01 CISCO MERAKI-MS250-48\
+    \ U9\": Port-1 through Port-8, each with connector RJ45, protocol \"Ethernet/IP\"\
+    , dataRate \"1 Gbps\", media \"Twisted Pair\"', expected: '8 ports created.',\
+    \ tags: ['data-port','modify'] },\n      { num: '5.3', label: 'Create Uplink Ports',\
+    \ prompt: 'Create data port \"Uplink-1\" on \"AI-CAB-01 CISCO MERAKI-MS250-48\
+    \ U9\" with connector QSFP28, protocol \"Ethernet/IP\", dataRate \"100 Gbps\"\
+    , media \"Twisted Pair\". Then create \"Uplink-1\" on \"AI-CAB-01 CISCO NEXUS-9236C\
+    \ U10\" with same settings', expected: 'Uplink ports created.', tags: ['data-port','modify']\
+    \ },\n      { num: '5.4', label: 'Network: Server U1', prompt: 'Connect \"AI-CAB-01\
+    \ DELL POWEREDGE-C6100 U1\" port eth0 to \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\"\
+    \ port Port-1', expected: 'U1 \\u2192 Meraki Port-1.', tags: ['connection','network','modify']\
+    \ },\n      { num: '5.5', label: 'Network: Server U3', prompt: 'Connect \"AI-CAB-01\
+    \ DELL POWEREDGE-C6100 U3\" port eth0 to \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\"\
+    \ port Port-2', expected: 'U3 \\u2192 Meraki Port-2.', tags: ['connection','network','modify']\
+    \ },\n      { num: '5.6', label: 'Network: Server U5', prompt: 'Connect \"AI-CAB-01\
+    \ DELL POWEREDGE-C6100 U5\" port eth0 to \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\"\
+    \ port Port-3', expected: 'U5 \\u2192 Meraki Port-3.', tags: ['connection','network','modify']\
+    \ },\n      { num: '5.7', label: 'Network: Server U7', prompt: 'Connect \"AI-CAB-01\
+    \ DELL POWEREDGE-C6100 U7\" port eth0 to \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\"\
+    \ port Port-4', expected: 'U7 \\u2192 Meraki Port-4.', tags: ['connection','network','modify']\
+    \ },\n      { num: '5.8', label: 'Network: Server U12', prompt: 'Connect \"AI-CAB-01\
+    \ DELL POWEREDGE-C6100 U12\" port eth0 to \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\"\
+    \ port Port-5', expected: 'U12 \\u2192 Meraki Port-5.', tags: ['connection','network','modify']\
+    \ },\n      { num: '5.9', label: 'Network: Server U15', prompt: 'Connect \"AI-CAB-01\
+    \ DELL POWEREDGE-C6100 U15\" port eth0 to \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\"\
+    \ port Port-6', expected: 'U15 \\u2192 Meraki Port-6.', tags: ['connection','network','modify']\
+    \ },\n      { num: '5.10', label: 'Network: Server U17', prompt: 'Connect \"AI-CAB-01\
+    \ DELL POWEREDGE-C6100 U17\" port eth0 to \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\"\
+    \ port Port-7', expected: 'U17 \\u2192 Meraki Port-7.', tags: ['connection','network','modify']\
+    \ },\n      { num: '5.11', label: 'Network: KVM U14', prompt: 'Connect \"AI-CAB-01\
+    \ HP AF630A-KVM U14\" port eth0 to \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\" port\
+    \ Port-8', expected: 'KVM \\u2192 Meraki Port-8.', tags: ['connection','network','modify']\
+    \ },\n      { num: '5.12', label: 'Uplink: Meraki \\u2192 Nexus', prompt: 'Connect\
+    \ \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\" port Uplink-1 to \"AI-CAB-01 CISCO NEXUS-9236C\
+    \ U10\" port Uplink-1', expected: 'Meraki \\u2192 Nexus uplink.', tags: ['connection','network','modify']\
+    \ },\n      { num: '5.13', label: 'Verify Network', prompt: 'Show all connections\
+    \ on \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\"', expected: '9 connections: 7 servers\
+    \ + KVM + uplink.', tags: ['connection','verify'] },\n      { num: '5.14', label:\
+    \ 'Rack Summary', prompt: 'Show rack summary for AI-CAB-01', expected: '11 items,\
+    \ 10 power + 9 network = 19 connections.', tags: ['summary','query'] },\n    \
+    \  { num: '5.15', label: 'Close CR-2', prompt: 'Find ticket \"CR-2\" and update\
+    \ it with comments \"Complete: 10 power + 9 network connections. All Installed.\"\
+    ', expected: 'CR-2 updated.', tags: ['modify','change-request'] },\n    ]\n  },\n\
+    \n  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\n  // PHASE 6-7: CR-3 \u2014 Onboard 4 New Servers\n\
+    \  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\n  {\n    id: 'phase6', title: 'CR-3: Work Orders', badge:\
+    \ '6',\n    prompts: [\n      { num: '6.1', label: 'WO-Racking', prompt: 'Create\
+    \ a ticket: \"WO-RACK-001: Mount 4 Dell VxRail S670 servers in AI-CAB-01 at U20,\
+    \ U22, U24, U26.\"', expected: 'Racking WO created.', tags: ['ticket','work-order']\
+    \ },\n      { num: '6.2', label: 'WO-Network', prompt: 'Create a ticket: \"WO-NET-001:\
+    \ Create QSFP28 ports on Nexus 9236C and connect 4 new servers.\"', expected:\
+    \ 'Network WO created.', tags: ['ticket','work-order'] },\n      { num: '6.3',\
+    \ label: 'WO-Power', prompt: 'Create a ticket: \"WO-SRV-001: Connect 4 new servers\
+    \ to PDU outlets 11-14.\"', expected: 'Power WO created.', tags: ['ticket','work-order']\
+    \ },\n      { num: '6.4', label: 'WO-Closeout', prompt: 'Create a ticket: \"WO-CLN-001:\
+    \ Validate all new connections and signoff.\"', expected: 'Closeout WO created.',\
+    \ tags: ['ticket','work-order'] },\n      { num: '6.5', label: 'Verify WOs', prompt:\
+    \ 'List all tickets in dcTrack', expected: '3 CRs + 4 WOs visible.', tags: ['verify','ticket']\
+    \ },\n    ]\n  },\n  {\n    id: 'phase7', title: 'CR-3: Add Servers, Network &\
+    \ Power', badge: '7',\n    prompts: [\n      // -- Create & install servers --\n\
+    \      { num: '7.1', label: 'Create 4 Servers', prompt: 'Create the following\
+    \ Dell VxRail S670 servers in cabinet AI-CAB-01:\\n\\n- \"AI-CAB-01 VxRail S670\
+    \ SRV-01\" at U20\\n- \"AI-CAB-01 VxRail S670 SRV-02\" at U22\\n- \"AI-CAB-01\
+    \ VxRail S670 SRV-03\" at U24\\n- \"AI-CAB-01 VxRail S670 SRV-04\" at U26', expected:\
+    \ '4 servers created.', tags: ['device'] },\n      { num: '7.2', label: 'Install\
+    \ Servers', prompt: 'Set these items to Installed: \"AI-CAB-01 VxRail S670 SRV-01\"\
+    , \"AI-CAB-01 VxRail S670 SRV-02\", \"AI-CAB-01 VxRail S670 SRV-03\", \"AI-CAB-01\
+    \ VxRail S670 SRV-04\"', expected: '4 servers Installed.', tags: ['modify','device']\
+    \ },\n      { num: '7.3', label: 'Verify Contents', prompt: 'What items are in\
+    \ cabinet AI-CAB-01?', expected: '15 items: 11 existing + 4 VxRail S670 servers.',\
+    \ tags: ['verify'] },\n      { num: '7.4', label: 'Close WO-Racking', prompt:\
+    \ 'Find ticket WO-RACK-001 and update it with comments \"4 VxRail S670 servers\
+    \ mounted at U20, U22, U24, U26\"', expected: 'WO updated.', tags: ['modify','ticket']\
+    \ },\n\n      // -- Network to Nexus --\n      { num: '7.5', label: 'Create Server\
+    \ eth0 Ports', prompt: 'Create data port \"qsfp0\" on each new server with connector\
+    \ QSFP28, protocol \"Ethernet/IP\", dataRate \"100 Gbps\", media \"Twisted Pair\"\
+    : \"AI-CAB-01 VxRail S670 SRV-01\", \"AI-CAB-01 VxRail S670 SRV-02\", \"AI-CAB-01\
+    \ VxRail S670 SRV-03\", \"AI-CAB-01 VxRail S670 SRV-04\"', expected: '4 eth0 ports\
+    \ created.', tags: ['data-port','modify'] },\n      { num: '7.7', label: 'Create\
+    \ Nexus Ports', prompt: 'Create 4 data ports on \"AI-CAB-01 CISCO NEXUS-9236C\
+    \ U10\": Port-13, Port-14, Port-15, Port-16, each with connector QSFP28, protocol\
+    \ \"Ethernet/IP\", dataRate \"100 Gbps\", media \"Twisted Pair\"', expected: '4\
+    \ ports created.', tags: ['data-port','modify'] },\n      { num: '7.7', label:\
+    \ 'Network: SRV-01', prompt: 'Connect \"AI-CAB-01 VxRail S670 SRV-01\" port qsfp0\
+    \ to \"AI-CAB-01 CISCO NEXUS-9236C U10\" port Port-13', expected: 'SRV-01 \\u2192\
+    \ Nexus Port-13.', tags: ['connection','network','modify'] },\n      { num: '7.8',\
+    \ label: 'Network: SRV-02', prompt: 'Connect \"AI-CAB-01 VxRail S670 SRV-02\"\
+    \ port qsfp0 to \"AI-CAB-01 CISCO NEXUS-9236C U10\" port Port-14', expected: 'SRV-02\
+    \ \\u2192 Nexus Port-14.', tags: ['connection','network','modify'] },\n      {\
+    \ num: '7.9', label: 'Network: SRV-03', prompt: 'Connect \"AI-CAB-01 VxRail S670\
+    \ SRV-03\" port qsfp0 to \"AI-CAB-01 CISCO NEXUS-9236C U10\" port Port-15', expected:\
+    \ 'SRV-03 \\u2192 Nexus Port-15.', tags: ['connection','network','modify'] },\n\
+    \      { num: '7.10', label: 'Network: SRV-04', prompt: 'Connect \"AI-CAB-01 VxRail\
+    \ S670 SRV-04\" port qsfp0 to \"AI-CAB-01 CISCO NEXUS-9236C U10\" port Port-16',\
+    \ expected: 'SRV-04 \\u2192 Nexus Port-16.', tags: ['connection','network','modify']\
+    \ },\n      { num: '7.11', label: 'Close WO-Network', prompt: 'Find ticket WO-NET-001\
+    \ and update it with comments \"4 VxRail S670 servers connected to Nexus ports\
+    \ 13-16\"', expected: 'WO updated.', tags: ['modify','ticket'] },\n\n      //\
+    \ -- Power to PDU --\n      { num: '7.10a', label: '\u26A0\uFE0F Power Note',\
+    \ prompt: 'NOTE: Power connections require upstream chain configured in dcTrack\
+    \ UI. Skip if not set up.', expected: 'Skip power prompts if upstream not configured.',\
+    \ tags: ['query'] },\n      { num: '7.12', label: 'Power: SRV-01', prompt: 'Connect\
+    \ power from \"AI-CAB-01 178B-01 PDU 1\" Outlet 11 to \"AI-CAB-01 VxRail S670\
+    \ SRV-01\" port PS1', expected: 'Outlet 11 \\u2192 SRV-01 PS1.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '7.13', label: 'Power: SRV-02', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 12 to \"AI-CAB-01 VxRail S670 SRV-02\" port\
+    \ PS1', expected: 'Outlet 12 \\u2192 SRV-02 PS1.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '7.14', label: 'Power: SRV-03', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 13 to \"AI-CAB-01 VxRail S670 SRV-03\" port\
+    \ PS1', expected: 'Outlet 13 \\u2192 SRV-03 PS1.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '7.15', label: 'Power: SRV-04', prompt: 'Connect power from\
+    \ \"AI-CAB-01 178B-01 PDU 1\" Outlet 14 to \"AI-CAB-01 VxRail S670 SRV-04\" port\
+    \ PS1', expected: 'Outlet 14 \\u2192 SRV-04 PS1.', tags: ['connection','power-port','modify']\
+    \ },\n      { num: '7.16', label: 'Close WO-Power', prompt: 'Find ticket WO-SRV-001\
+    \ and update it with comments \"4 VxRail S670 servers connected to PDU outlets\
+    \ 11-14\"', expected: 'WO updated.', tags: ['modify','ticket'] },\n    ]\n  },\n\
+    \n  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\n  // PHASE 8: Validation & Closeout\n  // \u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\n  {\n    id: 'phase8', title: 'Validation & Closeout', badge: '8',\n \
+    \   prompts: [\n      { num: '8.1', label: 'Rack Summary', prompt: 'Show rack\
+    \ summary for AI-CAB-01', expected: '15 items, 14 power + 13 network = 27 connections.',\
+    \ tags: ['summary','query'] },\n      { num: '8.2', label: 'U-Position Map', prompt:\
+    \ 'Show U-position map for AI-CAB-01', expected: 'All 15 items at correct positions.',\
+    \ tags: ['verify','cabinet'] },\n      { num: '8.3', label: 'All Connections',\
+    \ prompt: 'Show all connections on \"AI-CAB-01 CISCO MERAKI-MS250-48 U9\" and\
+    \ \"AI-CAB-01 CISCO NEXUS-9236C U10\"', expected: '14 power + 13 network = 27\
+    \ total.', tags: ['connection','verify'] },\n      { num: '8.4', label: 'Room\
+    \ Capacity', prompt: 'Find available capacity in AI-ROOM-01', expected: 'AI-CAB-01\
+    \ utilization updated.', tags: ['capacity','query'] },\n      { num: '8.5', label:\
+    \ 'Audit Trail', prompt: 'Show recent audit trail in dcTrack', expected: 'Full\
+    \ history.', tags: ['audit','query'] },\n      { num: '8.6', label: 'Close WO-Closeout',\
+    \ prompt: 'Find ticket WO-CLN-001 and update it with comments \"All validated:\
+    \ 15 items, 27 connections. Signoff received.\"', expected: 'WO updated.', tags:\
+    \ ['modify','ticket'] },\n      { num: '8.7', label: 'Close CR-3', prompt: 'Find\
+    \ ticket \"CR-3\" and update it with comments \"4 VxRail S670 servers onboarded.\
+    \ Network to Nexus, power to PDU. All WOs complete.\"', expected: 'CR-3 updated.',\
+    \ tags: ['modify','change-request'] },\n      { num: '8.8', label: 'Complete Project',\
+    \ prompt: 'Set project \"RM01-AI-CAB-01 Lifecycle\" to status Complete', expected:\
+    \ 'Project complete.', tags: ['modify','project'] },\n    ]\n  },\n\n  // \u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\n  // PHASE 9: Cleanup (Optional)\n  // \u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+    \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n  {\n    id:\
+    \ 'phase9', title: 'Cleanup \\u2014 Restore Original State (Optional)', badge:\
+    \ '9',\n    prompts: [\n      { num: '9.1', label: 'Delete New Server Connections',\
+    \ prompt: 'Delete all connections on \"AI-CAB-01 VxRail S670 SRV-01\", \"AI-CAB-01\
+    \ VxRail S670 SRV-02\", \"AI-CAB-01 VxRail S670 SRV-03\", \"AI-CAB-01 VxRail S670\
+    \ SRV-04\"', expected: '8 connections deleted.', tags: ['connection','delete']\
+    \ },\n      { num: '9.2', label: 'Delete Existing Connections', prompt: 'Delete\
+    \ all connections on \"AI-CAB-01 178B-01 PDU 1\" and \"AI-CAB-01 CISCO MERAKI-MS250-48\
+    \ U9\"', expected: 'Remaining connections deleted.', tags: ['connection','delete']\
+    \ },\n      { num: '9.3', label: 'Delete Ports', prompt: 'Delete all custom data\
+    \ ports from Nexus and Meraki switches', expected: 'All ports deleted.', tags:\
+    \ ['data-port','delete'] },\n      { num: '9.4', label: 'Delete New Servers',\
+    \ prompt: 'Delete items: \"AI-CAB-01 VxRail S670 SRV-01\", \"AI-CAB-01 VxRail\
+    \ S670 SRV-02\", \"AI-CAB-01 VxRail S670 SRV-03\", \"AI-CAB-01 VxRail S670 SRV-04\"\
+    ', expected: '4 servers deleted.', tags: ['device','delete'] },\n      { num:\
+    \ '9.5', label: 'Delete PDU', prompt: 'Delete item \"AI-CAB-01 178B-01 PDU 1\"\
+    ', expected: 'PDU deleted.', tags: ['rack-pdu','delete'] },\n      { num: '9.6',\
+    \ label: 'Delete Tickets', prompt: 'Find and delete all tickets in dcTrack', expected:\
+    \ 'All tickets deleted.', tags: ['ticket','delete'] },\n      { num: '9.7', label:\
+    \ 'Delete Project', prompt: 'Delete project \"RM01-AI-CAB-01 Lifecycle\"', expected:\
+    \ 'Project deleted.', tags: ['project','delete'] },\n      { num: '9.8', label:\
+    \ 'Verify Clean', prompt: 'What items are in cabinet AI-CAB-01?', expected: 'Original\
+    \ 10 items (no PDU, no VxRail servers).', tags: ['verify'] },\n    ]\n  },\n];\n\
+    \n// --- Cross-tab communication via BroadcastChannel ---\nconst bc = new BroadcastChannel('dctrack-demo');\n\
+    let chatConnected = false;\n\nbc.onmessage = (e) => {\n    if (e.data?.type ===\
+    \ 'chat-ready' || e.data?.type === 'chat-ack') {\n        chatConnected = true;\n\
+    \        document.getElementById('connDot').classList.add('connected');\n    \
+    \    document.getElementById('connDot').title = 'Chat tab connected';\n    }\n\
+    };\n\n// Ping chat on load\nsetInterval(() => { bc.postMessage({ type: 'ping'\
+    \ }); }, 3000);\n\n// --- Open Chat ---\nlet chatWindow = null;\ndocument.getElementById('openChatBtn').addEventListener('click',\
+    \ () => {\n    const url = window.location.origin + '/';\n    chatWindow = window.open(url,\
+    \ 'dctrack-chat');\n    if (chatWindow) chatWindow.focus();\n});\n\n// --- Render\
+    \ ---\nconst content = document.getElementById('content');\nlet totalPrompts =\
+    \ 0;\nlet sentCount = 0;\nconst sentSet = new Set(JSON.parse(localStorage.getItem('brs-sent')\
+    \ || '[]'));\n\nPHASES.forEach(phase => {\n    totalPrompts += phase.prompts.length;\n\
+    \    const div = document.createElement('div');\n    div.className = 'phase';\n\
+    \    div.id = phase.id;\n\n    // Header\n    const header = document.createElement('div');\n\
+    \    header.className = 'phase-header';\n    header.innerHTML = `\n        <span\
+    \ class=\"phase-badge\">${phase.badge}</span>\n        <span class=\"phase-title\"\
+    >${phase.title}</span>\n        <span class=\"phase-count\">${phase.prompts.length}\
+    \ prompts</span>\n        <span class=\"phase-chevron\">\\u25BC</span>\n    `;\n\
+    \    header.addEventListener('click', () => div.classList.toggle('collapsed'));\n\
+    \    div.appendChild(header);\n\n    // Body\n    const body = document.createElement('div');\n\
+    \    body.className = 'phase-body';\n\n    phase.prompts.forEach(p => {\n    \
+    \    const row = document.createElement('div');\n        row.className = 'prompt-row'\
+    \ + (sentSet.has(p.num) ? ' sent' : '');\n        row.dataset.num = p.num;\n\n\
+    \        const tags = (p.tags || []).map(t => `<span class=\"class-tag ${t}\"\
+    >${t}</span>`).join('');\n\n        row.innerHTML = `\n            <div class=\"\
+    prompt-num\">${p.num}</div>\n            <div class=\"prompt-info\">\n       \
+    \         <div class=\"prompt-label\">${p.label} ${tags}</div>\n             \
+    \   <div class=\"prompt-text\">${escHtml(p.prompt)}</div>\n                ${p.expected\
+    \ ? `<div class=\"prompt-expected\">\\u2192 ${escHtml(p.expected)}</div>` : ''}\n\
+    \            </div>\n            <div class=\"prompt-status\"></div>\n       \
+    \     <button class=\"send-prompt-btn ${sentSet.has(p.num) ? 'sent' : ''}\" title=\"\
+    Send to Chat\">\\u27A4</button>\n        `;\n\n        const btn = row.querySelector('.send-prompt-btn');\n\
+    \        btn.addEventListener('click', () => sendToChat(p.num, row));\n      \
+    \  body.appendChild(row);\n    });\n\n    div.appendChild(body);\n    content.appendChild(div);\n\
+    });\n\n// --- Coverage Matrix ---\nconst coverageData = [\n    { cls: 'Project',\
+    \            type: 'governance',   create: '2.1',       verify: '2.2',       \
+    \   modify: '8.8',       del: '9.7' },\n    { cls: 'Tickets (CRs+WOs)', type:\
+    \ 'governance',   create: '2.3\\u20132.5, 6.1\\u20136.4', verify: '2.6, 6.5',\
+    \ modify: '5.14, 7.4, 7.10, 7.15, 8.6\\u20138.7', del: '9.6' },\n    { cls: 'Cabinet',\
+    \            type: 'rackable',     create: '1.1',       verify: '1.2\\u20131.4',\
+    \ modify: '3.5',      del: null },\n    { cls: 'Rack PDU',           type: 'rackable',\
+    \     create: '3.1',       verify: '3.3\\u20133.4', modify: '3.2',      del: '9.5'\
+    \ },\n    { cls: 'Device (Server)',    type: 'rackable',     create: '1.1, 7.1',\
+    \  verify: '1.2, 7.3',     modify: '3.6, 7.2', del: '9.4' },\n    { cls: 'Data\
+    \ Ports',         type: 'connectivity', create: '5.1\\u20135.2, 7.5', verify:\
+    \ '5.12', modify: null,      del: '9.3' },\n    { cls: 'Power Connections',  type:\
+    \ 'connectivity', create: '4.1\\u20134.10, 7.11\\u20137.14', verify: '4.11', modify:\
+    \ null, del: '9.1\\u20139.2' },\n    { cls: 'Network Connections', type: 'connectivity',\
+    \ create: '5.3\\u20135.11, 7.6\\u20137.9', verify: '5.12', modify: null, del:\
+    \ '9.1\\u20139.2' },\n    { cls: 'Rack Summary',       type: 'rackable',     create:\
+    \ null,        verify: '1.4, 5.13, 8.1', modify: null,     del: null },\n    {\
+    \ cls: 'Audit Trail',        type: 'governance',   create: null,        verify:\
+    \ '8.5',           modify: null,       del: null },\n];\n\nfunction coverageCell(steps)\
+    \ {\n    if (!steps) return '<span class=\"none\">\\u2014</span>';\n    return\
+    \ `<span class=\"check\">\\u2713</span><span class=\"steps\">${steps}</span>`;\n\
+    }\n\nconst matrixDiv = document.createElement('div');\nmatrixDiv.className = 'coverage-matrix';\n\
+    matrixDiv.innerHTML = `\n    <h2>\n        <svg width=\"20\" height=\"20\" viewBox=\"\
+    0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"\
+    3\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"\
+    7\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"14\"\
+    \ width=\"7\" height=\"7\"/></svg>\n        BRS Coverage Matrix\n        <span\
+    \ class=\"badge\">9 Phases &bull; ${totalPrompts} Prompts</span>\n    </h2>\n\
+    \    <table class=\"coverage-table\">\n        <thead>\n            <tr>\n   \
+    \             <th>Object Type</th>\n                <th>Create</th>\n        \
+    \        <th>Verify / Read</th>\n                <th>Modify / Update</th>\n  \
+    \              <th>Delete</th>\n            </tr>\n        </thead>\n        <tbody>\n\
+    \            ${coverageData.map(r => `\n                <tr>\n               \
+    \     <td>${r.cls} <span class=\"class-type ${r.type}\">${r.type === 'rackable'\
+    \ ? 'Rackable' : r.type === 'governance' ? 'Governance' : 'Connectivity'}</span></td>\n\
+    \                    <td>${coverageCell(r.create)}</td>\n                    <td>${coverageCell(r.verify)}</td>\n\
+    \                    <td>${coverageCell(r.modify)}</td>\n                    <td>${coverageCell(r.del)}</td>\n\
+    \                </tr>\n            `).join('')}\n        </tbody>\n    </table>\n\
+    `;\ncontent.appendChild(matrixDiv);\n\n// --- Phase Summary Table ---\nconst summaryData\
+    \ = [\n    { phase: '1', title: 'Rack Discovery via Visual AI', prompts: 4, requirement:\
+    \ '\\u{1F4F7} Scan rack photo \\u2192 auto-populate dcTrack with 10 items' },\n\
+    \    { phase: '2', title: 'Project & 3 Tickets (CR-1, CR-2, CR-3)', prompts: 6,\
+    \ requirement: 'Create project + CR-1 (done), CR-2 (configure), CR-3 (expand)\
+    \ \\u2014 descriptions visible' },\n    { phase: '3', title: 'CR-2: Install PDU',\
+    \ prompts: 7, requirement: 'Create CPI PDU, install all items' },\n    { phase:\
+    \ '4', title: 'CR-2: Power Connections', prompts: 12, requirement: '10 power:\
+    \ PDU outlets \\u2192 all devices' },\n    { phase: '5', title: 'CR-2: Network\
+    \ Connections', prompts: 14, requirement: '9 network: servers+KVM \\u2192 Meraki\
+    \ \\u2192 Nexus' },\n    { phase: '6', title: 'CR-3: Work Orders', prompts: 5,\
+    \ requirement: '4 WOs: Racking, Network, Power, Closeout' },\n    { phase: '7',\
+    \ title: 'CR-3: Servers + Connections', prompts: 15, requirement: '4 Dell VxRail\
+    \ S670 at U20-U26, network + power' },\n    { phase: '8', title: 'Validation &\
+    \ Closeout', prompts: 8, requirement: 'Verify all, close WOs/CRs, complete project'\
+    \ },\n    { phase: '9', title: 'Cleanup (Optional)', prompts: 8, requirement:\
+    \ 'Delete new items, restore to post-discovery state' },\n];\n\nconst summaryDiv\
+    \ = document.createElement('div');\nsummaryDiv.className = 'coverage-matrix';\n\
+    summaryDiv.style.marginTop = '24px';\nsummaryDiv.innerHTML = `\n    <h2>\n   \
+    \     <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"\
+    currentColor\" stroke-width=\"2\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0\
+    \ 2 2h12a2 2 0 0 0 2-2V8z\"/><polyline points=\"14 2 14 8 20 8\"/><line x1=\"\
+    16\" y1=\"13\" x2=\"8\" y2=\"13\"/><line x1=\"16\" y1=\"17\" x2=\"8\" y2=\"17\"\
+    /><polyline points=\"10 9 9 9 8 9\"/></svg>\n        BRS Execution Summary\n \
+    \       <span class=\"badge\">9 Phases &bull; ${totalPrompts} Prompts</span>\n\
+    \    </h2>\n    <table class=\"coverage-table\">\n        <thead>\n          \
+    \  <tr>\n                <th>Phase</th>\n                <th>Title</th>\n    \
+    \            <th style=\"text-align:center\">Prompts</th>\n                <th>BRS\
+    \ Requirement Covered</th>\n            </tr>\n        </thead>\n        <tbody>\n\
+    \            ${summaryData.map(r => `\n                <tr>\n                \
+    \    <td><span class=\"phase-badge\" style=\"font-size:11px;min-width:24px;height:24px;padding:0\
+    \ 6px;display:inline-flex;align-items:center;justify-content:center;\">${r.phase}</span></td>\n\
+    \                    <td style=\"font-weight:600;color:var(--text-primary)\">${r.title}</td>\n\
+    \                    <td style=\"text-align:center;color:var(--sunbird-orange);font-weight:700\"\
+    >${r.prompts}</td>\n                    <td>${r.requirement}</td>\n          \
+    \      </tr>\n            `).join('')}\n            <tr style=\"border-top:2px\
+    \ solid var(--border-highlight)\">\n                <td></td>\n              \
+    \  <td style=\"font-weight:700;color:var(--sunbird-orange)\">Total</td>\n    \
+    \            <td style=\"text-align:center;color:var(--sunbird-orange);font-weight:700;font-size:15px\"\
+    >${totalPrompts}</td>\n                <td style=\"color:var(--text-muted);font-style:italic\"\
+    >Full BRS lifecycle: plan \\u2192 approve \\u2192 execute \\u2192 verify \\u2192\
+    \ close</td>\n            </tr>\n        </tbody>\n    </table>\n`;\ncontent.appendChild(summaryDiv);\n\
+    \n// Count initial sent\nsentSet.forEach(n => sentCount++);\nupdateProgress();\n\
+    \nfunction escHtml(s) {\n    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"\
+    /g,'&quot;');\n}\n\nfunction sendToChat(num, row) {\n    const promptEl = row.querySelector('.prompt-text');\n\
+    \    const text = promptEl.textContent.trim();\n\n    if (!chatConnected) {\n\
+    \        showToast('\\u26A0 Chat tab not connected. Click \"Open Chat\" first.');\n\
+    \        return;\n    }\n\n    bc.postMessage({ type: 'set-prompt', text });\n\
+    \    row.classList.add('sent');\n    row.querySelector('.send-prompt-btn').classList.add('sent');\n\
+    \    sentSet.add(num);\n    sentCount = sentSet.size;\n    localStorage.setItem('brs-sent',\
+    \ JSON.stringify([...sentSet]));\n    updateProgress();\n    showToast('\\u2713\
+    \ Sent to chat: ' + text.substring(0, 60) + (text.length > 60 ? '...' : ''));\n\
+    }\n\nfunction updateProgress() {\n    const pct = totalPrompts > 0 ? (sentCount\
+    \ / totalPrompts * 100) : 0;\n    document.getElementById('progressFill').style.width\
+    \ = pct + '%';\n    document.getElementById('progressText').textContent = sentCount\
+    \ + ' / ' + totalPrompts + ' prompts sent';\n}\n\nfunction showToast(msg) {\n\
+    \    const t = document.getElementById('toast');\n    t.textContent = msg;\n \
+    \   t.classList.add('visible');\n    clearTimeout(t._timer);\n    t._timer = setTimeout(()\
+    \ => t.classList.remove('visible'), 2500);\n}\n</script>\n</body>\n</html>\n"
+kind: ConfigMap
+metadata:
+  name: dctrack-chat-brs-html

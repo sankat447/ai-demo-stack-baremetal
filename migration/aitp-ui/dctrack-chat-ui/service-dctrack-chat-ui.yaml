@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dctrack-chat-ui
+  name: dctrack-chat-ui
+spec:
+  ports:
+  - name: 80-8080
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: dctrack-chat-ui
+  sessionAffinity: None
+  type: ClusterIP
