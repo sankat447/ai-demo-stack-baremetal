@@ -1,0 +1,28 @@
+# LocalVolumeSet — auto-discovers the two 1.6 TB Samsung SAS SSDs per node and
+# publishes them as PVs under StorageClass "localblock" for ODF to consume.
+#
+# Device selection is by SIZE + type, NOT by sdX (lesson #18 — letters differ
+# per node). The 1.6 TB SSDs are the only SSD/disk drives in the 1–2 TB band;
+# the BOSS boot device (223 GB) and IDSDM (60 GB) fall outside [1000,2000] Gi
+# and are excluded. Validate on first node with: lsblk -o NAME,SIZE,ROTA,MODEL
+apiVersion: local.storage.openshift.io/v1alpha1
+kind: LocalVolumeSet
+metadata:
+  name: localblock
+  namespace: openshift-local-storage
+spec:
+  nodeSelector:
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: node-role.kubernetes.io/master   # compact cluster: OSDs live on masters
+        operator: Exists
+  storageClassName: localblock
+  volumeMode: Block          # ODF wants raw block devices
+  deviceInclusionSpec:
+    deviceTypes:
+    - disk
+    deviceMechanicalProperties:
+    - NonRotational          # SSD only
+    minSize: 1000Gi
+    maxSize: 2000Gi
+  # maxDeviceCount left unset → claim all matching (both SSDs) per node.

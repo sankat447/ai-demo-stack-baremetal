@@ -1,0 +1,27 @@
+# App-of-Apps root. ArgoCD syncs this one Application; it in turn syncs every
+# child Application under gitops/config/apps/*.yaml. Replaces the old, never-wired
+# "aitp-stack" that pointed at a placeholder repo.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: iis-ai-stack
+  namespace: openshift-gitops
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory:
+      recurse: false        # one Application per file in config/apps/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-gitops
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=false   # namespaces come from gitops/config/namespaces.yaml

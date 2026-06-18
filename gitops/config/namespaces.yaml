@@ -1,0 +1,37 @@
+# Application namespaces for the IIS-AI stack (renamed from aitp-* — third-party
+# copyright). Operator namespaces (openshift-storage, metallb-system, etc.) are
+# created by their platform manifests, not here.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: iis-ai-ai          # AI/gateway apps: langserve, portkey, sunbird-mcp, dctrack-chat-ui
+  labels:
+    iis-ai.io/tier: ai
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: iis-ai-ui          # user-facing UIs: open-webui/librechat, n8n, adminer, etc.
+  labels:
+    iis-ai.io/tier: ui
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: iis-ai-data        # stateful backends: postgres+pgvector, mongodb, redis, minio
+  labels:
+    iis-ai.io/tier: data
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: iis-ai-system      # shared platform glue: vault, keycloak/rh-sso clients, observability
+  labels:
+    iis-ai.io/tier: system
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: iis-ai-vms         # KubeVirt/CNV VM workloads (if used)
+  labels:
+    iis-ai.io/tier: vms

@@ -1,0 +1,36 @@
+# ODF StorageCluster — Internal mode over the local "localblock" PVs.
+#
+# 3 nodes × 2 SSDs = 6 OSDs at replica 3. count=2 means 2 devices per failure
+# domain (node); replica=3 spreads across the 3 nodes. dataPVCTemplate pulls
+# from StorageClass "localblock" (created by the LocalVolumeSet).
+#
+# Resulting StorageClasses once ready:
+#   ocs-storagecluster-ceph-rbd        RWO block   (default for most apps)
+#   ocs-storagecluster-cephfs          RWX file    (open-webui, n8n — need RWX)
+#   ocs-storagecluster-ceph-rgw / NooBaa S3 (object — replaces AWS S3 alongside MinIO)
+#
+# ⚠️ size below must match the real SSD usable size — validate after the
+# LocalVolumeSet provisions PVs:  oc get pv | grep localblock
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  name: ocs-storagecluster
+  namespace: openshift-storage
+spec:
+  manageNodes: false
+  monDataDirHostPath: /var/lib/rook
+  storageDeviceSets:
+  - name: ocs-deviceset-localblock
+    count: 2                 # devices per node (both 1.6 TB SSDs)
+    replica: 3               # one set per node → 3-way replication
+    portable: false          # local disks are NOT portable between nodes
+    dataPVCTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        volumeMode: Block
+        storageClassName: localblock
+        resources:
+          requests:
+            storage: 1490Gi  # ~1.6 TB usable; adjust to actual PV size
+    resources: {}            # let ODF pick defaults; nodes have 192 GB RAM

@@ -1,0 +1,26 @@
+# Red Hat OpenShift AI (RHOAI) — self-managed operator + KServe model serving.
+# NOTE: this was NOT on the old cluster; added per the brief.
+# ⚠️ NO GPUs on these nodes (lesson #17) — KServe/vLLM run CPU-only; viable only
+# for small/quantized models. Revisit serving runtimes when a GPU node exists.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: redhat-ods-operator
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: rhods-operator
+  namespace: redhat-ods-operator
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: rhods-operator
+  namespace: redhat-ods-operator
+spec:
+  channel: stable
+  installPlanApproval: Automatic
+  name: rhods-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace

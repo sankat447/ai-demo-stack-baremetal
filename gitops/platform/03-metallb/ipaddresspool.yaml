@@ -1,0 +1,24 @@
+# L2 address pool for extra LoadBalancer services.
+#
+# ⚠️ CONFIRM THIS RANGE IS FREE before applying. It must live in the node
+# subnet 192.168.102.0/24 and must NOT overlap: gateway .1, nodes .5/.6/.7,
+# api VIP .10, ingress VIP .11, or any DHCP scope. Placeholder below reserves
+# the top of the subnet — verify with your network team (docs/NETWORK_DIAGRAM.md).
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: iis-ai-lb-pool
+  namespace: metallb-system
+spec:
+  autoAssign: true
+  addresses:
+  - 192.168.102.240-192.168.102.250   # TODO: confirm free with network team
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: iis-ai-l2
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - iis-ai-lb-pool
