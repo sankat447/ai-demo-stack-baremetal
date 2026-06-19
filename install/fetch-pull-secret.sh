@@ -35,7 +35,7 @@ if ! command -v ocm >/dev/null 2>&1; then
   if ! command -v ocm >/dev/null 2>&1; then
     os="$(uname -s | tr '[:upper:]' '[:lower:]')"; arch="$(uname -m)"
     case "$arch" in x86_64) arch=amd64;; aarch64|arm64) arch=arm64;; esac
-    url="https://github.com/openshift-online/ocm-cli/releases/latest/download/ocm_${os}_${arch}"
+    url="https://github.com/openshift-online/ocm-cli/releases/latest/download/ocm-${os}-${arch}"
     info "downloading $url"
     mkdir -p "${REPO_ROOT}/bin"
     curl -fsSL "$url" -o "${REPO_ROOT}/bin/ocm" && chmod +x "${REPO_ROOT}/bin/ocm"

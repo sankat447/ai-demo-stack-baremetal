@@ -128,6 +128,18 @@ or login fails on a TLS error.
 > and needs a read-only bind account, an `ldaps://…:636` URL, and the enterprise
 > CA in a `ldap-ca` ConfigMap.
 
+**#29 — The agent ISO must be built on Linux — `nmstatectl` is required and macOS can't run it.**
+`openshift-install agent create image` validates each host's `networkConfig`
+(our bond0 NMState) with `nmstatectl`, which is Linux-only (no macOS build, no pip
+binary). On a Mac with no container runtime the build dies with
+`"nmstatectl": executable file not found`. Build on a Linux host (RHEL/Fedora:
+`dnf install nmstate`) or in a Linux container (`podman machine` + a UBI9 image
+with nmstate + openshift-install). Two related gotchas found the same run:
+(a) **ocm release assets are dash-named** (`ocm-darwin-amd64`, not `ocm_..._...`);
+(b) **the pull secret from `ocm` is pretty-printed** — compact it (`jq -c`) before
+substituting into the single-quoted `pullSecret: '...'` scalar, or the multi-line
+value spills `"auths"` to the top level and install-config fails to parse.
+
 **#28 — "Prepare the hosts" needed no destructive prep — and pre-wiping would be wrong.**
 Redfish assessment of the 3 E560F nodes (`install/idrac-boot.sh status`) showed
 they're **already UEFI**, the data SSDs are on a **Dell HBA330 in JBOD pass-through

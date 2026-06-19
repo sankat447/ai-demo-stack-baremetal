@@ -31,6 +31,11 @@ case "$GOT_VER" in
   ${TARGET_VERSION}.*) info "openshift-install $GOT_VER OK" ;;
   *) err "openshift-install is $GOT_VER but target is ${TARGET_VERSION}.x — version MUST match the cluster." ;;
 esac
+# The agent installer validates each host's networkConfig (our bond0) with
+# nmstatectl, which is Linux-only. Fail fast with guidance on macOS (lesson #29).
+command -v nmstatectl >/dev/null 2>&1 || err "nmstatectl not found — required to validate the host NMState/bond config.
+  It is Linux-only. Build this ISO on a Linux host ('dnf install nmstate') or in a
+  Linux container (podman machine + UBI9 with nmstate + openshift-install). macOS cannot run it."
 
 # ── 2. secrets ─────────────────────────────────────────────────────────────
 PULL_SECRET_FILE="${SECRETS_DIR}/pull-secret.json"
@@ -44,7 +49,9 @@ fi
 [ -f "$SSH_KEY_FILE" ]     || err "missing $SSH_KEY_FILE (see install/secrets.example.env)"
 python3 -c "import json,sys; json.load(open('$PULL_SECRET_FILE'))" \
   || err "$PULL_SECRET_FILE is not valid JSON"
-export PULL_SECRET="$(cat "$PULL_SECRET_FILE")"
+# Compact to a SINGLE LINE — ocm returns pretty-printed JSON, and a multi-line
+# value breaks the single-quoted `pullSecret: '...'` scalar in install-config.
+export PULL_SECRET="$(jq -c . "$PULL_SECRET_FILE")"
 export SSH_PUBKEY="$(cat "$SSH_KEY_FILE")"
 
 # ── 3. render templates into a fresh work dir ──────────────────────────────
