@@ -28,6 +28,9 @@ No AWS, no Terraform, no cloud IaC. Tooling: `openshift-install` (agent-based)
 ## Layout
 
 ```
+ONBOARDING.md  team handoff runbook (start here if you're new)
+deploy.sh      provision: build ISO → boot gate → install → postinstall → gitops
+destroy.sh     tear down the app stack (full wipe = re-image via deploy.sh)
 docs/        HARDWARE_INVENTORY, NETWORK_DIAGRAM, LESSONS_LEARNED  ← read these first
 install/     agent-based installer templates + generate-iso.sh + boot-instructions.md
 migration/   pre-wipe capture of custom apps (dctrack/sunbird) + 15 n8n workflows
@@ -44,15 +47,16 @@ secrets/     gitignored — pull secret, ssh key, iDRAC creds (see install/secre
   2× 1.6 TB SSD for ODF; dual 10G in **active-backup** bond.
 - TLS: self-signed wildcard via cert-manager. NTP: public RHEL pool. Egress: direct.
 
-## To build the install ISO (does NOT touch hardware)
+## Provision
 
+Full flow (see [ONBOARDING.md](ONBOARDING.md) for the runbook):
 ```bash
 # 1. create secrets/ (see install/secrets.example.env): pull-secret.json + ssh-key.pub
 # 2. install openshift-install 4.21.x on PATH
-./install/generate-iso.sh          # → install/_artifacts/agent.x86_64.iso
-# 3. boot each node from the ISO via iDRAC virtual media:
-#    see install/boot-instructions.md  (master-0 FIRST — rendezvous node)
+./deploy.sh        # builds ISO → pauses for iDRAC boot → installs → postinstall → gitops
 ```
+Or just the ISO (touches no hardware): `./install/generate-iso.sh`. Boot steps:
+[install/boot-instructions.md](install/boot-instructions.md) (master-0 first). Teardown: `./destroy.sh`.
 
 > ⚠️ Booting **wipes** the existing cluster + VxRail/vSAN. Ensure
 > [migration/](migration/README.md) capture is complete first.
