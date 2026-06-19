@@ -12,6 +12,7 @@ credentials.env
 
 # ── OpenShift installer artifacts ────────────────────────────────────
 install/_artifacts/
+install/_artifacts.*/
 install/agent.*.iso
 install/*.iso
 .openshift_install*

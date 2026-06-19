@@ -4,7 +4,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: iis-ai-ai          # AI/gateway apps: langserve, portkey, sunbird-mcp, dctrack-chat-ui
+  name: iis-ai-ai          # AI/gateway apps: langchain-server, portkey
   labels:
     iis-ai.io/tier: ai
 ---

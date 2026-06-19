@@ -150,14 +150,14 @@ All under `*.apps.ocp419.crucible.iisl.com` (host = `<route>-<namespace>`):
 | Vault | `vault-iis-ai-system` | dev mode, root token `Demo1234#` |
 | Keycloak | `keycloak-iis-ai-system` | app SSO (not the console IdP) |
 
-Custom apps: `dctrack-chat-*`, `rack-inventory-chat`, `sunbird-mcp-*` — see
-[`gitops/CUSTOM_APPS.md`](gitops/CUSTOM_APPS.md).
+DCIM/demo apps (dctrack-chat-ui, rack-inventory-chat, sunbird-mcp) are **not** in
+this stack — they live in the separate **`iis-dcim`** repo (namespace `iis-ai-dcim`).
 
 ---
 
 ## 7. Day-2 ops
 - **Import n8n workflows + recreate creds**: [`migration/README.md`](migration/README.md).
-- **Build sunbird-mcp-server** (internal image): [`gitops/CUSTOM_APPS.md`](gitops/CUSTOM_APPS.md).
+- **DCIM/Sunbird apps** (dctrack-chat-ui, rack-inventory-chat, sunbird-mcp) — deployed from the separate **`iis-dcim`** repo.
 - **Wire Active Directory** login later: `AD_APPLY=1 … ./postinstall/04-identity.sh`.
 - **Pause to save power**: bare metal — just power the nodes off via iDRAC; ODF
   tolerates a clean shutdown of all 3 (cordon/drain first for graceful).
@@ -182,7 +182,7 @@ docs/                       # HARDWARE_INVENTORY, NETWORK_DIAGRAM, LESSONS_LEARN
 install/                    # agent-based installer templates + generate-iso.sh + boot-instructions.md
 postinstall/                # 01-storage 02-metallb 03-gitops 04-identity (+ optional-keycloak-sso)
 gitops/                     # App-of-Apps (apps/) + platform operators + config/ (28-app stack)
-migration/                  # pre-wipe capture: custom apps + 15 n8n workflows
+migration/                  # pre-wipe capture: 15 n8n workflows (DCIM apps -> iis-dcim repo)
 secrets/                    # gitignored: pull secret, ssh key, AD/iDRAC creds
 ```
 

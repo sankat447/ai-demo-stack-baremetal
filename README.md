@@ -19,7 +19,7 @@ No AWS, no Terraform, no cloud IaC. Tooling: `openshift-install` (agent-based)
 |---|---|
 | Hardware + network intake | ✅ captured from operator + live `ocp419` cluster |
 | Source-of-truth docs | ✅ [HARDWARE_INVENTORY](docs/HARDWARE_INVENTORY.md), [NETWORK_DIAGRAM](docs/NETWORK_DIAGRAM.md) |
-| Pre-wipe capture of custom apps + n8n workflows | ✅ [migration/](migration/README.md) |
+| Pre-wipe capture of n8n workflows | ✅ [migration/](migration/README.md) |
 | Install configs (agent-based, OCP 4.21) | ✅ drafted — **awaiting review, nothing booted** |
 | Cluster install | ⏸ blocked on review + physical access |
 | Post-install (storage, gitops, identity) | ✅ scripts + platform operator layer authored |
@@ -33,7 +33,7 @@ deploy.sh      provision: build ISO → boot gate → install → postinstall �
 destroy.sh     tear down the app stack (full wipe = re-image via deploy.sh)
 docs/        HARDWARE_INVENTORY, NETWORK_DIAGRAM, LESSONS_LEARNED  ← read these first
 install/     agent-based installer templates + generate-iso.sh + boot-instructions.md
-migration/   pre-wipe capture of custom apps (dctrack/sunbird) + 15 n8n workflows
+migration/   pre-wipe capture of 15 n8n workflows (DCIM apps -> iis-dcim repo)
 postinstall/ storage, metallb, gitops, identity (Keycloak SSO + htpasswd break-glass)
 gitops/      (todo) App-of-Apps tree ported from the AWS repo
 secrets/     gitignored — pull secret, ssh key, iDRAC creds (see install/secrets.example.env)

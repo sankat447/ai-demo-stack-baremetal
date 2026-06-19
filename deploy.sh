@@ -93,5 +93,5 @@ ${GREEN}${BOLD}DEPLOYMENT COMPLETE${RESET}
 
   ArgoCD is syncing the app stack:
     oc get applications.argoproj.io -n openshift-gitops
-  Next: import n8n workflows + build sunbird (gitops/CUSTOM_APPS.md, migration/README.md)
+  Next: import n8n workflows (migration/README.md). DCIM/Sunbird apps live in the iis-dcim repo.
 "

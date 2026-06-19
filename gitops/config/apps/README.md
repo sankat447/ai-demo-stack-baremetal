@@ -7,7 +7,8 @@ stack lands, ported from the AWS repo with the bare-metal translations.
 **Status: ported.** Authored fresh from `sankat447/ai-demo-stack-aws/gitops` with
 the bare-metal translations below. Data/AI/system/UI tiers are wired into the
 App-of-Apps (`gitops/apps/applications.yaml`, waves 1–5). Inference is parked
-(`gitops/config/inference/`); custom migrated apps are in `gitops/CUSTOM_APPS.md`.
+(`gitops/config/inference/`). DCIM/demo-specific apps live in the separate
+`iis-dcim` repo (namespace `iis-ai-dcim`) — this stack stays generic.
 
 ## Translation rules when porting each app (from the brief)
 - **AWS S3 → MinIO** (already in-stack) or ODF RGW/NooBaa S3.
@@ -25,5 +26,3 @@ App-of-Apps (`gitops/apps/applications.yaml`, waves 1–5). Inference is parked
 open-webui · n8n · langchain-server (LangGraph) · portkey · vault · keycloak ·
 mlflow · mongodb · redis · minio · cloudbeaver · grafana · jaeger/tempo · kiali ·
 istio service mesh · llama-inference · vllm-runtime · postgres+pgvector · …
-plus the custom apps from `migration/` (dctrack-chat-ui, rack-inventory-chat,
-sunbird-mcp-server).
