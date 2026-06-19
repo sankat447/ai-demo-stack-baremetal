@@ -26,6 +26,13 @@ for i in $(seq 1 30); do
 done
 oc -n openshift-gitops rollout status deploy/openshift-gitops-server --timeout=300s || true
 
+# The default openshift-gitops instance can only manage its OWN namespace; to
+# deploy the stack across the iis-ai-* namespaces, the application-controller
+# (and server) need cluster-wide rights. Grant cluster-admin (lesson #34).
+info "=== granting ArgoCD cluster-admin (for cluster-wide app deployment) ==="
+oc adm policy add-cluster-role-to-user cluster-admin -z openshift-gitops-argocd-application-controller -n openshift-gitops 2>/dev/null || true
+oc adm policy add-cluster-role-to-user cluster-admin -z openshift-gitops-argocd-server -n openshift-gitops 2>/dev/null || true
+
 info "=== app namespaces ==="
 oc apply -f "${GITOPS}/config/namespaces.yaml"
 

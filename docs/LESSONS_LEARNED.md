@@ -128,6 +128,17 @@ or login fails on a TLS error.
 > and needs a read-only bind account, an `ldaps://…:636` URL, and the enterprise
 > CA in a `ldap-ca` ConfigMap.
 
+**#34 — Default OpenShift GitOps can't deploy outside its own namespace.**
+The `openshift-gitops` ArgoCD instance's application-controller is scoped to the
+`openshift-gitops` namespace; child apps targeting other namespaces fail with
+`User "...argocd-application-controller" cannot create resource ... in namespace
+"iis-ai-data"`. Grant cluster-wide rights:
+`oc adm policy add-cluster-role-to-user cluster-admin -z openshift-gitops-argocd-application-controller -n openshift-gitops`
+(also the `-server` SA). Gotcha: after granting, ArgoCD won't auto-retry the
+*terminal-failed* sync — delete the child Application CRs and let the App-of-Apps
+recreate them fresh (a hard refresh / controller restart alone won't re-trigger).
+(Baked into postinstall/03-gitops.sh.)
+
 **#33 — ODF with `manageNodes:false` needs nodes labeled `cluster.ocs.openshift.io/openshift-storage`.**
 Without the label, every ODF pod (provider-server, mons, OSDs) is unschedulable
 ("N node(s) didn't match Pod's node affinity/selector"), `rook-ceph-operator`
