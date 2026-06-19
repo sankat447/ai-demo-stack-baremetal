@@ -128,6 +128,20 @@ or login fails on a TLS error.
 > and needs a read-only bind account, an `ldaps://…:636` URL, and the enterprise
 > CA in a `ldap-ca` ConfigMap.
 
+**#35 — Removing an app from an App-of-Apps ORPHANS its workloads — child Applications have no `resources-finalizer`.**
+When you delete a child `Application` CR (or drop it from `applications.yaml` and
+let the root prune it), ArgoCD removes only the Application object. Its deployed
+resources (Deployment/Service/Route/ConfigMap) keep running because the child app
+was created **without** `metadata.finalizers:
+[resources-finalizer.argocd.argoproj.io]`. Root-app `prune: true` prunes the
+*Application CRs it manages*, not their detached children. So a clean removal is
+two steps: delete the child Application **and** `oc delete` its resources by name
+in the target namespace. (Hit this splitting the DCIM apps out — `dctrack-chat-ui`,
+`rack-inventory-chat` survived in `iis-ai-ai`/`iis-ai-ui` after their apps were
+gone.) Keep the generic stack free of demo/product objects: those live in the
+separate **`iis-dcim`** repo (namespace `iis-ai-dcim`), not here. To make future
+removals self-cleaning, add the resources-finalizer to child apps.
+
 **#34 — Default OpenShift GitOps can't deploy outside its own namespace.**
 The `openshift-gitops` ArgoCD instance's application-controller is scoped to the
 `openshift-gitops` namespace; child apps targeting other namespaces fail with

@@ -5,10 +5,12 @@ Bare-metal re-creation of the AI demo stack previously built on AWS
 running on **3 Dell VxRail E560F servers** in our own data center.
 
 Target: a compact 3-node OpenShift **4.21** cluster (masters that also run
-workloads) with OpenShift GitOps (ArgoCD) + App-of-Apps deploying the same
-~28-app stack (open-webui, n8n, LangGraph, portkey, vault, keycloak, mlflow,
-mongodb, redis, minio, grafana, jaeger/tempo, kiali, istio, RHOAI/KServe,
-vLLM, …), with **ODF** for storage and **PostgreSQL + pgvector** for vectors.
+workloads) with OpenShift GitOps (ArgoCD) + App-of-Apps deploying the core app
+stack (open-webui, n8n, LangGraph, portkey, vault, keycloak, mlflow, mongodb,
+redis, minio, grafana, cloudbeaver, …) — **14 ArgoCD apps** today, with RHOAI/
+KServe + Service Mesh as parked platform layers — backed by **ODF** for storage
+and **PostgreSQL + pgvector** for vectors. Demo/product-specific apps (DCIM/
+Sunbird) live in the separate [`iis-dcim`](https://github.com/sankat447/iis-dcim) repo.
 
 No AWS, no Terraform, no cloud IaC. Tooling: `openshift-install` (agent-based)
 + `oc` + shell, then `helm`/`kustomize` via ArgoCD.
@@ -23,7 +25,7 @@ No AWS, no Terraform, no cloud IaC. Tooling: `openshift-install` (agent-based)
 | Install configs (agent-based, OCP 4.21) | ✅ drafted — **awaiting review, nothing booted** |
 | Cluster install | ⏸ blocked on review + physical access |
 | Post-install (storage, gitops, identity) | ✅ scripts + platform operator layer authored |
-| GitOps app tree port from AWS | ✅ data/AI/system/UI tiers (17 apps, waves 1–5); inference parked (no GPU) |
+| GitOps app tree port from AWS | ✅ data/AI/system/UI tiers (14 apps, waves 1–4); inference parked (no GPU); DCIM apps split to `iis-dcim` |
 
 ## Layout
 

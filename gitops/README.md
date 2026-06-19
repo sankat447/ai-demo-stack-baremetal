@@ -12,7 +12,7 @@ gitops/
 │   └── 05-rhoai/              #   Red Hat OpenShift AI + DataScienceCluster (CPU-only)
 └── config/
     ├── namespaces.yaml        # iis-ai-ai / -ui / -data / -system / -vms
-    └── apps/                  # one ArgoCD Application per app (28-app stack — TODO)
+    └── apps/                  # one ArgoCD Application per app (14-app core stack, waves 1–4)
 ```
 
 ## Order of operations

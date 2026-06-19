@@ -7,8 +7,9 @@ network access.
 **ETA**: ~30 min to build + boot, ~40 min unattended for install + apps.
 **Cost**: none — our own hardware. (No AWS, no Terraform, no cloud bill.)
 
-> This is the bare-metal sibling of `sankat447/ai-demo-stack-aws`. The app stack
-> is the same ~28 GitOps apps; only the infrastructure layer differs.
+> This is the bare-metal sibling of `sankat447/ai-demo-stack-aws`. Same app
+> stack (14 generic GitOps apps); only the infrastructure layer differs. Demo/
+> product-specific apps (DCIM/Sunbird) live in the separate `iis-dcim` repo.
 
 ---
 
@@ -20,8 +21,9 @@ worker) with:
 - ODF (Ceph) storage — RWO block + RWX file + S3, replacing AWS EBS/EFS/S3
 - In-cluster PostgreSQL 16 + pgvector (replaces Aurora)
 - MinIO object store
-- ~28 GitOps-managed apps (open-webui, n8n, langchain, vault, keycloak, mlflow,
-  minio, portkey, redis, mongodb, grafana, cloudbeaver, RHOAI/KServe, …)
+- 14 GitOps-managed apps (open-webui, n8n, langchain, vault, keycloak, mlflow,
+  minio, portkey, redis, mongodb, grafana, cloudbeaver) + RHOAI/KServe platform
+  layer (parked, CPU-only)
 - TLS routes at `*.apps.ocp419.crucible.iisl.com`
 
 ⚠️ **No GPUs** on these servers — model serving (vLLM/llama) runs CPU-only and is
@@ -67,7 +69,7 @@ git clone https://github.com/sankat447/ai-demo-stack-baremetal.git
 cd ai-demo-stack-baremetal
 ```
 **Before anything else**, skim [`docs/LESSONS_LEARNED.md`](docs/LESSONS_LEARNED.md)
-— AWS carryovers (#4/#7/#9/#10/#11/#12) + bare-metal patterns (#16–27). Knowing
+— AWS carryovers (#4/#7/#9/#10/#11/#12) + bare-metal patterns (#16–35). Knowing
 them in advance saves hours.
 
 ---
@@ -181,7 +183,7 @@ deploy.sh / destroy.sh      # entry points (provision / teardown)
 docs/                       # HARDWARE_INVENTORY, NETWORK_DIAGRAM, LESSONS_LEARNED (READ FIRST)
 install/                    # agent-based installer templates + generate-iso.sh + boot-instructions.md
 postinstall/                # 01-storage 02-metallb 03-gitops 04-identity (+ optional-keycloak-sso)
-gitops/                     # App-of-Apps (apps/) + platform operators + config/ (28-app stack)
+gitops/                     # App-of-Apps (apps/) + platform operators + config/ (14-app core stack)
 migration/                  # pre-wipe capture: 15 n8n workflows (DCIM apps -> iis-dcim repo)
 secrets/                    # gitignored: pull secret, ssh key, AD/iDRAC creds
 ```

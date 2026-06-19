@@ -1,12 +1,17 @@
 # gitops/config/apps — child ArgoCD Applications (one file per app)
 
-The App-of-Apps root (`gitops/bootstrap/root-app.yaml`) recurses this directory
-and creates one ArgoCD `Application` per `*.yaml`. This is where the ~28-app
-stack lands, ported from the AWS repo with the bare-metal translations.
+These are per-app `Application` manifests — the granular, one-file-per-app
+layout, ported from the AWS repo with the bare-metal translations.
 
-**Status: ported.** Authored fresh from `sankat447/ai-demo-stack-aws/gitops` with
-the bare-metal translations below. Data/AI/system/UI tiers are wired into the
-App-of-Apps (`gitops/apps/applications.yaml`, waves 1–5). Inference is parked
+> **Authoritative source:** the live App-of-Apps is
+> [`gitops/apps/applications.yaml`](../../apps/applications.yaml) (the root-app at
+> `gitops/bootstrap/root-app.yaml` points at `gitops/apps` with `recurse:false`).
+> The 13 files here mirror those same workloads for reference/granular edits but
+> are **not** synced on their own — edit `applications.yaml` to change the live
+> tree, and keep these in step.
+
+**Status: ported.** Data/AI/system/UI tiers are wired into the App-of-Apps
+(`gitops/apps/applications.yaml`, **14 apps**, waves 1–4). Inference is parked
 (`gitops/config/inference/`). DCIM/demo-specific apps live in the separate
 `iis-dcim` repo (namespace `iis-ai-dcim`) — this stack stays generic.
 
@@ -22,7 +27,13 @@ App-of-Apps (`gitops/apps/applications.yaml`, waves 1–5). Inference is parked
   `maistra.io/expose-route: "true"` on the pod template (lesson #4).
 - Any `serviceAccountName` needs the SA object + SCC binding (lesson #12).
 
-## Planned apps (28)
-open-webui · n8n · langchain-server (LangGraph) · portkey · vault · keycloak ·
-mlflow · mongodb · redis · minio · cloudbeaver · grafana · jaeger/tempo · kiali ·
-istio service mesh · llama-inference · vllm-runtime · postgres+pgvector · …
+## Deployed now (14 ArgoCD apps, waves 1–4)
+namespaces · postgres+pgvector · mongodb · redis · minio · portkey ·
+langchain-server (LangGraph) · vault · keycloak · mlflow · open-webui · n8n ·
+grafana · cloudbeaver
+
+## Parked / platform layers (not in the App-of-Apps yet)
+jaeger/tempo · kiali · istio service mesh (`platform/04`) · RHOAI/KServe
+(`platform/05`) · llama-inference · vllm-runtime (`config/inference/`, no GPU).
+DCIM/Sunbird apps (dctrack-chat-ui, rack-inventory-chat, sunbird-mcp) → separate
+`iis-dcim` repo.
