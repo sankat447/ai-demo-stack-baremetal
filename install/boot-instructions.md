@@ -26,6 +26,17 @@ other two. Order otherwise doesn't matter; all three install in parallel.
 
 ## Per-node procedure (repeat for each node)
 
+**Scripted (recommended):** `install/idrac-boot.sh` does all three nodes at once
+(eject → insert ISO → one-time UEFI boot → power-cycle, master-0 first). Needs the
+ISO at an HTTP(S) URL the iDRACs can reach:
+```bash
+IDRAC_PASS='…' ISO_URL='http://<reachable-host>/agent.x86_64.iso' ./install/idrac-boot.sh boot
+IDRAC_PASS='…' ./install/idrac-boot.sh status   # read-only check
+IDRAC_PASS='…' ./install/idrac-boot.sh eject    # post-install cleanup (#24)
+```
+Verified read-only against .5/.6/.7 (all UEFI, HBA330 JBOD data disks, BOSS boot
+— no RAID/vSAN prep needed; see lesson #28). Or do it by hand:
+
 You can use the **iDRAC web UI** (simplest) or **redfish/racadm** (scriptable).
 
 ### Option A — iDRAC web UI (Virtual Media)

@@ -128,6 +128,18 @@ or login fails on a TLS error.
 > and needs a read-only bind account, an `ldaps://…:636` URL, and the enterprise
 > CA in a `ldap-ca` ConfigMap.
 
+**#28 — "Prepare the hosts" needed no destructive prep — and pre-wiping would be wrong.**
+Redfish assessment of the 3 E560F nodes (`install/idrac-boot.sh status`) showed
+they're **already UEFI**, the data SSDs are on a **Dell HBA330 in JBOD pass-through
+(no RAID/vSAN config to clear)**, and boot is the BOSS-S1 mirror. They run the
+*old* OCP directly (not ESXi/vSAN — "VxRail" is just the chassis). So the clean
+happens **during install**: the agent installer overwrites the BOSS root on boot,
+ODF wipes the SSDs in postinstall. Wiping/powering-off *before* the ISO exists
+just bricks the nodes (nothing to boot into). Correct order: build ISO → mount →
+boot, and that single act overwrites the old cluster. iDRAC Redfish was reachable
+and healthy on .5/.6/.7; `idrac-boot.sh boot` mounts+boots, `eject` cleans up
+(clears media + boot override so reboots don't loop the installer — #24).
+
 **#26 — Ported AWS manifests hide cloud endpoints in env vars, not just storage.**
 The obvious translations (efs-sc→cephfs, gp3→ceph-rbd) are easy to grep; the ones
 that bite are hardcoded service refs in `env:` — `*.ai-demo.svc` cross-namespace
