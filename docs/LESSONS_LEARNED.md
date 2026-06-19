@@ -103,3 +103,17 @@ not found" until you recreate the credentials on the fresh n8n. Export workflows
 **#24 — Boot mode must be UEFI.** RHCOS on these E560F nodes installs only under
 UEFI; set the one-time virtual-CD boot in UEFI mode and **eject the media after
 install** so reboots don't loop back into the installer. (install/boot-instructions.md)
+
+**#25 — zsh does NOT word-split unquoted variables.** `for p in $LIST` (where
+`$LIST` is newline-separated command output) iterates **once** over the whole
+string in zsh — unlike bash. Bit us fetching the AWS gitops tree. Use
+`while IFS= read -r p; do … done <<< "$LIST"` or pipe into the loop. (Generalizes
+the AWS shell-hygiene lessons #3/#8 to the default macOS shell.)
+
+**#26 — Ported AWS manifests hide cloud endpoints in env vars, not just storage.**
+The obvious translations (efs-sc→cephfs, gp3→ceph-rbd) are easy to grep; the ones
+that bite are hardcoded service refs in `env:` — `*.ai-demo.svc` cross-namespace
+URLs, an Aurora RDS hostname in a `POSTGRES_URI`, `s3://bucket` artifact roots,
+`AWS_DEFAULT_REGION`. When re-homing namespaces, every inter-service URL must be
+rewired too or the handshake silently fails. Grep each ported file for `.svc`,
+`amazonaws`, `s3://`, and the old namespace before trusting it.

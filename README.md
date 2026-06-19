@@ -22,8 +22,8 @@ No AWS, no Terraform, no cloud IaC. Tooling: `openshift-install` (agent-based)
 | Pre-wipe capture of custom apps + n8n workflows | ✅ [migration/](migration/README.md) |
 | Install configs (agent-based, OCP 4.21) | ✅ drafted — **awaiting review, nothing booted** |
 | Cluster install | ⏸ blocked on review + physical access |
-| Post-install (storage, gitops, identity) | ⬜ |
-| GitOps app tree port from AWS | ⬜ |
+| Post-install (storage, gitops, identity) | ✅ scripts + platform operator layer authored |
+| GitOps app tree port from AWS | ✅ data/AI/system/UI tiers (17 apps, waves 1–5); inference parked (no GPU) |
 
 ## Layout
 

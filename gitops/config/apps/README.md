@@ -4,10 +4,10 @@ The App-of-Apps root (`gitops/bootstrap/root-app.yaml`) recurses this directory
 and creates one ArgoCD `Application` per `*.yaml`. This is where the ~28-app
 stack lands, ported from the AWS repo with the bare-metal translations.
 
-**Status: not yet ported.** The old cluster's ArgoCD never actually synced these
-(its App-of-Apps pointed at a placeholder repo), so each app's manifests are
-being authored fresh — grounded in `sankat447/ai-demo-stack-aws/gitops` and the
-live-cluster reality captured in `migration/` — once the cluster is up.
+**Status: ported.** Authored fresh from `sankat447/ai-demo-stack-aws/gitops` with
+the bare-metal translations below. Data/AI/system/UI tiers are wired into the
+App-of-Apps (`gitops/apps/applications.yaml`, waves 1–5). Inference is parked
+(`gitops/config/inference/`); custom migrated apps are in `gitops/CUSTOM_APPS.md`.
 
 ## Translation rules when porting each app (from the brief)
 - **AWS S3 → MinIO** (already in-stack) or ODF RGW/NooBaa S3.
