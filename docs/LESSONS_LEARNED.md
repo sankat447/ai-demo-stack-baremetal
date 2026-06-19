@@ -128,6 +128,23 @@ or login fails on a TLS error.
 > and needs a read-only bind account, an `ldaps://…:636` URL, and the enterprise
 > CA in a `ldap-ca` ConfigMap.
 
+**#30 — `rootDeviceHints: model: "DELLBOSS VD"` silently hangs the install — match by attributes instead.**
+Even though `lsblk` reports the BOSS model as exactly `DELLBOSS VD`, the agent
+installer's disk inventory does NOT match that string. Result: `No disk found
+matching root device hints` → `apply-host-config.service` loops every 32 s with a
+409 "Requested installation disk is not part of the host's valid disks" → it
+never goes `active` → `start-cluster-installation.service` (which `Requires` it)
+never fires → cluster sits at `ready` and `wait-for bootstrap-complete` dies with
+the misleading `failed to progress after all hosts available`. **Diagnose** via
+`apply-host-config` container logs on the rendezvous node (`sudo podman logs
+apply-host-config`). **Fix:** identify the BOSS by attributes — it's the only
+**rotational** disk **≥200 GB** (data SSDs are non-rotational SAS 1.6 TB; IDSDM
+is <100 GB): `rootDeviceHints: {rotational: true, minSizeGigabytes: 200}`. A live
+install can be unblocked WITHOUT rebuild by editing
+`/etc/assisted/hostconfig/<host>/root-device-hints.yaml` on the rendezvous node —
+`apply-host-config` re-reads it on the next loop. (Refines #18: match by stable
+attributes, but NOT `model` for the BOSS.)
+
 **#29 — The agent ISO must be built on Linux — `nmstatectl` is required and macOS can't run it.**
 `openshift-install agent create image` validates each host's `networkConfig`
 (our bond0 NMState) with `nmstatectl`, which is Linux-only (no macOS build, no pip

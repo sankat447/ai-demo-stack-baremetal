@@ -8,8 +8,11 @@
 # br-ex here. Static IPs, no DHCP.
 #
 # rootDeviceHints pins RHCOS to the Dell BOSS card (223 GB) so the two 1.6 TB
-# Samsung SSDs stay free for ODF. `sdX` names are unstable, so we match by
-# drive MODEL, which is identical across all three nodes ("DELLBOSS VD").
+# Samsung SSDs stay free for ODF. `sdX` names are unstable. NOTE: matching by
+# `model: "DELLBOSS VD"` does NOT work — the agent installer's disk inventory
+# doesn't match that string and apply-host-config loops forever (lesson #30).
+# Instead match by attributes: the BOSS is the ONLY rotational disk >=200 GB
+# (data disks are non-rotational SAS 1.6 TB; the IDSDM is <100 GB).
 # ─────────────────────────────────────────────────────────────────────────
 apiVersion: v1beta1
 kind: AgentConfig
@@ -33,7 +36,8 @@ hosts:
 - hostname: master-0
   role: master
   rootDeviceHints:
-    model: "DELLBOSS VD"
+    rotational: true
+    minSizeGigabytes: 200
   interfaces:
   - name: eno1np0
     macAddress: bc:97:e1:d4:9d:c0
@@ -72,7 +76,8 @@ hosts:
 - hostname: master-1
   role: master
   rootDeviceHints:
-    model: "DELLBOSS VD"
+    rotational: true
+    minSizeGigabytes: 200
   interfaces:
   - name: eno1np0
     macAddress: bc:97:e1:d4:b6:80
@@ -111,7 +116,8 @@ hosts:
 - hostname: master-2
   role: master
   rootDeviceHints:
-    model: "DELLBOSS VD"
+    rotational: true
+    minSizeGigabytes: 200
   interfaces:
   - name: eno1np0
     macAddress: bc:97:e1:d5:17:10
