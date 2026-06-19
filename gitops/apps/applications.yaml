@@ -273,7 +273,51 @@ spec:
   destination: {server: https://kubernetes.default.svc, namespace: iis-ai-ui}
   syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
 
-# ── PENDING (final tranche) ──────────────────────────────────────────────────
-# inference: llama-inference, vllm-runtime (iis-ai-ai) — GPU-bound; CPU caveats,
-#            authored under gitops/config/inference and parked (not synced here).
-# custom apps from migration/: dctrack-chat-ui, rack-inventory-chat, sunbird-mcp-server
+# ── WAVE 5: Custom migrated apps (static nginx; manifests reused from migration/) ──
+# Sunbird MCP server is NOT here — it needs an image build first; see
+# gitops/CUSTOM_APPS.md. Inference tier is parked — see gitops/config/inference/.
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dctrack-chat-ui-ai
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "5"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: migration/iis-ai-ai/dctrack-chat-ui
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-ai}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dctrack-chat-ui-ui
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "5"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: migration/iis-ai-ui/dctrack-chat-ui
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-ui}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rack-inventory-chat
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "5"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: migration/iis-ai-ui/rack-inventory-chat
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-ui}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}

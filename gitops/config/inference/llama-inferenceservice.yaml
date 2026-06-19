@@ -1,0 +1,31 @@
+# InferenceService — PARKED (see README.md). CPU-adapted from the AWS T4 GPU
+# version: Serverless→RawDeployment, GPU/tolerations/nodeSelector removed, small
+# model, storage from MinIO. ⚠️ 8B on CPU is impractical — use a small model
+# (qwen2.5-0.5b / llama-3.2-1b) or a GPU node. Not synced by the App-of-Apps.
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: llama-3-2-1b          # small model for CPU; was llama-3-1-8b on GPU
+  namespace: iis-ai-ai
+  annotations:
+    serving.kserve.io/deploymentMode: RawDeployment
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  labels:
+    opendatahub.io/dashboard: "true"
+spec:
+  predictor:
+    minReplicas: 1            # RawDeployment: no scale-to-zero (that needed Knative)
+    maxReplicas: 1
+    model:
+      modelFormat:
+        name: vllm
+      runtime: vllm-runtime
+      # staged in MinIO (bucket rhoai-models, created by minio-bucket-init)
+      storageUri: s3://rhoai-models/llama-3.2-1b
+      resources:
+        requests:
+          cpu: "4"
+          memory: "16Gi"
+        limits:
+          cpu: "8"
+          memory: "24Gi"
