@@ -31,7 +31,7 @@ No AWS, no Terraform, no cloud IaC. Tooling: `openshift-install` (agent-based)
 docs/        HARDWARE_INVENTORY, NETWORK_DIAGRAM, LESSONS_LEARNED  ← read these first
 install/     agent-based installer templates + generate-iso.sh + boot-instructions.md
 migration/   pre-wipe capture of custom apps (dctrack/sunbird) + 15 n8n workflows
-postinstall/ (todo) storage, metallb, gitops, identity bootstrap
+postinstall/ storage, metallb, gitops, identity (Keycloak SSO + htpasswd break-glass)
 gitops/      (todo) App-of-Apps tree ported from the AWS repo
 secrets/     gitignored — pull secret, ssh key, iDRAC creds (see install/secrets.example.env)
 ```

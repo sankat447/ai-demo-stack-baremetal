@@ -23,7 +23,9 @@ gitops/
 3. `postinstall/03-gitops.sh` — installs OpenShift GitOps, applies
    `config/namespaces.yaml`, then `bootstrap/root-app.yaml`. From here ArgoCD
    owns `config/apps/`.
-4. `postinstall/04-identity.sh` — htpasswd admin now; Keycloak/RH-SSO OIDC later.
+4. `postinstall/04-identity.sh` — **SSO console login via Keycloak (OpenID)**
+   plus an htpasswd break-glass admin. Run it after ArgoCD syncs the keycloak
+   app (wave 3). Console then offers "keycloak" (SSO) + "htpasswd" (break-glass).
 5. Service Mesh + RHOAI (`platform/04`, `platform/05`) can be applied by GitOps
    as platform Applications, or manually during bring-up.
 

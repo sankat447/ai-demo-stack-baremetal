@@ -110,6 +110,18 @@ string in zsh — unlike bash. Bit us fetching the AWS gitops tree. Use
 `while IFS= read -r p; do … done <<< "$LIST"` or pipe into the loop. (Generalizes
 the AWS shell-hygiene lessons #3/#8 to the default macOS shell.)
 
+**#27 — "SSO console login" needs building — the AWS stack didn't actually have it.**
+The AWS repo's OCP console login was **HTPasswd** (`admin`/`developer` in
+`modules/ocp-ipi/main.tf`); its `reauth.sh` is AWS-CLI SSO and the OIDC bits are
+for IRSA, not the console. Keycloak there was an *app*, never wired to OAuth. To
+get real SSO we wire OCP `OAuth` → an OpenID identity provider pointing at the
+in-stack Keycloak (`postinstall/04-identity.sh`). Two gotchas: (a) **always keep
+an htpasswd break-glass admin** as a second identityProvider — a Keycloak outage
+must not lock you out; (b) with **self-signed wildcard TLS**, the OAuth server
+won't trust the Keycloak edge Route unless you give the OpenID provider a `ca`
+configMap holding the ingress CA (`openshift-config-managed/default-ingress-cert`),
+or login fails on a TLS error.
+
 **#26 — Ported AWS manifests hide cloud endpoints in env vars, not just storage.**
 The obvious translations (efs-sc→cephfs, gp3→ceph-rbd) are easy to grep; the ones
 that bite are hardcoded service refs in `env:` — `*.ai-demo.svc` cross-namespace
