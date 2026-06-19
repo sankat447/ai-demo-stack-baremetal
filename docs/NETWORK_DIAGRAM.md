@@ -107,6 +107,28 @@ operator before enabling MetalLB** (e.g. 192.168.102.20–.40 — TBD/confirm fr
        └──── 10G DAC → Arista SW1 / SW2 ────┘
 ```
 
+## Verified live (2026-06-18, against the running ocp419 cluster)
+
+Confirmed read-only via `oc debug node` + `dig` + iDRAC Redfish — see
+`install/preflight-network.sh` to re-run. The fresh install reproduces this.
+
+| Item | Result |
+|---|---|
+| Bond | `bond0` **active-backup**, slaves `eno1np0`+`eno2np1`, both UP @ 10 Gb |
+| Bridge | OVN `br-ex` (+`br-int`) auto-created on bond0; node IP lives on `br-ex` |
+| MTU | **1500** everywhere (no jumbo) · **no VLAN** (untagged/access) |
+| Gateway | `192.168.102.1` via `br-ex` — reachable |
+| Forward DNS | `api`/`api-int`→.10, `*.apps`→.11, `master-0/1/2`→.5/.6/.7 ✅ |
+| DNS servers | `192.168.2.100`/`.101` reachable on :53 ✅ |
+| NTP | synced, stratum 3, Leap Normal ✅ |
+| Egress | direct to quay.io / registry.redhat.io / api.openshift.com :443 ✅ |
+| VIPs | `.10`/`.11` float as `/32` on br-ex via keepalived (platform-managed) |
+
+> ⚠️ Minor (non-blocking) DNS hygiene to clean up later:
+> - Nodes `.5/.6/.7` have **double PTRs** (`master-N` + `crnp-rhgnodeNs`).
+> - Ingress VIP `.11` has **stale PTRs from a prior cluster** (`*.apps.ocp414`).
+>   Forward resolution — all the installer needs — is correct.
+
 ## Open network decisions
 
 - [ ] Target **OCP version** (4.17 EUS / 4.21 / other).
