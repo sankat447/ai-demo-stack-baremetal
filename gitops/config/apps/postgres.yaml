@@ -1,0 +1,94 @@
+# PostgreSQL + pgvector — NEW on bare metal; replaces AWS Aurora Serverless.
+# Service is named `iis-ai-postgres-primary` (in iis-ai-data) so the migrated
+# n8n workflows — which hardcode iis-ai-postgres-primary.iis-ai-data — resolve
+# unchanged. Uses the pgvector image so CREATE EXTENSION vector works.
+# RWO block on ODF ceph-rbd (was Aurora; single writer).
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: iis-ai-postgres
+  namespace: iis-ai-data
+  labels:
+    app: iis-ai-postgres
+spec:
+  serviceName: iis-ai-postgres-primary
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iis-ai-postgres
+  template:
+    metadata:
+      labels:
+        app: iis-ai-postgres
+    spec:
+      containers:
+      - name: postgres
+        image: docker.io/pgvector/pgvector:pg16
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "rhoai_demo"
+        - name: POSTGRES_USER
+          value: "rhoai_admin"
+        - name: POSTGRES_PASSWORD
+          value: "Demo1234#"          # demo cred; move to Vault/Secret for real use
+        - name: PGDATA
+          value: "/var/lib/postgresql/data/pgdata"
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/postgresql/data
+        readinessProbe:
+          exec:
+            command: ["pg_isready", "-U", "rhoai_admin", "-d", "rhoai_demo"]
+          initialDelaySeconds: 15
+          periodSeconds: 10
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ReadWriteOnce]
+      storageClassName: ocs-storagecluster-ceph-rbd
+      resources:
+        requests:
+          storage: 20Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iis-ai-postgres-primary       # matches migrated n8n workflow DB host
+  namespace: iis-ai-data
+spec:
+  selector:
+    app: iis-ai-postgres
+  ports:
+  - port: 5432
+    targetPort: 5432
+---
+# Create the pgvector + pg_stat_statements extensions once Postgres is up.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pgvector-init
+  namespace: iis-ai-data
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: psql
+        image: docker.io/pgvector/pgvector:pg16
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          echo "Waiting for postgres..."
+          until pg_isready -h iis-ai-postgres-primary.iis-ai-data.svc -U rhoai_admin; do sleep 5; done
+          PGPASSWORD='Demo1234#' psql -h iis-ai-postgres-primary.iis-ai-data.svc -U rhoai_admin -d rhoai_demo \
+            -c "CREATE EXTENSION IF NOT EXISTS vector;" \
+            -c "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
+          echo "pgvector initialized."
+      restartPolicy: OnFailure
+  backoffLimit: 5

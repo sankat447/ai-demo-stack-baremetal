@@ -1,0 +1,133 @@
+# =============================================================================
+#  ArgoCD App-of-Apps — IIS-AI Demo Stack (bare metal)
+#  Ported from sankat447/ai-demo-stack-aws with translations:
+#    - namespaces ai-demo/rhoai-* → tiered iis-ai-{data,ai,ui,system}
+#    - efs-sc (RWX) → ocs-storagecluster-cephfs ; gp3-csi (RWO) → ocs-…-ceph-rbd
+#    - Aurora → in-cluster Postgres+pgvector (Service iis-ai-postgres-primary)
+#    - dropped: GPU operator, NFD, Knative/Serverless, EFS CSI (no GPUs; ODF RWX)
+#  Operators for storage/metallb/gitops are installed by postinstall/ scripts;
+#  service-mesh + RHOAI operators live in gitops/platform/ (04,05).
+#
+#  GROWS PER TRANCHE. Authored so far: namespaces + data tier.
+#  Pending tiers (ai / ui / system / inference) are listed at the bottom.
+# =============================================================================
+
+# ── WAVE 1: Namespaces ──────────────────────────────────────────────────────
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: namespaces
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config
+    directory:
+      include: "namespaces.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    syncOptions: [ServerSideApply=true]
+
+# ── WAVE 2: Data tier (iis-ai-data) ─────────────────────────────────────────
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgres
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory:
+      include: "postgres.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: iis-ai-data
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    syncOptions: [CreateNamespace=false]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mongodb
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory:
+      include: "mongodb.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: iis-ai-data
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    syncOptions: [CreateNamespace=false]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory:
+      include: "redis.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: iis-ai-data
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    syncOptions: [CreateNamespace=false]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory:
+      include: "minio.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: iis-ai-data
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    syncOptions: [CreateNamespace=false]
+
+# ── PENDING (next tranches) ─────────────────────────────────────────────────
+# wave 1: keycloak (iis-ai-system)
+# wave 3: portkey, langchain-server (iis-ai-ai); vault, mlflow (iis-ai-system)
+# wave 4: open-webui, n8n, grafana, cloudbeaver (iis-ai-ui)
+# wave 4: llama-inference, vllm-runtime (iis-ai-ai)  [needs RHOAI/KServe]
+# plus custom apps from migration/: dctrack-chat-ui, rack-inventory-chat, sunbird-mcp-server

@@ -13,9 +13,9 @@ spec:
   source:
     repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
     targetRevision: main
-    path: gitops/config/apps
+    path: gitops/apps          # the App-of-Apps: one ArgoCD Application per child app
     directory:
-      recurse: false        # one Application per file in config/apps/
+      recurse: false
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-gitops

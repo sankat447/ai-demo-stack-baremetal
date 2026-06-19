@@ -1,0 +1,64 @@
+# Redis — ported from AWS: namespace ai-demo → iis-ai-data,
+# storage efs-sc (RWX) → ocs-storagecluster-ceph-rbd (RWO; single replica).
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: iis-ai-data
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate           # RWO volume — don't run two pods at once
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: docker.io/redis:7-alpine
+        ports:
+        - containerPort: 6379
+        command: ["redis-server", "--requirepass", "Demo1234#", "--dir", "/data"]
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        readinessProbe:
+          exec:
+            command: ["redis-cli", "-a", "Demo1234#", "ping"]
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: redis-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data
+  namespace: iis-ai-data
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ocs-storagecluster-ceph-rbd
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: iis-ai-data
+spec:
+  selector:
+    app: redis
+  ports:
+  - port: 6379
+    targetPort: 6379

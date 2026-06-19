@@ -1,0 +1,123 @@
+# MinIO (S3-compatible object store) — replaces AWS S3 for the app stack.
+# Ported from AWS: namespace rhoai-minio → iis-ai-data, gp3-csi → ceph-rbd.
+# Includes the PostSync bucket-init job (endpoint rewritten to iis-ai-data).
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  namespace: iis-ai-data
+  labels:
+    app: minio
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - name: minio
+        image: quay.io/minio/minio:latest
+        args: ["server", "/data", "--console-address", ":9001"]
+        ports:
+        - containerPort: 9000
+          name: api
+        - containerPort: 9001
+          name: console
+        env:
+        - name: MINIO_ROOT_USER
+          value: "minioadmin"
+        - name: MINIO_ROOT_PASSWORD
+          value: "Demo1234#"
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        readinessProbe:
+          httpGet:
+            path: /minio/health/ready
+            port: 9000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: minio-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minio-data
+  namespace: iis-ai-data
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ocs-storagecluster-ceph-rbd
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+  namespace: iis-ai-data
+spec:
+  selector:
+    app: minio
+  ports:
+  - name: api
+    port: 9000
+    targetPort: 9000
+  - name: console
+    port: 9001
+    targetPort: 9001
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: minio-console
+  namespace: iis-ai-data
+spec:
+  to:
+    kind: Service
+    name: minio
+  port:
+    targetPort: console
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: minio-bucket-init
+  namespace: iis-ai-data
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: mc
+        image: quay.io/minio/mc:latest
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          echo "Waiting for MinIO..."
+          until mc alias set minio http://minio.iis-ai-data.svc:9000 minioadmin 'Demo1234#' 2>/dev/null; do
+            sleep 5
+          done
+          echo "MinIO ready. Creating buckets..."
+          mc mb --ignore-existing minio/pipeline-artifacts
+          mc mb --ignore-existing minio/rhoai-models
+          mc mb --ignore-existing minio/mlflow-artifacts
+          mc mb --ignore-existing minio/notebook-data
+          echo "Buckets created."
+      restartPolicy: OnFailure
+  backoffLimit: 3
