@@ -128,6 +128,15 @@ or login fails on a TLS error.
 > and needs a read-only bind account, an `ldaps://…:636` URL, and the enterprise
 > CA in a `ldap-ca` ConfigMap.
 
+**#33 — ODF with `manageNodes:false` needs nodes labeled `cluster.ocs.openshift.io/openshift-storage`.**
+Without the label, every ODF pod (provider-server, mons, OSDs) is unschedulable
+("N node(s) didn't match Pod's node affinity/selector"), `rook-ceph-operator`
+stays at 0/0, no CephCluster is created, and the StorageCluster sits "Progressing /
+Initializing" forever. Misleading red herring: ocs-operator logs "cluster is Tnf
+cluster" — ignore it; topology is fine. Fix:
+`oc label node -l node-role.kubernetes.io/master cluster.ocs.openshift.io/openshift-storage=""`.
+(Baked into postinstall/01-storage.sh.)
+
 **#32 — LocalVolumeSet won't claim disks that already have a filesystem.** On a
 re-used cluster, the data SSDs still had XFS from the prior cluster, so the Local
 Storage Operator skipped them (`totalProvisionedDeviceCount: 0`) — it won't

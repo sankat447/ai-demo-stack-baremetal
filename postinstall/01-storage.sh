@@ -32,6 +32,11 @@ for i in $(seq 1 30); do
 done
 oc get crd storageclusters.ocs.openshift.io >/dev/null 2>&1 || err "StorageCluster CRD never appeared — check ocs-operator CSV in openshift-storage"
 
+# ODF (manageNodes:false) places its pods ONLY on nodes labeled for storage;
+# without this label every ODF pod is unschedulable and Ceph never starts (#33).
+info "=== labeling nodes for ODF storage placement ==="
+oc label node -l node-role.kubernetes.io/master cluster.ocs.openshift.io/openshift-storage="" --overwrite
+
 info "=== ODF StorageCluster (Rook-Ceph internal) ==="
 oc apply -f "${GITOPS}/platform/02-odf/storagecluster.yaml"
 info "waiting for StorageCluster to be Ready (this takes several minutes)..."
