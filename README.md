@@ -51,7 +51,8 @@ secrets/     gitignored — pull secret, ssh key, iDRAC creds (see install/secre
 
 Full flow (see [ONBOARDING.md](ONBOARDING.md) for the runbook):
 ```bash
-# 1. create secrets/ (see install/secrets.example.env): pull-secret.json + ssh-key.pub
+# 1. pull secret is automated via Red Hat SSO (deploy.sh runs install/fetch-pull-secret.sh);
+#    just have an ssh key: ssh-keygen -t ed25519 -f secrets/ssh-key -N ''
 # 2. install openshift-install 4.21.x on PATH
 ./deploy.sh        # builds ISO → pauses for iDRAC boot → installs → postinstall → gitops
 ```

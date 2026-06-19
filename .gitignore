@@ -19,6 +19,9 @@ agent-config.yaml
 install-config.yaml
 # (only the *.tpl templates are tracked; rendered configs contain secrets)
 
+# ── Downloaded tooling (e.g. ocm CLI auto-installed by fetch-pull-secret.sh) ──
+bin/
+
 # ── Misc ─────────────────────────────────────────────────────────────
 .DS_Store
 *.log

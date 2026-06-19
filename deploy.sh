@@ -31,8 +31,12 @@ info "Phase 0 — tool + secret check"
 for t in oc openshift-install jq envsubst; do command -v "$t" >/dev/null 2>&1 || err "missing tool: $t"; done
 ver="$(openshift-install version | awk '/openshift-install/{print $2}')"
 case "$ver" in 4.21.*) ok "openshift-install $ver";; *) err "openshift-install is $ver, need 4.21.x";; esac
-[ -f "${REPO_ROOT}/secrets/pull-secret.json" ] || err "missing secrets/pull-secret.json (see install/secrets.example.env)"
-[ -f "${REPO_ROOT}/secrets/ssh-key.pub" ]      || err "missing secrets/ssh-key.pub"
+if [ ! -f "${REPO_ROOT}/secrets/pull-secret.json" ]; then
+  info "no pull secret — fetching via Red Hat SSO (browser login)"
+  "${REPO_ROOT}/install/fetch-pull-secret.sh"
+fi
+[ -f "${REPO_ROOT}/secrets/pull-secret.json" ] || err "pull secret still missing (run install/fetch-pull-secret.sh)"
+[ -f "${REPO_ROOT}/secrets/ssh-key.pub" ]      || err "missing secrets/ssh-key.pub (ssh-keygen -t ed25519 -f secrets/ssh-key -N '')"
 ok "secrets present"
 
 # ── Phase 1: build the agent ISO ─────────────────────────────────────────────

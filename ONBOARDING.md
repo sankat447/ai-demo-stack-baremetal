@@ -49,11 +49,15 @@ oc version --client          # 4.21.x
 openshift-install version    # 4.21.x  (MUST match the cluster version)
 ```
 
-### 1.4 Secrets (place in `secrets/`, gitignored — see install/secrets.example.env)
+### 1.4 Secrets (in `secrets/`, gitignored — see install/secrets.example.env)
+The **pull secret is automated** — you just SSO-login to Red Hat in a browser:
 ```bash
-cp ~/Downloads/pull-secret.json secrets/pull-secret.json
-ssh-keygen -t ed25519 -f secrets/ssh-key -N ''   # → secrets/ssh-key.pub
+./install/fetch-pull-secret.sh         # ocm SSO login → writes secrets/pull-secret.json
+ssh-keygen -t ed25519 -f secrets/ssh-key -N ''   # → secrets/ssh-key.pub (one-time)
 ```
+`deploy.sh` / `generate-iso.sh` call `fetch-pull-secret.sh` for you if the secret
+is missing, so the only manual step is the browser login. (Installs the `ocm` CLI
+automatically if needed.)
 
 ---
 

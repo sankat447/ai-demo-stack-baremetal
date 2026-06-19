@@ -35,7 +35,12 @@ esac
 # ── 2. secrets ─────────────────────────────────────────────────────────────
 PULL_SECRET_FILE="${SECRETS_DIR}/pull-secret.json"
 SSH_KEY_FILE="${SECRETS_DIR}/ssh-key.pub"
-[ -f "$PULL_SECRET_FILE" ] || err "missing $PULL_SECRET_FILE (see install/secrets.example.env)"
+# Auto-fetch the pull secret via Red Hat SSO if it's not already present.
+if [ ! -f "$PULL_SECRET_FILE" ]; then
+  info "no pull secret yet — fetching via Red Hat SSO (browser login)"
+  "${INSTALL_DIR}/fetch-pull-secret.sh"
+fi
+[ -f "$PULL_SECRET_FILE" ] || err "missing $PULL_SECRET_FILE (run install/fetch-pull-secret.sh)"
 [ -f "$SSH_KEY_FILE" ]     || err "missing $SSH_KEY_FILE (see install/secrets.example.env)"
 python3 -c "import json,sys; json.load(open('$PULL_SECRET_FILE'))" \
   || err "$PULL_SECRET_FILE is not valid JSON"
