@@ -121,6 +121,12 @@ must not lock you out; (b) with **self-signed wildcard TLS**, the OAuth server
 won't trust the Keycloak edge Route unless you give the OpenID provider a `ca`
 configMap holding the ingress CA (`openshift-config-managed/default-ingress-cert`),
 or login fails on a TLS error.
+> **Decision (this build):** keep **kubeadmin** as admin now and wire **org
+> Active Directory (LDAP)** later (`postinstall/04-identity.sh` +
+> `active-directory-idp.yaml.tpl`); Keycloak OIDC kept as an optional fallback
+> (`postinstall/optional-keycloak-sso.sh`). AD on OCP keys off `sAMAccountName`
+> and needs a read-only bind account, an `ldaps://…:636` URL, and the enterprise
+> CA in a `ldap-ca` ConfigMap.
 
 **#26 — Ported AWS manifests hide cloud endpoints in env vars, not just storage.**
 The obvious translations (efs-sc→cephfs, gp3→ceph-rbd) are easy to grep; the ones

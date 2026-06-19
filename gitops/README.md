@@ -23,9 +23,11 @@ gitops/
 3. `postinstall/03-gitops.sh` — installs OpenShift GitOps, applies
    `config/namespaces.yaml`, then `bootstrap/root-app.yaml`. From here ArgoCD
    owns `config/apps/`.
-4. `postinstall/04-identity.sh` — **SSO console login via Keycloak (OpenID)**
-   plus an htpasswd break-glass admin. Run it after ArgoCD syncs the keycloak
-   app (wave 3). Console then offers "keycloak" (SSO) + "htpasswd" (break-glass).
+4. `postinstall/04-identity.sh` — **keeps kubeadmin** as the admin login now;
+   stages an **Active Directory (LDAP)** identity provider to wire in later
+   (run with `AD_APPLY=1` once you have the AD details + bind secret + CA).
+   Keycloak OIDC SSO remains available as an alternative
+   (`postinstall/optional-keycloak-sso.sh`).
 5. Service Mesh + RHOAI (`platform/04`, `platform/05`) can be applied by GitOps
    as platform Applications, or manually during bring-up.
 
