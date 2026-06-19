@@ -1,0 +1,20 @@
+# ServiceMeshMemberRoll — adds our app tiers to the RHOAI-managed mesh.
+#
+# Do NOT create a ServiceMeshControlPlane here: RHOAI creates its own
+# (data-science-smcp) in istio-system, and only one SMCP is allowed per
+# namespace (lesson carried from the AWS build's servicemesh-smcp note).
+# Apply this AFTER RHOAI/KServe has stood up istio-system.
+#
+# Members = the tiers whose pods carry maistra.io/expose-route and need mTLS:
+#   iis-ai-ai (portkey, langchain, inference), iis-ai-ui (open-webui, n8n).
+apiVersion: maistra.io/v1
+kind: ServiceMeshMemberRoll
+metadata:
+  name: default
+  namespace: istio-system
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  members:
+  - iis-ai-ai
+  - iis-ai-ui

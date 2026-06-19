@@ -125,9 +125,155 @@ spec:
     automated: {prune: true, selfHeal: true}
     syncOptions: [CreateNamespace=false]
 
-# ── PENDING (next tranches) ─────────────────────────────────────────────────
-# wave 1: keycloak (iis-ai-system)
-# wave 3: portkey, langchain-server (iis-ai-ai); vault, mlflow (iis-ai-system)
-# wave 4: open-webui, n8n, grafana, cloudbeaver (iis-ai-ui)
-# wave 4: llama-inference, vllm-runtime (iis-ai-ai)  [needs RHOAI/KServe]
-# plus custom apps from migration/: dctrack-chat-ui, rack-inventory-chat, sunbird-mcp-server
+# ── WAVE 3: AI gateway + system services ────────────────────────────────────
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portkey
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "3"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory: {include: "portkey.yaml"}
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-ai}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: langchain-server
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "3"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory: {include: "langchain-server.yaml"}
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-ai}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vault
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "3"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory: {include: "vault.yaml"}
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-system}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "3"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory: {include: "keycloak.yaml"}
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-system}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mlflow
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "3"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory: {include: "mlflow.yaml"}
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-system}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
+
+# ── WAVE 4: UI + user-facing services (iis-ai-ui) ───────────────────────────
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: open-webui
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "4"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory: {include: "open-webui.yaml"}
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-ui}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "4"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory: {include: "n8n.yaml"}
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-ui}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "4"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory: {include: "grafana.yaml"}
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-ui}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudbeaver
+  namespace: openshift-gitops
+  annotations: {argocd.argoproj.io/sync-wave: "4"}
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sankat447/ai-demo-stack-baremetal.git
+    targetRevision: main
+    path: gitops/config/apps
+    directory: {include: "cloudbeaver.yaml"}
+  destination: {server: https://kubernetes.default.svc, namespace: iis-ai-ui}
+  syncPolicy: {automated: {prune: true, selfHeal: true}, syncOptions: [CreateNamespace=false]}
+
+# ── PENDING (final tranche) ──────────────────────────────────────────────────
+# inference: llama-inference, vllm-runtime (iis-ai-ai) — GPU-bound; CPU caveats,
+#            authored under gitops/config/inference and parked (not synced here).
+# custom apps from migration/: dctrack-chat-ui, rack-inventory-chat, sunbird-mcp-server

@@ -89,6 +89,11 @@ spec:
           PGPASSWORD='Demo1234#' psql -h iis-ai-postgres-primary.iis-ai-data.svc -U rhoai_admin -d rhoai_demo \
             -c "CREATE EXTENSION IF NOT EXISTS vector;" \
             -c "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
-          echo "pgvector initialized."
+          # dedicated database for n8n (its workflows import here on fresh install)
+          PGPASSWORD='Demo1234#' psql -h iis-ai-postgres-primary.iis-ai-data.svc -U rhoai_admin -d rhoai_demo \
+            -tc "SELECT 1 FROM pg_database WHERE datname='n8n'" | grep -q 1 || \
+          PGPASSWORD='Demo1234#' psql -h iis-ai-postgres-primary.iis-ai-data.svc -U rhoai_admin -d rhoai_demo \
+            -c "CREATE DATABASE n8n OWNER rhoai_admin;"
+          echo "pgvector + n8n database initialized."
       restartPolicy: OnFailure
   backoffLimit: 5
