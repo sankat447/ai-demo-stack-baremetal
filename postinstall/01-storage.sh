@@ -22,6 +22,15 @@ done
 info "=== ODF operator ==="
 oc apply -f "${GITOPS}/platform/02-odf/odf-operator.yaml"
 wait_csv openshift-storage odf-operator
+# odf-operator is a META-operator: it installs ocs-operator (which provides the
+# StorageCluster CRD) a bit LATER. Wait for the CRD before applying, or the apply
+# fails with "no matches for kind StorageCluster" (lesson #31).
+info "waiting for the StorageCluster CRD (installed by ocs-operator, lags odf-operator)..."
+for i in $(seq 1 30); do
+  oc get crd storageclusters.ocs.openshift.io >/dev/null 2>&1 && { info "  StorageCluster CRD established"; break; }
+  sleep 10
+done
+oc get crd storageclusters.ocs.openshift.io >/dev/null 2>&1 || err "StorageCluster CRD never appeared — check ocs-operator CSV in openshift-storage"
 
 info "=== ODF StorageCluster (Rook-Ceph internal) ==="
 oc apply -f "${GITOPS}/platform/02-odf/storagecluster.yaml"

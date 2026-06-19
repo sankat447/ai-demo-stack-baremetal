@@ -128,6 +128,21 @@ or login fails on a TLS error.
 > and needs a read-only bind account, an `ldaps://…:636` URL, and the enterprise
 > CA in a `ldap-ca` ConfigMap.
 
+**#32 — LocalVolumeSet won't claim disks that already have a filesystem.** On a
+re-used cluster, the data SSDs still had XFS from the prior cluster, so the Local
+Storage Operator skipped them (`totalProvisionedDeviceCount: 0`) — it won't
+destroy data on its own. Wipe the DATA disks first (match by model, never the
+BOSS/IDSDM): `wipefs -a /dev/sdX && sgdisk --zap-all /dev/sdX` via
+`oc debug node/<n> -- chroot /host …`. PVs appear within ~30 s of a clean disk.
+
+**#31 — `odf-operator` is a META-operator; the StorageCluster CRD lags its CSV.**
+`wait_csv odf-operator` returning Succeeded does NOT mean the StorageCluster CRD
+exists — `odf-operator` installs `ocs-operator` (which owns
+`storageclusters.ocs.openshift.io`) a bit later. Applying the StorageCluster too
+early fails with `no matches for kind "StorageCluster" in version
+"ocs.openshift.io/v1"`. Wait for the CRD (`oc get crd
+storageclusters.ocs.openshift.io`) before applying. (Fixed in postinstall/01-storage.sh.)
+
 **#30 — `rootDeviceHints: model: "DELLBOSS VD"` silently hangs the install — match by attributes instead.**
 Even though `lsblk` reports the BOSS model as exactly `DELLBOSS VD`, the agent
 installer's disk inventory does NOT match that string. Result: `No disk found
