@@ -33,7 +33,8 @@ No AWS, no Terraform, no cloud IaC. Tooling: `openshift-install` (agent-based)
 ONBOARDING.md  team handoff runbook (start here if you're new)
 deploy.sh      provision: build ISO → boot gate → install → postinstall → gitops
 destroy.sh     tear down the app stack (full wipe = re-image via deploy.sh)
-docs/        HARDWARE_INVENTORY, NETWORK_DIAGRAM, LESSONS_LEARNED  ← read these first
+docs/        REFERENCE_ARCHITECTURE (stack contract for AI solution design),
+             HARDWARE_INVENTORY, NETWORK_DIAGRAM, LESSONS_LEARNED  ← read these first
 install/     agent-based installer templates + generate-iso.sh + boot-instructions.md
 migration/   pre-wipe capture of 15 n8n workflows (DCIM apps -> iis-dcim repo)
 postinstall/ storage, metallb, gitops, identity (Keycloak SSO + htpasswd break-glass)

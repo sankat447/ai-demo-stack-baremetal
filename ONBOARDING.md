@@ -180,7 +180,8 @@ optionally ODF. A **full cluster wipe = re-image the nodes** by re-running
 ## 9. What's in this repo
 ```
 deploy.sh / destroy.sh      # entry points (provision / teardown)
-docs/                       # HARDWARE_INVENTORY, NETWORK_DIAGRAM, LESSONS_LEARNED (READ FIRST)
+docs/                       # REFERENCE_ARCHITECTURE (stack contract for solution design),
+                            #   HARDWARE_INVENTORY, NETWORK_DIAGRAM, LESSONS_LEARNED (READ FIRST)
 install/                    # agent-based installer templates + generate-iso.sh + boot-instructions.md
 postinstall/                # 01-storage 02-metallb 03-gitops 04-identity (+ optional-keycloak-sso)
 gitops/                     # App-of-Apps (apps/) + platform operators + config/ (14-app core stack)
